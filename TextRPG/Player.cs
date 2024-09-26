@@ -9,6 +9,8 @@
         public int df { get; set; }
         public int hp { get; set; }
         public int gold { get; set; }
+        public int extraAd {  get; set; }
+        public int extraDf { get; set; }
 
         public Player(string name, int level, string job, int ad, int df, int hp, int gold)
         {
