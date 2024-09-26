@@ -32,13 +32,14 @@ namespace TextRPG
 
     public class Slime : Monster
     {
-        public Slime(string name) : base(name, 10, 5) { }   
+        public Slime(string name) : base(name, 10, 5) { }
+    }
     public class Goblin : Monster
     {
         public Goblin(string name) : base(name, 15, 7) { }
     }
     public class Oak : Monster
     {
-        public Oak(string name) : base (name, 25, 10) {
+        public Oak(string name) : base(name, 25, 10) { }
     }
 }
