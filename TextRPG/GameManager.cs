@@ -11,8 +11,7 @@ namespace TextRPG
     {
         static Player player;
         static Monster monster;
-        static Item[] itemDb;
-        List<Item> items = new List<Item>();
+        private static Item[] itemDb;
         //이름 생성 화면
        
         static void CreateName()
@@ -121,7 +120,7 @@ namespace TextRPG
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]\n");
 
-            player.InventoryInfo();
+            player.ShowInventory(false);  // 아이템 목록 표시 ( 인덱스 x)
 
             Console.WriteLine("1. 장착 관리\n0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
@@ -172,28 +171,27 @@ namespace TextRPG
         static void EquipManagementUI()
         {
             Console.Clear();
+            List<Item> items = new List<Item>();    
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.ResetColor();
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]");
-            //인벤토리 불러오기
+
+            player.ShowInventory(true); // 아이템 목록 표시 ( 인덱스 o 누르면 장착);
+            
             Console.WriteLine("0. 나가기\n원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(0, 3); //여기 나중에 (0,list명.count)로 변경
+            int num = SelectBehavior(0, player.InventoryCount); //여기 나중에 (0,list명.count)로 변경
 
             switch (num)
             {
                 case 0:
                     GameStartUI();
                     break;
-                case 1:
-                    //무기장착
-                    break;
-                case 2:
-                    //무기장착2
-                    break;
-                case 3:
-                    //무기장착3
+                default:
+                    int itemIndex = num - 1;
+                    Item item = items[itemIndex];
+                    player.EquipItem(item);
                     break;
             }
         }
