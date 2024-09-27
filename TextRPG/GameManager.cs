@@ -11,8 +11,7 @@ namespace TextRPG
     {
         static Player player;
         static Monster monster;
-        static Item[] itemDb;
-        List<Item> items = new List<Item>();
+        private static Item[] itemDb;
         //이름 생성 화면
        
         static void CreateName()
@@ -189,14 +188,10 @@ namespace TextRPG
                 case 0:
                     GameStartUI();
                     break;
-                case 1:
-                    player.
-                    break;
-                case 2:
-                    //무기장착2
-                    break;
-                case 3:
-                    //무기장착3
+                default:
+                    int itemIndex = num - 1;
+                    Item item = items[itemIndex];
+                    player.EquipItem(item);
                     break;
             }
         }

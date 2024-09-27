@@ -1,10 +1,12 @@
-﻿namespace TextRPG
+﻿using System.Globalization;
+
+namespace TextRPG
 {
     public class BattleResult
     {
-        Player player;
+         Player player;
 
-        public BattleResult(Player player)
+        private BattleResult(Player player)
         {
             this.player = player;
         }
