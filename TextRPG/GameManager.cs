@@ -1,9 +1,12 @@
-﻿namespace TextRPG
+﻿using System.Diagnostics;
+using System.Numerics;
+
+namespace TextRPG
 {
     internal class GameManager
     {
         static Player player;
-
+        static Monster monster;
         //이름 생성 화면
         static void CreateName()
         {
@@ -80,12 +83,7 @@
             Console.ResetColor();
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
-            Console.WriteLine($"Lv. {player.level:D2}");
-            Console.WriteLine($"Job ( {player.job} )");
-            Console.WriteLine(player.extraAd == 0 ? $"{player.ad}" : $"{player.ad} + ( {player.extraAd} )" );
-            Console.WriteLine(player.extraDf == 0 ? $"{player.df}" : $"{player.df} + ( {player.extraDf} )" );
-            Console.WriteLine($"체 력 {player.hp}");
-            Console.WriteLine($"Gold {player.gold}");
+            player.PlayerInfo(); //캐릭터 정보 표시
 
             Console.WriteLine("\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(0,0);
@@ -103,6 +101,9 @@
             Console.ResetColor();
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]\n");
+
+            player.InventoryInfo();
+
             Console.WriteLine("1. 장착 관리\n0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -139,10 +140,10 @@
             switch(num)
             {
                 case 0:
-                    PurchaseItem();
+                    GameStartUI();
                     break;
                 case 1:
-                    GameStartUI();
+                    PurchaseItem();
                     break;
             }
 
@@ -196,30 +197,89 @@
             int num = SelectBehavior(0, 0);
             if (num == 0)
                 GameStartUI();
-
         }
-        
+        static void RandMonsters(bool ShowIndex) // 몬스터 랜덤 생성
+        {
+            List<Monster> monsters = new List<Monster>(); // 몬스터 리스트 생성
+            {
+                monsters.Add(new Monster(2, "슬라임", 10, 5));
+                monsters.Add(new Monster(5, "고블린", 15, 7));
+                monsters.Add(new Monster(7, "오크", 25, 10));
+            }
+
+
+            Random randCount = new Random();
+            int randomMonsterCount = randCount.Next(1, 4); // 몬스터 등장 수
+            for (int i = 0; i < randomMonsterCount; i++)
+            {
+                monster = monsters[i];
+                string MonsterIndex = ShowIndex ? $"{i + 1}" : "";
+                Console.WriteLine($"{MonsterIndex} Lv.{monster.Lv} {monster.Name}\n HP: {monster.Hp}\n\n");
+            }
+        }
+
         //전투 시작
         static void DungeonUI()
         {
+
             Dungeon dungeon = new Dungeon();
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
             Console.ResetColor();
+            RandMonsters(false);
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{player.level :D2}\nJob {player.job}");
             Console.WriteLine($"HP {player.hp}/100\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
-            dungeon.SpawnRandomMonster();
-            int num = SelectBehavior(0, 0);
+
+            int num = SelectBehavior(0, 1);
             switch(num)
             {
                 case 0:
                     GameStartUI();
                     break;
+                case 1:
+                    AtkUI();
+                    break; 
             }
+        }
+        static void AtkUI()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Battle!!\n");
+            Console.ResetColor();
+
+            RandMonsters(true);// 몬스터 랜덤 생성
+
+            //몬스터 정보 입력하고
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
+            Console.WriteLine($"HP {player.hp}/100\n");
+            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
+
+            int num = SelectBehavior(0, 4);
+            switch (num)
+            {
+                case 0:
+                    GameStartUI();
+                    break;
+                case 1:
+                    // 공격 기능
+                    break;
+                case 2:
+                    // 공격 기능
+                    break;
+                case 3:
+                    // 공격 기능
+                    break;
+                case 4:
+                    // 공격 기능
+                    break;
+            }
+
         }
 
 
