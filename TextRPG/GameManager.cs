@@ -3,11 +3,18 @@ using System.Numerics;
 
 namespace TextRPG
 {
+    // 아이템을 끼면 공격력 + 
+    // 아이템을 끼면 맨앞에 E
+    // 아이템을 사 << 샵?
+    // 아이템을 착용
     internal class GameManager
     {
         static Player player;
         static Monster monster;
+        static Item[] itemDb;
+        List<Item> items = new List<Item>();
         //이름 생성 화면
+       
         static void CreateName()
         {
             Console.Clear();
@@ -23,9 +30,9 @@ namespace TextRPG
             Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.");
             Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(1,4);
+            int num = SelectBehavior(1, 4);
 
-            switch(num)
+            switch (num)
             {
                 case 1:
                     CharacterInfoUI();
@@ -46,14 +53,14 @@ namespace TextRPG
         //1-3, 0 선택하기
         static int SelectBehavior(int min, int max)
         {
-            while(true)
+            while (true)
             {
                 string input = Console.ReadLine();
                 int num;
                 //TryParse로 문자열 -> 정수로 변환 / 성공시 true, 실패시 false
                 if (int.TryParse(input, out num))
                 {
-                    if(num >= min && num <= max)
+                    if (num >= min && num <= max)
                     {
                         return num;
                     }
@@ -71,7 +78,7 @@ namespace TextRPG
                     Console.ResetColor(); //색 초기화
                 }
             }
-            
+
         }
 
         //상태보기
@@ -86,17 +93,29 @@ namespace TextRPG
             player.PlayerInfo(); //캐릭터 정보 표시
 
             Console.WriteLine("\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(0,0);
+            int num = SelectBehavior(0, 0);
 
-            if(num == 0)
+            if (num == 0)
                 GameStartUI();
         }
-
+        // 아이템
+        static void SetData()
+        {
+            List<Item> items = new List<Item>(); // 아이템 리스트 생성
+            {
+                items.Add(new Item("수련자의 갑옷", 1, 5, "수련에 도움을 주는 갑옷입니다. ", 1000));
+                items.Add(new Item("무쇠갑옷", 1, 9, "무쇠로 만들어져 튼튼한 갑옷입니다. ", 2000));
+                items.Add(new Item("스파르타의 갑옷", 1, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다. ", 3500));
+                items.Add(new Item("낡은 검", 0, 2, "쉽게 볼 수 있는 낡은 검 입니다. ", 600));
+                items.Add(new Item("청동 도끼", 0, 5, "어디선가 사용됐던거 같은 도끼입니다. ", 1500));
+                items.Add(new Item("스파르타의 창", 0, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다. ", 2500));
+            }
+        }
         //인벤토리
         static void InventoryUI()
         {
             Console.Clear();
-            Console.ForegroundColor= ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("인벤토리");
             Console.ResetColor();
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
@@ -109,7 +128,7 @@ namespace TextRPG
 
             int num = SelectBehavior(0, 1);
 
-            switch(num)
+            switch (num)
             {
                 case 0:
                     GameStartUI();
@@ -135,9 +154,9 @@ namespace TextRPG
 
 
             Console.WriteLine("1. 아이템 구매\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(0,1);
+            int num = SelectBehavior(0, 1);
 
-            switch(num)
+            switch (num)
             {
                 case 0:
                     GameStartUI();
@@ -165,7 +184,7 @@ namespace TextRPG
             Console.WriteLine("0. 나가기\n원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(0, player.InventoryCount); //여기 나중에 (0,list명.count)로 변경
 
-            switch(num)
+            switch (num)
             {
                 case 0:
                     GameStartUI();
@@ -186,7 +205,7 @@ namespace TextRPG
         static void PurchaseItem()
         {
             Console.Clear();
-            Console.ForegroundColor= ConsoleColor.DarkYellow;
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상점 - 아이템 구매");
             Console.ResetColor();
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
@@ -232,19 +251,19 @@ namespace TextRPG
             RandMonsters(false);
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{player.level :D2}\nJob {player.job}");
+            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
             Console.WriteLine($"HP {player.hp}/100\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
 
             int num = SelectBehavior(0, 1);
-            switch(num)
+            switch (num)
             {
                 case 0:
                     GameStartUI();
                     break;
                 case 1:
                     AtkUI();
-                    break; 
+                    break;
             }
         }
         static void AtkUI()
