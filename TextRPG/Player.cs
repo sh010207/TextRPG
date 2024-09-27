@@ -64,5 +64,11 @@ namespace TextRPG
 
         }
 
+        //사망 시 체력 초기화
+        public void ResetHp()
+        {
+            hp = 100;
+        }
+
     }
 }
