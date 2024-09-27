@@ -4,6 +4,7 @@ namespace TextRPG
 {
     public class Player
     {
+       
         public string name { get; set; }
         public int level {  get; set; }
         public string job { get; set; }
@@ -14,7 +15,7 @@ namespace TextRPG
         public int extraAd {  get; set; }
         public int extraDf { get; set; }
 
-        //private List<Item> equipItems = new List<Item>();
+        public static List<Item> equipItems = new List<Item>();
 
         public Player(string name, int level, string job, int ad, int df, int hp, int gold)
         {
@@ -37,10 +38,10 @@ namespace TextRPG
             Console.WriteLine($"Gold {gold}");
         }
 
-        public void InventoryInfo()
-        {
+        //public void InventoryInfo()
+        //{
 
-        }
+        //}
 
         //아이템 장착 [E]
         public void EquipItem()
@@ -48,9 +49,9 @@ namespace TextRPG
 
         }
 
-        public bool IsEquipped()
+        static bool IsEquipped(Item item)
         {
-            return false;
+            return equipItems.Contains(item);
         }
 
         //아이템 구매 시 골드 차감
