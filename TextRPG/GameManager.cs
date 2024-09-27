@@ -81,7 +81,7 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상태 보기");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");  
 
             player.PlayerInfo(); //캐릭터 정보 표시
 
@@ -177,7 +177,6 @@ namespace TextRPG
                     //무기장착3
                     break;
             }
-
         }
 
         //아이템구매
@@ -213,8 +212,8 @@ namespace TextRPG
             for (int i = 0; i < randomMonsterCount; i++)
             {
                 monster = monsters[i];
-                string MonsterIndex = ShowIndex ? $"{i + 1}" : "";
-                Console.WriteLine($"{MonsterIndex} Lv.{monster.Lv} {monster.Name}\n HP: {monster.Hp}\n\n");
+                string MonsterIndex = ShowIndex ? $"{i + 1}" : ""; // 몬스터의 인덱스를 표시
+                Console.WriteLine($"{MonsterIndex} Lv.{monster.Lv} {monster.Name}\n HP: {monster.Hp}\n\n");// 생성된 몬스터 출력
             }
         }
 
@@ -279,10 +278,7 @@ namespace TextRPG
                     // 공격 기능
                     break;
             }
-
         }
-
-
         static void Main(string[] args)
         {
             player = new Player("", 1, "전사", 10, 5, 100, 10000); //초기세팅
