@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Text;
 
 namespace TextRPG
 {
@@ -12,6 +13,7 @@ namespace TextRPG
         static Player player;
         static Monster monster;
         private static Item[] itemDb;
+        static BattleResult battleResult;
         //이름 생성 화면
        
         static void CreateName()
@@ -20,6 +22,8 @@ namespace TextRPG
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
+
+            battleResult = new BattleResult(player);
         }
 
         //게임 시작 화면
@@ -295,6 +299,16 @@ namespace TextRPG
                     // 공격 기능
                     break;
             }
+        }
+
+        //게임 종료 결과 화면
+        static void ending()
+        {
+            battleResult.GameEndLogic();
+            int num = SelectBehavior(0, 0);
+
+            if (num == 0)
+                GameStartUI();
         }
         static void Main(string[] args)
         {

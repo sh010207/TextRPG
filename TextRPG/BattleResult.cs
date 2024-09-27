@@ -6,7 +6,7 @@ namespace TextRPG
     {
          Player player;
 
-        private BattleResult(Player player)
+        public BattleResult(Player player)
         {
             this.player = player;
         }
@@ -61,14 +61,6 @@ namespace TextRPG
             player.ResetHp();
         }
 
-        //게임 종료 결과 화면
-        //static void Ending()
-        //{
-        //    battleResult.GameEndLogic();
-        //    int num = SelectBehavior(0, 0);
 
-        //    if (num == 0)
-        //        GameStartUI();
-        //}
     }
 }
