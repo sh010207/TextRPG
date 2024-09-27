@@ -80,12 +80,7 @@
             Console.ResetColor();
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
-            Console.WriteLine($"Lv. {player.level:D2}");
-            Console.WriteLine($"Job ( {player.job} )");
-            Console.WriteLine(player.extraAd == 0 ? $"{player.ad}" : $"{player.ad} + ( {player.extraAd} )" );
-            Console.WriteLine(player.extraDf == 0 ? $"{player.df}" : $"{player.df} + ( {player.extraDf} )" );
-            Console.WriteLine($"체 력 {player.hp}");
-            Console.WriteLine($"Gold {player.gold}");
+            player.PlayerInfo(); //캐릭터 정보 표시
 
             Console.WriteLine("\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(0,0);
@@ -103,6 +98,9 @@
             Console.ResetColor();
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]\n");
+
+            player.InventoryInfo();
+
             Console.WriteLine("1. 장착 관리\n0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -139,10 +137,10 @@
             switch(num)
             {
                 case 0:
-                    PurchaseItem();
+                    GameStartUI();
                     break;
                 case 1:
-                    GameStartUI();
+                    PurchaseItem();
                     break;
             }
 
