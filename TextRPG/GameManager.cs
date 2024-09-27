@@ -18,7 +18,7 @@
         {
             Console.Clear();
             Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.");
-            Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투\n");
+            Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(1,4);
 
@@ -34,7 +34,7 @@
                     ShopUI();
                     break;
                 case 4:
-                    Dungeon();
+                    DungeonUI();
                     break;
 
             }
@@ -81,9 +81,9 @@
             Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             Console.WriteLine($"Lv. {player.level:D2}");
-            Console.WriteLine($"Job {player.job}");
-            Console.WriteLine($"공격력 {player.ad}");
-            Console.WriteLine($"방어력 {player.df}");
+            Console.WriteLine($"Job ( {player.job} )");
+            Console.WriteLine(player.extraAd == 0 ? $"{player.ad}" : $"{player.ad} + ( {player.extraAd} )" );
+            Console.WriteLine(player.extraDf == 0 ? $"{player.df}" : $"{player.df} + ( {player.extraDf} )" );
             Console.WriteLine($"체 력 {player.hp}");
             Console.WriteLine($"Gold {player.gold}");
 
@@ -179,6 +179,7 @@
 
         }
 
+        //아이템구매
         static void PurchaseItem()
         {
             Console.Clear();
@@ -197,16 +198,33 @@
                 GameStartUI();
 
         }
-
-        static void Dungeon()
+        
+        //전투 시작
+        static void DungeonUI()
         {
+            Dungeon dungeon = new Dungeon();
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Battle!!\n");
+            Console.ResetColor();
+            //몬스터 정보 입력하고
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{player.level :D2}\nJob {player.job}");
+            Console.WriteLine($"HP {player.hp}/100\n");
+            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
+            dungeon.SpawnRandomMonster();
+            int num = SelectBehavior(0, 0);
+            switch(num)
+            {
+                case 0:
+                    GameStartUI();
+                    break;
+            }
         }
 
 
         static void Main(string[] args)
         {
-            GameManager gameManager = new GameManager();
             player = new Player("", 1, "전사", 10, 5, 100, 10000); //초기세팅
             CreateName();
             GameStartUI();
