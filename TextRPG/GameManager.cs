@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Numerics;
+using System.Security.Cryptography.X509Certificates;
+using System.Xml.Linq;
 
 namespace TextRPG
 {
@@ -10,11 +12,13 @@ namespace TextRPG
     internal class GameManager
     {
         static Player player;
-        static Monster monster;
-        private static Item[] itemDb;
-        //이름 생성 화면
-       
-        static void CreateName()
+
+        static List<Monster> MonsterList = new List<Monster>();// 몬스터 리스트 생성
+        
+
+    //이름 생성 화면
+
+    static void CreateName()
         {
             Console.Clear();
             Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
@@ -87,7 +91,7 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상태 보기");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");  
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             player.PlayerInfo(); //캐릭터 정보 표시
 
@@ -122,6 +126,7 @@ namespace TextRPG
 
             player.ShowInventory(false);  // 아이템 목록 표시 ( 인덱스 x)
 
+            Console.ResetColor();
             Console.WriteLine("1. 장착 관리\n0. 나가기\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
 
@@ -171,7 +176,7 @@ namespace TextRPG
         static void EquipManagementUI()
         {
             Console.Clear();
-            List<Item> items = new List<Item>();    
+            List<Item> items = new List<Item>();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.ResetColor();
@@ -179,7 +184,7 @@ namespace TextRPG
             Console.WriteLine("[아이템 목록]");
 
             player.ShowInventory(true); // 아이템 목록 표시 ( 인덱스 o 누르면 장착);
-            
+
             Console.WriteLine("0. 나가기\n원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(0, player.InventoryCount); //여기 나중에 (0,list명.count)로 변경
 
@@ -214,24 +219,40 @@ namespace TextRPG
             if (num == 0)
                 GameStartUI();
         }
-        static void RandMonsters(bool ShowIndex) // 몬스터 랜덤 생성
+
+
+
+
+        static void RandMonster()
         {
-            List<Monster> monsters = new List<Monster>(); // 몬스터 리스트 생성
+            List<Monster> Monsters = new List<Monster>();
             {
-                monsters.Add(new Monster(2, "슬라임", 10, 5));
-                monsters.Add(new Monster(5, "고블린", 15, 7));
-                monsters.Add(new Monster(7, "오크", 25, 10));
-            }
-
-
-            Random randCount = new Random();
-            int randomMonsterCount = randCount.Next(1, 4); // 몬스터 등장 수
+                Monsters.Add(new Monster(2, "슬라임", 10, 5));
+                Monsters.Add(new Monster(5, "고블린", 15, 7));
+                Monsters.Add(new Monster(7, "오크", 25, 10));
+            };
+            Random random = new Random();
+            int randomMonsterCount = random.Next(1, 4);
             for (int i = 0; i < randomMonsterCount; i++)
             {
-                monster = monsters[i];
-                string MonsterIndex = ShowIndex ? $"{i + 1}" : ""; // 몬스터의 인덱스를 표시
-                Console.WriteLine($"{MonsterIndex} Lv.{monster.Lv} {monster.Name}\n HP: {monster.Hp}\n\n");// 생성된 몬스터 출력
+                int monsterType = random.Next(Monsters.Count());
+                Monster monster1 = Monsters[monsterType];
+                MonsterList.Add(monster1);
+                Console.WriteLine($" Lv.{monster1.Lv} {monster1.Name} HP: {monster1.Hp}");
             }
+        }
+
+        static void AtkMonster(bool ShowIndex)
+        {
+            List<Monster> atkMonsters = new List<Monster> ();
+            atkMonsters = MonsterList;
+            for (int i = 0; i < atkMonsters.Count; i++)
+            {
+                Monster monsters = atkMonsters[i];
+                string MonsterIndex = ShowIndex ? $"{i+1}" : ""; // 몬스터의 인덱스를 표시
+                Console.WriteLine($"-{MonsterIndex}  Lv.{monsters.Lv} {monsters.Name} HP: {monsters.Hp}");
+            }
+            atkMonsters.Clear();    
         }
 
         //전투 시작
@@ -243,7 +264,9 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
             Console.ResetColor();
-            RandMonsters(false);
+
+            RandMonster();
+
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
@@ -261,6 +284,8 @@ namespace TextRPG
                     break;
             }
         }
+
+       
         static void AtkUI()
         {
             Console.Clear();
@@ -268,10 +293,10 @@ namespace TextRPG
             Console.WriteLine("Battle!!\n");
             Console.ResetColor();
 
-            RandMonsters(true);// 몬스터 랜덤 생성
+            AtkMonster(true);   
 
             //몬스터 정보 입력하고
-            Console.WriteLine("[내정보]");
+            Console.WriteLine("\n[내정보]\n");
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
             Console.WriteLine($"HP {player.hp}/100\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
@@ -296,12 +321,14 @@ namespace TextRPG
                     break;
             }
         }
+
         static void Main(string[] args)
         {
             player = new Player("", 1, "전사", 10, 5, 100, 10000); //초기세팅
+            SetData();
             CreateName();
             GameStartUI();
 
         }
     }
-}
+} 
