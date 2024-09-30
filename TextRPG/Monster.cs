@@ -14,7 +14,7 @@ namespace TextRPG
         public string Name { get; set; }
         public int Hp { get; set; }
         public int Atk { get; set; }
-        public bool IsDead =>  Hp <= 0;
+        public bool IsDead { get; set; }
 
         public Monster(int lv,string name, int hp, int atk) 
         {
