@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    class Item
+    public class Item
     {
         public string itemName { get; }
         public int itemType { get; }
@@ -29,7 +29,7 @@ namespace TextRPG
             itemDesc = itemdesc;
             itemPrice = itemprice;
         }
-        public string ItemInfoText()
+       public string ItemInfoText()
         {
             return ($"{itemName} | {DisplayTypeText} +{itemValue} | {itemDesc} ");
         }
