@@ -33,11 +33,15 @@
 
             for (int i = 0; i < randomMonsterCount; i++)
             {
-                monster = monsters[random.Next(monsters.Count)];
+                // 랜덤하게 선택된 몬스터의 속성을 기반으로 새로운 몬스터 인스턴스 생성
+                Monster selectedMonster = monsters[random.Next(monsters.Count)];
+                Monster newMonster = new Monster(selectedMonster.Lv, selectedMonster.Name,
+                    selectedMonster.Hp, selectedMonster.Atk);
 
-                spawnedMonsters.Add(monster);
+                spawnedMonsters.Add(newMonster);
+
                 string MonsterIndex = ShowIndex ? $"{i + 1}" : ""; // 몬스터의 인덱스를 표시
-                Console.WriteLine($"{MonsterIndex}  Lv.{monster.Lv} {monster.Name}\n HP: {monster.Hp}\n\n");// 생성된 몬스터 출력
+                Console.WriteLine($"{MonsterIndex}  Lv.{newMonster.Lv} {newMonster.Name}\n HP: {newMonster.Hp}\n\n");// 생성된 몬스터 출력
             }
         }
 
@@ -54,20 +58,19 @@
                     string isDeadTxt = spawnedMonsters[selectMonIndex - 1].Hp == 0 ? "Dead" : $" HP: {spawnedMonsters[i].Hp}";
                     Console.WriteLine($"{i + 1}  Lv.{spawnedMonsters[i].Lv} {spawnedMonsters[i].Name}\n HP: {isDeadTxt}\n\n");
 
-                }
+            }
                 else
-                {
-                    Console.WriteLine($"{i + 1}  Lv.{spawnedMonsters[i].Lv} {spawnedMonsters[i].Name}\n HP: {spawnedMonsters[i].Hp}\n\n");
-
-                }
+            {
+                Console.WriteLine($"{i + 1}  Lv.{spawnedMonsters[i].Lv} {spawnedMonsters[i].Name}\n HP: {spawnedMonsters[i].Hp}\n\n");
 
             }
+
+        }
         }
 
         //공격 후 몬스터 체력감소
         public void AttackMonsters(int attackMonsterNum)
         {
-
             selectMonIndex = attackMonsterNum;
             int attackRange = random.Next(player.ad * 9 / 10, player.ad * 11 / 10); //10%오차
 
@@ -81,8 +84,8 @@
                 Console.WriteLine($"{player.name}의 공격!");
                 Console.WriteLine($"Lv.{spawnedMonsters[attackMonsterNum - 1].Lv} {spawnedMonsters[attackMonsterNum - 1].Name} 을(를) 맞췄습니다.  [데미지 : {attackRange}]");
                 Console.WriteLine($"Lv.{spawnedMonsters[attackMonsterNum - 1].Lv} {spawnedMonsters[attackMonsterNum - 1].Name}");
-                Console.Write($"\nHP {spawnedMonsters[attackMonsterNum - 1].Hp + attackRange} ");
                 spawnedMonsters[attackMonsterNum - 1].Hp -= attackRange;
+                Console.Write($"\nHP {spawnedMonsters[attackMonsterNum - 1].Hp + attackRange} ");
                 Console.WriteLine($"-> {spawnedMonsters[attackMonsterNum - 1].Hp}\n");
 
 
