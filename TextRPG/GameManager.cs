@@ -240,6 +240,7 @@ namespace TextRPG
                     break;
                 case 1:
                     AtkUI();
+                    ending();
                     break;
             }
         }
@@ -260,25 +261,26 @@ namespace TextRPG
             Console.WriteLine($"HP {player.hp}/100\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
 
-            int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
-            switch (attackNum)
-            {
-                case 1:
-                    dungeon.AttackMonsters(attackNum);
-                    break;
-                case 2:
-                    dungeon.AttackMonsters(attackNum);
+            dungeon.StartBattle();
+            //int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
+            //switch (attackNum)
+            //{
+            //    case 1:
+            //        dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 2:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-                case 3:
-                    dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 3:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-                case 4:
-                    dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 4:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-            }
+            //        break;
+            //}
         }
 
 
