@@ -26,13 +26,16 @@ namespace TextRPG
         public void DisplayShopUI() // 물건 리스트 표현
         {
             Console.Clear();
-            Console.WriteLine("딸랑, 상점입니다.");
-            Console.WriteLine("원하시는 아이템을 구경하세요\n");
-
-            Console.WriteLine($"[ 보유골드 : {player.gold}] \n "); // {player.gold}
-
-            Console.WriteLine("[ 아이템 목록 ]\n");
-            
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\t\t\t딸랑, 상점입니다.\n");
+            Console.ResetColor();
+            Console.WriteLine("\t\t원하시는 아이템을 마음껏 구경하세요\n");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\t\t      [ 보유골드 : {player.gold} ] \n "); // {player.gold}
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\t\t\t[ 아이템 목록 ]\n");
+            Console.ResetColor();
 
             //구매 할 수 있는 리스트들 나열, 구매 한건 했다고 떠야함
 
@@ -55,7 +58,7 @@ namespace TextRPG
                 Console.WriteLine($" - {curItem.ItemInfoText()} | {displayPrice}");
             }
 
-
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("1. 아이템 구매");
             Console.WriteLine("0. 나가기\n\n");
@@ -83,12 +86,14 @@ namespace TextRPG
         public void DisplayBuyUI() // 진짜 구매
         {
             Console.Clear ();
-            Console.WriteLine("아이쇼핑을 그만하신다구요? 좋습니다.");
-            Console.WriteLine("구매하실 아이템을 골라주세요.\n");
-
-            Console.WriteLine($"[ 보유골드 : {player.gold} ] \n "); // {player.gold}
-
-            Console.WriteLine("[아이템 목록]\n");
+            Console.ForegroundColor= ConsoleColor.Blue;
+            Console.WriteLine("\t\t아이쇼핑을 그만하신다구요? 좋습니다.\n");
+            Console.ResetColor ();
+            Console.WriteLine("\t\t   구매하실 아이템을 골라주세요.\n");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\t\t      [ 보유골드 : {player.gold} ] \n "); // {player.gold}
+            Console.ResetColor();
+            Console.WriteLine("\t\t\t[ 아이템 목록 ]\n");
 
             for (int i = 0; i < GameManager.items.Count; i++) //item
             {
@@ -104,14 +109,15 @@ namespace TextRPG
                     //quest.Questprogress(true);
                     displayPrice = "구매완료";
                 }
-                else
-                {   Console.ResetColor ();
+                else 
+                {
+                    Console.ResetColor();
                     displayPrice = $"{curItem.itemPrice}G";
                 }
                 Console.WriteLine($"[{i + 1}]  {curItem.ItemInfoText()} | {displayPrice}");
 
             }
-
+            Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("0 : 나가기");
             Console.WriteLine();
@@ -154,7 +160,7 @@ namespace TextRPG
                         }
                         else
                         {
-                            Console.ForegroundColor = ConsoleColor.DarkMagenta; //색 바꾸기    
+                            Console.ForegroundColor = ConsoleColor.DarkRed; //색 바꾸기    
                             Console.WriteLine(" === 아직 이 물건을 살 골드를 챙겨오지 못했군.. === \n");
                             Console.ResetColor(); //색 초기화
                             Console.WriteLine("enter를 입력해서 가격에 맞춰 구매해주세요.\n");

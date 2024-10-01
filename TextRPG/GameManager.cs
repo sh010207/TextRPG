@@ -1,14 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Numerics;
-using System.Text;
-
-namespace TextRPG
+﻿namespace TextRPG
 {
-    // 아이템을 끼면 공격력 + 
-    // 아이템을 끼면 맨앞에 E
-    // 아이템을 사 << 샵?
-    // 아이템을 착용
     internal class GameManager
     {
         static Player player;
@@ -17,20 +8,61 @@ namespace TextRPG
         static BattleResult battleResult;
         static Dungeon dungeon;
         static Shop shop; ////Cha 상점 클래스
+        static int potionCount = 3; // 기본 포션개수
         public static List<Item> items;
-        static Quest quest = new Quest();
+        static Inventory inventory;
         //이름 생성 화면
 
         static void CreateName()
         {
             Console.Clear();
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("");
+            Console.WriteLine(" \t\t\t < 바닷속 어딘가, 용궁에 한 마을에 도착한다. >");
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
 
-            battleResult = new BattleResult(player);
+            battleResult = new BattleResult(player, dungeon);
             shop = new Shop(player);
+            inventory = new Inventory(player);
             SetData();
+        }
+        //직업 선택
+        static void SetClass()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\t\t\t [ 당신은 무슨 물고기가 되고 싶으신가요? ] \n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 개복치 : HP가 낮고 방어력도 약하지만, 강력한 공격력을 자랑합니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("2. 망둥어 : 공격력과 방어력 모두 균형 잡힌 캐릭터로, 상황에 맞춰 유연하게 대처할 수 있습니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("3. 블롭피쉬 : 방어력과 체력이 뛰어나 적의 공격을 오랫동안 버티는 탱커형 캐릭터입니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.\n");
+            Console.ResetColor();
+
+            int num = SelectBehavior(1, 4);
+            switch (num)
+            {
+                case 1:
+                    player.ChangeJob("개복치", 20, 5, 50, 50, 1000);
+                    break;
+                case 2:
+                    player.ChangeJob("망둥어", 15, 12, 80, 80, 1200);
+                    break;
+                case 3:
+                    player.ChangeJob("블롭피쉬", 5, 20, 150, 150, 800);
+                    break;
+                case 4:
+                    player.ChangeJob("우파루파", 10, 10, 120, 120, 1500);
+                    potionCount += 3;
+                    break;
+            }
         }
 
         //게임 시작 화면
@@ -40,7 +72,7 @@ namespace TextRPG
             Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.\n"); ////cha UI깔끔하게 하기위해 엔터
             Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(1,5);
+            int num = SelectBehavior(1, 4);
 
             switch (num)
             {
@@ -48,7 +80,7 @@ namespace TextRPG
                     CharacterInfoUI();
                     break;
                 case 2:
-                    InventoryUI();
+                    inventory.DisplayInventoryUI();
                     break;
                 case 3:
                     shop.DisplayShopUI();
@@ -56,10 +88,7 @@ namespace TextRPG
                 case 4:
                     DungeonUI();
                     break;
-                case 5:
-                    quest.QuestUI();
-                    break;
-                    
+
 
             }
         }
@@ -102,7 +131,7 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상태 보기");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");  
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             player.PlayerInfo(); //캐릭터 정보 표시
 
@@ -125,33 +154,11 @@ namespace TextRPG
                 items.Add(new Item("스파르타의 창", 0, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다. ", 2500));
             }
         }
-        //인벤토리
-        static void InventoryUI()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("인벤토리");
-            Console.ResetColor();
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]\n");
+        //인벤토리 >> 삭제 >> Inventory클래스로 이동
 
-            player.ShowInventory(false);  // 아이템 목록 표시 ( 인덱스 x)
+        //상점 >> 삭제 >> Shop 클래스로 이동
 
-            Console.WriteLine("1. 장착 관리\n0. 나가기\n");
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-
-            int num = SelectBehavior(0, 1);
-
-            switch (num)
-            {
-                case 0:
-                    GameStartUI();
-                    break;
-                case 1:
-                    EquipManagementUI();
-                    break;
-            }
-        }
+        //인벤토리 - 장착 관리 >> 삭제 >> Inventory클래스로 이동
 
         //상점
         static void ShopUI()
@@ -164,7 +171,7 @@ namespace TextRPG
             Console.WriteLine("[보유 골드]");
             Console.WriteLine($"{player.gold} G");
             Console.WriteLine("\n[아이템 목록]");
-            
+
 
 
             Console.WriteLine("1. 아이템 구매\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
@@ -186,7 +193,7 @@ namespace TextRPG
         static void EquipManagementUI()
         {
             Console.Clear();
-            List<Item> items = new List<Item>();    
+            List<Item> items = new List<Item>();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("인벤토리 - 장착 관리");
             Console.ResetColor();
@@ -194,7 +201,7 @@ namespace TextRPG
             Console.WriteLine("[아이템 목록]");
 
             player.ShowInventory(true); // 아이템 목록 표시 ( 인덱스 o 누르면 장착);
-            
+
             Console.WriteLine("0. 나가기\n원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(0, player.InventoryCount); //여기 나중에 (0,list명.count)로 변경
 
@@ -229,13 +236,60 @@ namespace TextRPG
             if (num == 0)
                 GameStartUI();
         }
+        //아이템구매 >> 삭제 >> Shop 클래스로 이동
+        
+        // 포션 
+        static void UsePotion()//이거
+        {
+            int potionheal = 50;
+            Console.Clear();
+            if (potionCount > 0)
+            {
+                if (player.hp >= player.maxhp)
+                {
+                    Console.WriteLine("이미 최대 체력입니다");
+                    Console.WriteLine($"남은 포션 갯수 : {potionCount}");
+                }
+                else
+                {
+                    player.hp += potionheal;
+                    potionCount -= 1;
+                    Console.WriteLine($"남은 포션 갯수 : {potionCount}");
 
+                    if (player.hp >= player.maxhp)
+                    {
+                        player.hp = player.maxhp;
+                    }
+
+                    Console.WriteLine($"회복을 완료했습니다. 현재체력 : {player.hp}/{player.maxhp}");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("포션이 없습니다");
+            }
+            Console.WriteLine("0 . 나가기");
+            Console.WriteLine("1 . 포션 하나 더먹기");
+            int num = SelectBehavior(0, 1);
+            switch (num)
+            {
+                case 0:
+                    GameStartUI();
+                    break;
+                case 1:
+                    UsePotion();
+                    break;
+            }
+
+
+        }
 
         //전투 시작
         static void DungeonUI()
         {
 
-            
+
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
@@ -244,7 +298,7 @@ namespace TextRPG
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/100\n");
+            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
 
             int num = SelectBehavior(0, 1);
@@ -255,6 +309,8 @@ namespace TextRPG
                     break;
                 case 1:
                     AtkUI();
+                    EnemyTurn();
+                    ending();
                     break;
             }
         }
@@ -269,38 +325,38 @@ namespace TextRPG
 
             dungeon.ShowMonsters(); //랜덤 몬스터 바뀌는 값 수정
 
-            //몬스터 정보 입력하고
-            Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/100\n");
-            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
+            dungeon.PlayerStat(false);
+            dungeon.StartBattle();
+            //int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
+            //switch (attackNum)
+            //{
+            //    case 1:
+            //        dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 2:
+            //        dungeon.AttackMonsters(attackNum);
 
-            int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
-            switch (attackNum)
-            {
-                case 1:
-                    dungeon.AttackMonsters(attackNum);
-                    break;
-                case 2:
-                    dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 3:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-                case 3:
-                    dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 4:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-                case 4:
-                    dungeon.AttackMonsters(attackNum);
-
-                    break;
-            }
+            //        break;
+            //}
         }
 
-
+        static void EnemyTurn()
+        {
+            dungeon.EnemyPhase();
+        }
 
         //게임 종료 결과 화면
         static void ending()
         {
+            Console.Clear();
             battleResult.GameEndLogic();
             int num = SelectBehavior(0, 0);
 
@@ -309,9 +365,10 @@ namespace TextRPG
         }
         static void Main(string[] args)
         {
-            player = new Player("", 1, "전사", 10, 5, 100, 10000); //초기세팅
+            player = new Player("", 1, "전사", 10, 5, 100, 100, 10000); //초기세팅
             dungeon = new Dungeon(player);
             CreateName();
+            SetClass();
             GameStartUI();
 
         }

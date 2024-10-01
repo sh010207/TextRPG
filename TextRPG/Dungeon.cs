@@ -9,8 +9,8 @@
         int selectMonIndex = 10;
 
 
-        List<Monster> spawnedMonsters = new List<Monster>(); //랜덤 소환된 몬스터(전투중인?)
-        
+        public List<Monster> spawnedMonsters = new List<Monster>(); //랜덤 소환된 몬스터(전투중인?)
+
         public Dungeon(Player player)
         {
             this.player = player;
@@ -45,27 +45,48 @@
             }
         }
 
-        //2. 같은 종류의 몬스터가 다같이 피가 닳는 현상 => 객체화?하나씩 나누기 피통,레벨등
+        public void StartBattle()
+        {
+            while(player.hp >= 0 && spawnedMonsters.Any(monster => monster.Hp > 0))
+            {
+                
+                int num = SelectBehavior(1, randomMonsterCount);
+                AttackMonsters(num);
+
+                if(spawnedMonsters.All(monster => monster.Hp == 0))
+                {
+                    break;
+                }
+
+                EnemyPhase();
+
+                if(player.hp <= 0)
+                {
+                    break;
+                }
+            }
+        }
 
 
+        //생성된 몬스터 보여주기(출력)
         public void ShowMonsters() //isDead?
         {
 
             for (int i = 0; i < spawnedMonsters.Count; i++)
             {
-                if (selectMonIndex > 0 && selectMonIndex < spawnedMonsters.Count)
-                {
-                    string isDeadTxt = spawnedMonsters[selectMonIndex - 1].Hp == 0 ? "Dead" : $" HP: {spawnedMonsters[i].Hp}";
+                //if (selectMonIndex > 0 && selectMonIndex < spawnedMonsters.Count)
+                //{
+                    string isDeadTxt = spawnedMonsters[i].Hp == 0 ? "Dead" : $"{spawnedMonsters[i].Hp}";
                     Console.WriteLine($"{i + 1}  Lv.{spawnedMonsters[i].Lv} {spawnedMonsters[i].Name}\n HP: {isDeadTxt}\n\n");
 
-            }
-                else
-            {
-                Console.WriteLine($"{i + 1}  Lv.{spawnedMonsters[i].Lv} {spawnedMonsters[i].Name}\n HP: {spawnedMonsters[i].Hp}\n\n");
+                //}
+                //else
+                //{
+                //    Console.WriteLine($"{i + 1}  Lv.{spawnedMonsters[i].Lv} {spawnedMonsters[i].Name}\n HP: {spawnedMonsters[i].Hp}\n\n");
+
+                //}
 
             }
-
-        }
         }
 
         //공격 후 몬스터 체력감소
@@ -83,9 +104,9 @@
 
                 Console.WriteLine($"{player.name}의 공격!");
                 Console.WriteLine($"Lv.{spawnedMonsters[attackMonsterNum - 1].Lv} {spawnedMonsters[attackMonsterNum - 1].Name} 을(를) 맞췄습니다.  [데미지 : {attackRange}]");
-                Console.WriteLine($"Lv.{spawnedMonsters[attackMonsterNum - 1].Lv} {spawnedMonsters[attackMonsterNum - 1].Name}");
+                Console.WriteLine($"\nLv.{spawnedMonsters[attackMonsterNum - 1].Lv} {spawnedMonsters[attackMonsterNum - 1].Name}");
                 spawnedMonsters[attackMonsterNum - 1].Hp -= attackRange;
-                Console.Write($"\nHP {spawnedMonsters[attackMonsterNum - 1].Hp + attackRange} ");
+                Console.Write($"HP {spawnedMonsters[attackMonsterNum - 1].Hp + attackRange} ");
                 Console.WriteLine($"-> {spawnedMonsters[attackMonsterNum - 1].Hp}\n");
 
 
@@ -94,7 +115,7 @@
                 if (spawnedMonsters[attackMonsterNum - 1].Hp <= 0)
                 {
                     spawnedMonsters[attackMonsterNum - 1].Hp = 0;
-                    
+
                 }
 
             }
@@ -112,13 +133,72 @@
             {
                 case 0:
                     Console.Clear();
-                    ShowMonsters();
+                    //ShowMonsters();
                     break;
             }
 
 
 
         }
+
+        //적 -> 공격 차례 로직
+        public void EnemyPhase()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Battle!!\n");
+            Console.ResetColor();
+
+            if (player.hp <= 0)
+            {
+                player.hp = 0;
+                Console.WriteLine($"{player.name}님이 사망하였습니다");
+            }
+            else
+            {
+                //몬스터들이 차례대로 공격
+                for (int i = 0; i < spawnedMonsters.Count; i++)
+                {
+                    Monster currentMonster = spawnedMonsters[i];
+
+                    if (currentMonster.Hp > 0)
+                    {
+                        //플레이어 체력 감소 로직
+                        player.hp -= currentMonster.Atk;
+
+                        Console.WriteLine($"Lv.{currentMonster.Lv} {currentMonster.Name} 의 공격!");
+                        Console.WriteLine($"{player.name} 을(를) 맞췄습니다.  [데미지 : {currentMonster.Atk}]\n");
+                        Console.WriteLine($"Lv.{player.level} {player.name}");
+                        Console.WriteLine($"HP {player.hp + currentMonster.Atk} -> {player.hp}\n");
+                        Console.WriteLine("0. 다음\n");
+                        Console.WriteLine("대상을 선택해주세요.");
+                        int num = SelectBehavior(0, 0);
+                        if (num == 0)
+                        {
+                            Console.Clear();
+                        }
+
+
+                    }
+                }
+                
+            }
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Battle!!\n");
+            Console.ResetColor();
+            ShowMonsters();
+            PlayerStat(true);
+        }
+        
+        //플레이어 정보 출력
+        public void PlayerStat(bool isFight)
+        {
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
+            Console.WriteLine($"HP {player.hp}/100\n");
+            string press1 = isFight == true ? "공격할 몬스터를 입력해주세요." : "1. 공격\n\n원하시는 행동을 입력해주세요.";
+            Console.WriteLine($"{press1}");
+        }
+
         public int SelectBehavior(int min, int max)
         {
             while (true)
