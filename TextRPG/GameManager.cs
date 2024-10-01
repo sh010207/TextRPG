@@ -1,4 +1,9 @@
-﻿namespace TextRPG
+﻿using System;
+using System.Diagnostics;
+using System.Numerics;
+using System.Text;
+
+namespace TextRPG
 {
     internal class GameManager
     {
@@ -21,13 +26,13 @@
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
 
-            battleResult = new BattleResult(player, dungeon);
+            battleResult = new BattleResult(player);
             shop = new Shop(player);
             inventory = new Inventory(player);
             SetData();
         }
         //직업 선택
-        static void SetClass()
+        static void SetClass() 
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -131,7 +136,7 @@
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상태 보기");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");  
 
             player.PlayerInfo(); //캐릭터 정보 표시
 
@@ -213,7 +218,7 @@
         static void DungeonUI()
         {
 
-
+            
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
@@ -222,7 +227,7 @@
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
+            Console.WriteLine($"HP {player.hp}/100\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
 
             int num = SelectBehavior(0, 1);
@@ -233,8 +238,6 @@
                     break;
                 case 1:
                     AtkUI();
-                    EnemyTurn();
-                    ending();
                     break;
             }
         }
@@ -249,38 +252,38 @@
 
             dungeon.ShowMonsters(); //랜덤 몬스터 바뀌는 값 수정
 
-            dungeon.PlayerStat(false);
-            dungeon.StartBattle();
-            //int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
-            //switch (attackNum)
-            //{
-            //    case 1:
-            //        dungeon.AttackMonsters(attackNum);
-            //        break;
-            //    case 2:
-            //        dungeon.AttackMonsters(attackNum);
+            //몬스터 정보 입력하고
+            Console.WriteLine("[내정보]");
+            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
+            Console.WriteLine($"HP {player.hp}/100\n");
+            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
 
-            //        break;
-            //    case 3:
-            //        dungeon.AttackMonsters(attackNum);
+            int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
+            switch (attackNum)
+            {
+                case 1:
+                    dungeon.AttackMonsters(attackNum);
+                    break;
+                case 2:
+                    dungeon.AttackMonsters(attackNum);
 
-            //        break;
-            //    case 4:
-            //        dungeon.AttackMonsters(attackNum);
+                    break;
+                case 3:
+                    dungeon.AttackMonsters(attackNum);
 
-            //        break;
-            //}
+                    break;
+                case 4:
+                    dungeon.AttackMonsters(attackNum);
+
+                    break;
+            }
         }
 
-        static void EnemyTurn()
-        {
-            dungeon.EnemyPhase();
-        }
+
 
         //게임 종료 결과 화면
         static void ending()
         {
-            Console.Clear();
             battleResult.GameEndLogic();
             int num = SelectBehavior(0, 0);
 
