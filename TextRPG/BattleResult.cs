@@ -27,11 +27,26 @@ namespace TextRPG
             }
         }
 
+        public void GetResult() //이거
+        {
+            float totalexp = 0;
+            for (int i = 0; i < dungeon.spawnedMonsters.Count; i++)
+            {
+                Monster monster = dungeon.spawnedMonsters[i];
+                totalexp += monster.Exp;
+            }
+            player.exp += totalexp;
+            Console.WriteLine($"경험치 획득! {totalexp} 현재 경험치 : {player.exp}/{player.MaxExp.ToString("F1")}");
+            return;
+        }
+
         //승리 시 결과화면
         public void WinUI()
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!! - Result\n");
+            GetResult();
+            player.LevelUp();
             Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Green;

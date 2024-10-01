@@ -25,9 +25,9 @@
 
             List<Monster> monsters = new List<Monster>(); // 몬스터 리스트 생성
             {
-                monsters.Add(new Monster(2, "슬라임", 10, 5));
-                monsters.Add(new Monster(5, "고블린", 15, 7));
-                monsters.Add(new Monster(7, "오크", 25, 10));
+                monsters.Add(new Monster(2, "슬라임", 10, 5,5));
+                monsters.Add(new Monster(5, "고블린", 15, 7, 7));
+                monsters.Add(new Monster(7, "오크", 25, 10, 10));
             }
 
 
@@ -36,7 +36,7 @@
                 // 랜덤하게 선택된 몬스터의 속성을 기반으로 새로운 몬스터 인스턴스 생성
                 Monster selectedMonster = monsters[random.Next(monsters.Count)];
                 Monster newMonster = new Monster(selectedMonster.Lv, selectedMonster.Name,
-                    selectedMonster.Hp, selectedMonster.Atk);
+                    selectedMonster.Hp, selectedMonster.Atk, selectedMonster.Exp);
 
                 spawnedMonsters.Add(newMonster);
 

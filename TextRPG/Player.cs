@@ -16,6 +16,9 @@ namespace TextRPG
         public int gold { get; set; }
 
         public float exp { get; set; }
+
+        public float MaxExp = 20;
+
         public int extraAd {  get; private set; }
         public int extraDf { get; private set; }
 
@@ -41,16 +44,16 @@ namespace TextRPG
 
         }
 
-        public Player(string name, int level, string job, int ad, int df, int maxhp, int hp, int gold)
+        public Player(string name, int level, string job, int ad, int df, int maxhp, int hp, float exp, int gold)
         {
             this.name = name;
             this.level = level;
             this.job = job;
             this.ad = ad;
             this.df = df;
-            maxhp = 100;
             this.maxhp = maxhp;
             this.hp = hp;
+            this.exp = exp;
             this.gold = gold;
         }
 
@@ -62,6 +65,7 @@ namespace TextRPG
             Console.WriteLine(extraDf == 0 ? $"방어력 {df}" : $"방어력 {extraDf + df} ( + {extraDf} )");
             Console.WriteLine($"체 력 {hp}/{maxhp}");
             Console.WriteLine($"Gold {gold}");
+            Console.WriteLine($"경험치: {exp}");
         }
 
         public void ChangeJob(string job, int ad, int df, int maxhp, int hp, int gold) //직업선택을 위한
@@ -137,7 +141,7 @@ namespace TextRPG
 
         public void LevelUp() 
         {
-            float MaxExp = 20;
+
             for (int i = 1; i < level; i++)
             {
                 if (level == i)
@@ -145,7 +149,6 @@ namespace TextRPG
                     MaxExp *= 1.1f;
                 }
             }
-            exp = MaxExp;
             if (exp == MaxExp) //exp가 일정량 되면 레벨업
             {
                 ClassLevel(job);

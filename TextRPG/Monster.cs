@@ -14,15 +14,18 @@ namespace TextRPG
         public string Name { get; set; }
         public int Hp { get; set; }
         public int Atk { get; set; }
+
+        public float Exp { get; set; }
         public bool IsDead { get; set; }
 
-        public Monster(int lv,string name, int hp, int atk) 
+        public Monster(int lv,string name, int hp, int atk,float exp) 
         {
 
             Lv = lv;
             Name = name;
             Hp = hp;
             Atk = atk;
+            Exp = exp;
         }
     }
 }

@@ -302,7 +302,7 @@ namespace TextRPG
         }
         static void Main(string[] args)
         {
-            player = new Player("", 1, "전사", 10, 5, 100, 100, 10000); //초기세팅
+            player = new Player("", 1, "전사", 10, 5, 100, 100,0,10000); //초기세팅
             dungeon = new Dungeon(player);
             CreateName();
             SetClass();
