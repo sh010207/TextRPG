@@ -56,14 +56,10 @@ namespace TextRPG
 
                 string ShowItemIndex = ItemIndex ? $"{i + 1}" : "";
                 string ShowEquipItems = IsEquipped(items) ? $"[E]" : ""; // class Player에서 Player가 장착되어있는지 확인 / 되어있다면 [E]출력 아니면 공백
-                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"-{ShowItemIndex} {ShowEquipItems} |  {items.ItemInfoText}"); // -번호 [E] | 아이템 설명
-                Console.ResetColor();
             }
             if(InventoryCount == 0)
             {
-                Console.ResetColor();
-                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("   [보유한 아이템이 없습니다.]      \n\n");
             }    
         }
