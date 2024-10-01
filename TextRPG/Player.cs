@@ -18,6 +18,7 @@ namespace TextRPG
         private List<Item> equipItems = new List<Item>();
         private List<Item> Inventory = new List<Item>();
 
+        private static Item item;
 
         public int InventoryCount // 아이템 갯수 받아오기
         {
@@ -41,7 +42,7 @@ namespace TextRPG
         public void PlayerInfo()
         {
             Console.WriteLine($"Lv. {level:D2}");
-            Console.WriteLine($"Job ( {job} )");
+            Console.WriteLine($"{name} ( {job} )"); ////Cha 하드코딩되어있어서 이름으로 변경
             Console.WriteLine(extraAd == 0 ? $"공격력 {ad}" : $"공격력 {ad} + ( {extraAd} )");
             Console.WriteLine(extraDf == 0 ? $"방어력 {df}" : $"방어력{df} + ( {extraDf} )");
             Console.WriteLine($"체 력 {hp}");
@@ -56,10 +57,14 @@ namespace TextRPG
 
                 string ShowItemIndex = ItemIndex ? $"{i + 1}" : "";
                 string ShowEquipItems = IsEquipped(items) ? $"[E]" : ""; // class Player에서 Player가 장착되어있는지 확인 / 되어있다면 [E]출력 아니면 공백
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"-{ShowItemIndex} {ShowEquipItems} |  {items.ItemInfoText}"); // -번호 [E] | 아이템 설명
+                Console.ResetColor();
             }
             if(InventoryCount == 0)
             {
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("   [보유한 아이템이 없습니다.]      \n\n");
             }    
         }
@@ -105,14 +110,15 @@ namespace TextRPG
         }
 
         //아이템 구매 시 골드 차감
-        public void DecreaseGold()
+        public void DecreaseGold(Item item) //cha - 금액 수정
         {
-            //gold -= 아이템가격
+            gold -= item.itemPrice; // 금액 차감
+            Inventory.Add(item); // 인벤토리리스트에 배열 추가
         }
 
-        public void HasItem()
+        public bool HasItem(Item item) // cha - 인벤토리 갯수 불러오기
         {
-
+            return Inventory.Contains(item);
         }
 
         //사망 시 체력 초기화
