@@ -10,6 +10,8 @@ namespace TextRPG
         public string job { get; set; }
         public int ad {  get; set; }
         public int df { get; set; }
+
+        public int maxhp { get; set; }
         public int hp { get; set; }
         public int gold { get; set; }
         public int extraAd {  get; set; }
@@ -28,13 +30,14 @@ namespace TextRPG
             }
         }
 
-        public Player(string name, int level, string job, int ad, int df, int hp, int gold)
+        public Player(string name, int level, string job, int ad, int df, int maxhp, int hp, int gold)
         {
             this.name = name;
             this.level = level;
             this.job = job;
             this.ad = ad;
             this.df = df;
+            this.maxhp = maxhp;
             this.hp = hp;
             this.gold = gold;
         }
@@ -45,7 +48,7 @@ namespace TextRPG
             Console.WriteLine($"{name} ( {job} )"); ////Cha 하드코딩되어있어서 이름으로 변경
             Console.WriteLine(extraAd == 0 ? $"공격력 {ad}" : $"공격력 {ad} + ( {extraAd} )");
             Console.WriteLine(extraDf == 0 ? $"방어력 {df}" : $"방어력{df} + ( {extraDf} )");
-            Console.WriteLine($"체 력 {hp}");
+            Console.WriteLine($"체 력 {hp}/{maxhp}");
             Console.WriteLine($"Gold {gold}");
         }
 

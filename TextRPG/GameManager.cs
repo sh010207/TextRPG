@@ -5,10 +5,6 @@ using System.Text;
 
 namespace TextRPG
 {
-    // 아이템을 끼면 공격력 + 
-    // 아이템을 끼면 맨앞에 E
-    // 아이템을 사 << 샵?
-    // 아이템을 착용
     internal class GameManager
     {
         static Player player;
@@ -17,6 +13,7 @@ namespace TextRPG
         static BattleResult battleResult;
         static Dungeon dungeon;
         static Shop shop; ////Cha 상점 클래스
+        static int potionCount = 3; // 기본 포션개수
         public static List<Item> items;
         //이름 생성 화면
 
@@ -30,6 +27,35 @@ namespace TextRPG
             battleResult = new BattleResult(player);
             shop = new Shop(player);
             SetData();
+        }
+        //직업 선택
+        static void SetClass() 
+        {
+            Console.Clear();
+            Console.WriteLine("직업을 선택해주세요");
+
+            Console.WriteLine("1. 개복치 : HP가 낮고 방어력도 약하지만, 강력한 공격력을 자랑합니다.");
+            Console.WriteLine("2. 망둥어 : 공격력과 방어력 모두 균형 잡힌 캐릭터로, 상황에 맞춰 유연하게 대처할 수 있습니다.");
+            Console.WriteLine("3. 블롭피쉬 : 방어력과 체력이 뛰어나 적의 공격을 오랫동안 버티는 탱커형 캐릭터입니다. ");
+            Console.WriteLine("4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.");
+
+            int num = SelectBehavior(1, 4);
+            switch (num)
+            {
+                case 1:
+                    player = new Player("", 1, "개복치", 20, 5, 50, 50, 1000);
+                    break;
+                case 2:
+                    player = new Player("", 1, "망둥어", 15, 12, 80, 80, 1200);
+                    break;
+                case 3:
+                    player = new Player("", 1, "블롭피쉬", 5, 20, 150, 150, 800);
+                    break;
+                case 4:
+                    player = new Player("", 1, "우파루파", 10, 10, 120, 100, 1500);
+                    potionCount += 3;
+                    break;
+            }
         }
 
         //게임 시작 화면
@@ -55,6 +81,7 @@ namespace TextRPG
                 case 4:
                     DungeonUI();
                     break;
+
 
             }
         }
@@ -224,7 +251,52 @@ namespace TextRPG
             if (num == 0)
                 GameStartUI();
         }
+        // 포션 
+        static void UsePotion()//이거
+        {
+            int potionheal = 50;
+            Console.Clear();
+            if (potionCount > 0)
+            {
+                if (player.hp >= player.maxhp)
+                {
+                    Console.WriteLine("이미 최대 체력입니다");
+                    Console.WriteLine($"남은 포션 갯수 : {potionCount}");
+                }
+                else
+                {
+                    player.hp += potionheal;
+                    potionCount -= 1;
+                    Console.WriteLine($"남은 포션 갯수 : {potionCount}");
 
+                    if (player.hp >= player.maxhp)
+                    {
+                        player.hp = player.maxhp;
+                    }
+
+                    Console.WriteLine($"회복을 완료했습니다. 현재체력 : {player.hp}/{player.maxhp}");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("포션이 없습니다");
+            }
+            Console.WriteLine("0 . 나가기");
+            Console.WriteLine("1 . 포션 하나 더먹기");
+            int num = SelectBehavior(0, 1);
+            switch (num)
+            {
+                case 0:
+                    GameStartUI();
+                    break;
+                case 1:
+                    UsePotion();
+                    break;
+            }
+
+
+        }
 
         //전투 시작
         static void DungeonUI()
@@ -304,9 +376,10 @@ namespace TextRPG
         }
         static void Main(string[] args)
         {
-            player = new Player("", 1, "전사", 10, 5, 100, 10000); //초기세팅
+            player = new Player("", 1, "전사", 10, 5, 100, 100, 10000); //초기세팅
             dungeon = new Dungeon(player);
             CreateName();
+            SetClass();
             GameStartUI();
 
         }
