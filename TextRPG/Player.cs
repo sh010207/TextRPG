@@ -14,6 +14,8 @@ namespace TextRPG
         public int maxhp { get; set; }
         public int hp { get; set; }
         public int gold { get; set; }
+
+        public float exp { get; set; }
         public int extraAd {  get; private set; }
         public int extraDf { get; private set; }
 
@@ -72,8 +74,88 @@ namespace TextRPG
             this.gold = gold;
         }
 
-        //아이템 장착 [E]
-        public void EquipItem(Item item)
+        void ClassLevel(string job) 
+        {
+            int Ad = 0;
+            int Df = 0;
+            int Maxhp = 0;
+            switch (job) // 직업마다 스탯 오르는게 다름
+            {
+
+                case "개복치": //공격
+                    level += 1;
+                    Ad = 5;
+                    Df = 0;
+                    Maxhp = 3;
+                    ad += Ad;
+                    df += Df;
+                    maxhp += Maxhp;
+                    hp = maxhp;
+                    break;
+
+                case "망둥어": //균형
+                    Ad = 3;
+                    Df = 2;
+                    Maxhp = 4;
+                    level += 1;
+                    ad += Ad;
+                    df += Df;
+                    maxhp += Maxhp;
+                    hp = maxhp;
+                    break;
+
+                case "블롭피쉬": //탱커
+                    Ad = 1;
+                    Df = 3;
+                    Maxhp = 7;
+                    level += 1;
+                    ad += Ad;
+                    df += Df;
+                    maxhp += Maxhp;
+                    hp = maxhp;
+                    break;
+
+
+                case "우파루파": // 체력탱커
+                    Ad = 1;
+                    Df = 2;
+                    Maxhp = 10;
+                    level += 1;
+                    ad += Ad;
+                    df += Df;
+                    maxhp += Maxhp;
+                    hp = maxhp;
+                    break;
+            }
+            exp = 0;
+            Console.WriteLine($"레벨업! 현재 레벨 : {level}");
+            Console.WriteLine($"스탯 증갸량 : 공격력 : {Ad} 방어력 : {Df} 체력 : {Maxhp}");
+            Console.WriteLine($"현재 스탯 : 공격력 : {ad} 방어력 : {df} 체력 : {maxhp}");
+            Console.ReadKey();
+            GameManager.GameStartUI();
+        }
+
+        public void LevelUp() 
+        {
+            float MaxExp = 20;
+            for (int i = 1; i < level; i++)
+            {
+                if (level == i)
+                {
+                    MaxExp *= 1.1f;
+                }
+            }
+            exp = MaxExp;
+            if (exp == MaxExp) //exp가 일정량 되면 레벨업
+            {
+                ClassLevel(job);
+            }
+
+        }
+
+
+    //아이템 장착 [E]
+    public void EquipItem(Item item)
         {
             if (IsEquipped(item))         // 아이템 장착이 되어있다면
             {

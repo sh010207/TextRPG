@@ -26,7 +26,7 @@ namespace TextRPG
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
 
-            battleResult = new BattleResult(player);
+            battleResult = new BattleResult(player,dungeon);
             shop = new Shop(player);
             inventory = new Inventory(player);
             SetData();
@@ -93,6 +93,7 @@ namespace TextRPG
                 case 4:
                     DungeonUI();
                     break;
+
 
 
             }
@@ -168,7 +169,7 @@ namespace TextRPG
         //아이템구매 >> 삭제 >> Shop 클래스로 이동
         
         // 포션 
-        static void UsePotion()//이거
+        static void UsePotion(string job)
         {
             int potionheal = 50;
             Console.Clear();
@@ -181,6 +182,7 @@ namespace TextRPG
                 }
                 else
                 {
+                    if (player.job == "우파루파") potionheal = 100; 
                     player.hp += potionheal;
                     potionCount -= 1;
                     Console.WriteLine($"남은 포션 갯수 : {potionCount}");
@@ -207,7 +209,7 @@ namespace TextRPG
                     GameStartUI();
                     break;
                 case 1:
-                    UsePotion();
+                    UsePotion(job);
                     break;
             }
 
