@@ -271,7 +271,6 @@ namespace TextRPG
             {
                 case 1:
                     dungeon.AttackMonsters(attackNum);
-
                     break;
                 case 2:
                     dungeon.AttackMonsters(attackNum);
