@@ -123,5 +123,20 @@ namespace TextRPG
             hp = 100;
         }
 
+
+
+
+
+
+
+
+
+
+
+        public void PlayerQuestListUI()
+        {
+
+        }
+
     }
 }

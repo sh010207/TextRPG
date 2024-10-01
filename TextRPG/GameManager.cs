@@ -18,6 +18,7 @@ namespace TextRPG
         static Dungeon dungeon;
         static Shop shop; ////Cha 상점 클래스
         public static List<Item> items;
+        static Quest quest = new Quest();
         //이름 생성 화면
 
         static void CreateName()
@@ -39,7 +40,7 @@ namespace TextRPG
             Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.\n"); ////cha UI깔끔하게 하기위해 엔터
             Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(1, 4);
+            int num = SelectBehavior(1,5);
 
             switch (num)
             {
@@ -55,6 +56,10 @@ namespace TextRPG
                 case 4:
                     DungeonUI();
                     break;
+                case 5:
+                    quest.QuestUI();
+                    break;
+                    
 
             }
         }
