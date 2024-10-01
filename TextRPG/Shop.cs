@@ -9,7 +9,7 @@ namespace TextRPG
     internal class Shop
     {
         private Player player;
-        public static Item[] itemDb = new Item[10];
+        public static Item[] itemDb;
         public static GameManager gameManager;
 
 
@@ -41,8 +41,18 @@ namespace TextRPG
                 //구매 완료 시 금액이 아니라 구매완료가 떠야한다.
                 Item curItem = GameManager.items[i];
 
-                string displayPrice = player.HasItem(curItem) ? "구매완료" : $"{curItem.itemPrice}G";
-                Console.WriteLine($"- {curItem.ItemInfoText()} | {displayPrice}");
+                string displayPrice;
+                Console.ForegroundColor = ConsoleColor.DarkYellow; //색 바꾸기
+                if (player.HasItem(curItem))
+                {
+                    displayPrice = "구매완료";
+                }
+                else
+                {
+                    Console.ResetColor(); //색 초기화
+                    displayPrice = $"{curItem.itemPrice}G";
+                }
+                Console.WriteLine($" - {curItem.ItemInfoText()} | {displayPrice}");
             }
 
 
@@ -54,7 +64,7 @@ namespace TextRPG
 
             // 집에갈래? 사러갈래?
 
-            int result = GameManager.SelectBehavior(1, 3);
+            int result = GameManager.SelectBehavior(0, 1);
 
             switch (result)
             {
@@ -85,16 +95,29 @@ namespace TextRPG
                 //구매 완료 시 금액이 아니라 구매완료가 떠야한다.
                 Item curItem = GameManager.items[i];
 
-                string displayPrice = player.HasItem(curItem) ? "구매완료" : $"{curItem.itemPrice}G";
+                //string displayPrice = player.HasItem(curItem) ? "구매완료" : $"{curItem.itemPrice}G";
+
+                string displayPrice;
+                Console.ForegroundColor = ConsoleColor.DarkYellow; //색 바꾸기
+                if (player.HasItem(curItem))
+                {
+                    displayPrice = "구매완료";
+                }
+                else
+                {
+                    Console.ResetColor();
+                    displayPrice = $"{curItem.itemPrice}G";
+                }
                 Console.WriteLine($"[{i + 1}]  {curItem.ItemInfoText()} | {displayPrice}");
+
             }
 
             Console.WriteLine();
             Console.WriteLine("0 : 나가기");
             Console.WriteLine();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
+            Console.WriteLine("원하시는 행동을 입력해주세요.\n\n");
 
-            int result = GameManager.SelectBehavior(1, 3);
+            int result = GameManager.SelectBehavior(0, GameManager.items.Count);
 
             switch (result)
             {
@@ -105,29 +128,36 @@ namespace TextRPG
                 default: // 0 이 아닌 다른값이 들어온다면 진입
 
                     int itemIdx = result - 1;
-                    Item targetItem = itemDb[itemIdx];
+                    Item targetItem = GameManager.items[itemIdx];
                     if (player.HasItem(targetItem))
 
                     {
-                        Console.WriteLine(" ==== 허허, 이 아이템, 두개는 없소 =====");
-                        Console.WriteLine("enter를 입력해서 다른 아이템을 구매하세요.");
+                        Console.ForegroundColor = ConsoleColor.Cyan; //색 바꾸기         
+                        Console.WriteLine(" ==== 허허, 이 아이템, 두개는 없소 =====\n");
+                        Console.ResetColor(); //색 초기화
+                        Console.WriteLine("enter를 입력해서 다른 아이템을 구매하세요. \n");
                         Console.ReadLine();
                     }
                     //구매 완료 표시가 떠야함
                     else // 살 수 있다! 구매 표시가 없을때!
                     {
                         if (player.gold >= targetItem.itemPrice) // 돈이 많을경우 (구매가능)
+
                         {
-                            Console.WriteLine(" === 진짜 살겁니까? 뒤로가긴 없소. === ");
-                            Console.WriteLine("enter를 입력하면 구매됩니다.");
+                            Console.ForegroundColor = ConsoleColor.Magenta; //색 바꾸기
+                            Console.WriteLine(" === 진짜 살겁니까? 뒤로가긴 없소. === \n");
+                            Console.ResetColor(); //색 초기화
+                            Console.WriteLine("enter를 입력하면 구매됩니다.\n");
                             Console.ReadLine();
 
                             player.DecreaseGold(targetItem);
                         }
                         else
                         {
-                            Console.WriteLine(" === 아직 이 물건을 살 골드를 챙겨오지 못했군.. === ");
-                            Console.WriteLine("enter를 입력해서 가격에 맞춰 구매해주세요.");
+                            Console.ForegroundColor = ConsoleColor.DarkMagenta; //색 바꾸기    
+                            Console.WriteLine(" === 아직 이 물건을 살 골드를 챙겨오지 못했군.. === \n");
+                            Console.ResetColor(); //색 초기화
+                            Console.WriteLine("enter를 입력해서 가격에 맞춰 구매해주세요.\n");
                             Console.ReadLine();
 
                         }
