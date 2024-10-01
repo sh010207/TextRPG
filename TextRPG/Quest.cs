@@ -37,89 +37,100 @@ namespace TextRPG
     {
         Item item;
         QuestData quest;
-        QuestData Accept;
-        List<QuestData> questData = new List<QuestData>();
+        List<QuestData> QuestDataList = new List<QuestData>();
         List<QuestData> AcceptQuestList = new List<QuestData>();
-        int selectQuest;
+
         private int QuestNum;
+        int selectNum;
 
-        public void CreateQuestList()
+        public Quest()
         {
-            questData.Clear();
-;
+            QuestDataList.Add(new QuestData("샵에서 아이템을 사보자!",
+                "RPG에서는 아이템이 중요하죠! 아이템을 사볼까요?", "Shop에서 아이템 사기", "쓸만한 방패", 1, 100, false));
+            QuestDataList.Add(new QuestData("아이템을 장착해보자!", "아이템을 샀으면 장착을 해야겠죠?", "아이템 하나 장착하기", "HP포션"
+                , 5, 100, false));
+        }
 
-            List<QuestData> CreateQuest = new List<QuestData>();
+        public void CreateQuestList(int selectQuest)
+        {
+            for (int i = 0; i < QuestDataList.Count; i++)
             {
-                CreateQuest.Add(new QuestData("샵에서 아이템을 사보자!",
-                    "RPG에서는 아이템이 중요하죠! 아이템을 사볼까요?", "Shop에서 아이템 사기", "쓸만한 방패", 1, 100,false));
-                CreateQuest.Add(new QuestData("아이템을 장착해보자!", "아이템을 샀으면 장착을 해야겠죠?", "아이템 하나 장착하기", "HP포션"
-                    , 5, 100,false));
-            }
-            for (int i = 0; i < CreateQuest.Count; i++)
-            {
-                QuestData data1 = CreateQuest[i];
-                quest  = new QuestData(data1.QuestName, data1.QuestDesc, data1.QuestGoal,
-                    data1.Reward, data1.RewardItemNum, data1.RewardGold,data1.IsQuest);
+                QuestData data1 = QuestDataList[i];
 
-                questData.Add(quest);
-                Console.WriteLine($"{i+1}. {quest.QuestName}");
+                Console.WriteLine($"{i + 1}. {data1.QuestName}");
             }
-            //if (Accept == false)
-            //{
-
-            //}
-            //else
-            //{
-            //    Console.ForegroundColor = ConsoleColor.Green;
-            //    Console.WriteLine($"{i + 1}. {quest.QuestName} (진행중)");
-            //    Console.ResetColor();
-            //}
         }
 
 
         public void QuestUI()
         {
+
             Console.Clear();    
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Quest!!\n");
             Console.ResetColor();
 
-            CreateQuestList();
+
+            foreach (QuestData data in AcceptQuestList)
+            {
+                switch (data.IsQuest)
+                {
+                    case true:
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"- {data.QuestName} (진행중)\n");
+                        Console.ResetColor();
+                        break;
+                    case false:
+                        break;
+                }
+            }
+            CreateQuestList(selectNum);
+
+
+
+            //AcceptQuest();
+
+
+            Console.ResetColor(); 
 
             Console.WriteLine("\n\n원하시는 퀘스트를 선택해주세요.");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.Write(">>");
             Console.ResetColor();
+            selectNum = GameManager.SelectBehavior(0, QuestDataList.Count);       
 
-
-            int result = GameManager.SelectBehavior(1, questData.Count);
-            switch (result)
+            switch (selectNum)
             {
-                case 1:
-                    QuestinfoText();
+                case 0:
+                    GameManager.GameStartUI();
                     break;
+                case 1:
+                    QuestinfoText(selectNum);
+                    break;
+
                 case 2:
-                    QuestinfoText();
+                    QuestinfoText(selectNum);
                     break;
 
                 default:
                     Console.WriteLine("잘못된 입력입니다.");
                     QuestUI();
                     break;
-
             }
         }
 
-        public void QuestinfoText()
+        public void QuestinfoText(int selectNum)
         {
+            
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Quest!!\n");
             Console.ResetColor();
+            QuestData currentQuest = QuestDataList[selectNum - 1];
+            Console.WriteLine($"{currentQuest.QuestName}\n\n{currentQuest.QuestDesc}\n\n-{currentQuest.QuestGoal}\n");
+            Console.WriteLine($" -보상-\n {currentQuest.Reward} x{currentQuest.RewardItemNum}\n {currentQuest.RewardGold}G\n");
 
-            Console.WriteLine($"{quest.QuestName}\n\n{quest.QuestDesc}\n\n-{quest.QuestGoal}\n");
 
-            Console.WriteLine($" -보상-\n {quest.Reward} x{quest.RewardItemNum}\n {quest.RewardGold}G\n");
             Console.WriteLine("1. 수락\n\n2. 거절\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -131,6 +142,7 @@ namespace TextRPG
             {
                 case 1:
                     AcceptQuest();
+                    QuestUI();
                     break;
                 case 2:
                     Console.WriteLine("거절하셨습니다.");
@@ -140,11 +152,10 @@ namespace TextRPG
 
         public void AcceptQuest()
         {
-
-            for(int i = 0; i < questData.Count; i++ )
-            {
-
-            }
+            QuestData AcceptQuest = QuestDataList[selectNum - 1];
+            AcceptQuestList.Add(AcceptQuest);
+            QuestDataList.RemoveAt(selectNum - 1);
+            AcceptQuest.IsQuest = true;
         }
     }
 }
