@@ -14,8 +14,10 @@ namespace TextRPG
         static Monster monster;
         private static Item[] itemDb;
         static BattleResult battleResult;
+        static Shop shop; ////Cha 상점 클래스
+        public static List<Item> items;
         //이름 생성 화면
-       
+
         static void CreateName()
         {
             Console.Clear();
@@ -24,13 +26,15 @@ namespace TextRPG
             player.name = Console.ReadLine();
 
             battleResult = new BattleResult(player);
+            shop = new Shop(player);
+            SetData();
         }
 
         //게임 시작 화면
-        static void GameStartUI()
+        public static void GameStartUI()  ////cha 접근제한때문에  public. 로 변경
         {
             Console.Clear();
-            Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.");
+            Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.\n"); ////cha UI깔끔하게 하기위해 엔터
             Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(1, 4);
@@ -44,7 +48,7 @@ namespace TextRPG
                     InventoryUI();
                     break;
                 case 3:
-                    ShopUI();
+                    shop.DisplayShopUI();
                     break;
                 case 4:
                     DungeonUI();
@@ -53,8 +57,8 @@ namespace TextRPG
             }
         }
 
-        //1-3, 0 선택하기
-        static int SelectBehavior(int min, int max)
+        //1-3, 0 선택하기 
+        public static int SelectBehavior(int min, int max)  ////cha 접근제한때문에  public. 로 변경
         {
             while (true)
             {
@@ -104,7 +108,7 @@ namespace TextRPG
         // 아이템
         static void SetData()
         {
-            List<Item> items = new List<Item>(); // 아이템 리스트 생성
+            items = new List<Item>(); // 아이템 리스트 생성
             {
                 items.Add(new Item("수련자의 갑옷", 1, 5, "수련에 도움을 주는 갑옷입니다. ", 1000));
                 items.Add(new Item("무쇠갑옷", 1, 9, "무쇠로 만들어져 튼튼한 갑옷입니다. ", 2000));
@@ -153,7 +157,7 @@ namespace TextRPG
             Console.WriteLine("[보유 골드]");
             Console.WriteLine($"{player.gold} G");
             Console.WriteLine("\n[아이템 목록]");
-            //아이템목록
+            
 
 
             Console.WriteLine("1. 아이템 구매\n0. 나가기\n\n원하시는 행동을 입력해주세요.");

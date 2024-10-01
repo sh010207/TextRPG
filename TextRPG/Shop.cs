@@ -11,9 +11,9 @@ namespace TextRPG
         private Player player;
         public static Item[] itemDb;
         public static GameManager gameManager;
+        
 
-
-        public Shop(Player player)
+        public Shop (Player player)
         {
             this.player = player;
         }
@@ -32,7 +32,7 @@ namespace TextRPG
             Console.WriteLine($"[ 보유골드 : {player.gold}] \n "); // {player.gold}
 
             Console.WriteLine("[ 아이템 목록 ]\n");
-
+            
 
             //구매 할 수 있는 리스트들 나열, 구매 한건 했다고 떠야함
 
@@ -64,7 +64,7 @@ namespace TextRPG
 
             // 집에갈래? 사러갈래?
 
-            int result = GameManager.SelectBehavior(0, 1);
+            int result = GameManager.SelectBehavior(0,1);
 
             switch (result)
             {
@@ -82,7 +82,7 @@ namespace TextRPG
 
         public void DisplayBuyUI() // 진짜 구매
         {
-            Console.Clear();
+            Console.Clear ();
             Console.WriteLine("아이쇼핑을 그만하신다구요? 좋습니다.");
             Console.WriteLine("구매하실 아이템을 골라주세요.\n");
 
@@ -104,8 +104,7 @@ namespace TextRPG
                     displayPrice = "구매완료";
                 }
                 else
-                {
-                    Console.ResetColor();
+                {   Console.ResetColor ();
                     displayPrice = $"{curItem.itemPrice}G";
                 }
                 Console.WriteLine($"[{i + 1}]  {curItem.ItemInfoText()} | {displayPrice}");
@@ -130,7 +129,7 @@ namespace TextRPG
                     int itemIdx = result - 1;
                     Item targetItem = GameManager.items[itemIdx];
                     if (player.HasItem(targetItem))
-
+                        
                     {
                         Console.ForegroundColor = ConsoleColor.Cyan; //색 바꾸기         
                         Console.WriteLine(" ==== 허허, 이 아이템, 두개는 없소 =====\n");
@@ -142,7 +141,7 @@ namespace TextRPG
                     else // 살 수 있다! 구매 표시가 없을때!
                     {
                         if (player.gold >= targetItem.itemPrice) // 돈이 많을경우 (구매가능)
-
+                  
                         {
                             Console.ForegroundColor = ConsoleColor.Magenta; //색 바꾸기
                             Console.WriteLine(" === 진짜 살겁니까? 뒤로가긴 없소. === \n");
@@ -166,24 +165,12 @@ namespace TextRPG
                     DisplayBuyUI();
                     break;
             }
-
+            
         }
 
     }
 }
-//for (int i = 0; i < itemDb.Length; i++) //item
-//{
-//    //구매 완료 시 금액이 아니라 구매완료가 떠야한다.
-//    Item curItem = itemDb[i];
 
-//    string displayPrice = player.HasItem(curItem) ? "구매완료" : $"{curItem.Price}G";
-//    Console.WriteLine($"-{i + 1} {curItem.ItemInfoText()} | {displayPrice}");
-//}
-//if (player.HasItem(curItem)) {
-//  
-//      if (item.pstack == 0 ) { displayPrice = " 구매완료 " }
-//      else --item.pstack
-//}
 
 
 
