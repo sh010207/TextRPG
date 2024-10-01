@@ -8,7 +8,7 @@ namespace TextRPG
 {
     internal class Shop
     {
-
+        Item[] item = new Item[0];
         // 상점
         // 1. 물건 리스트 표현
         // 2. 구매 이동
