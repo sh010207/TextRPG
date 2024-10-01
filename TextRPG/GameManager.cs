@@ -15,44 +15,56 @@ namespace TextRPG
         static Shop shop; ////Cha 상점 클래스
         static int potionCount = 3; // 기본 포션개수
         public static List<Item> items;
+        static Inventory inventory;
         //이름 생성 화면
 
         static void CreateName()
         {
             Console.Clear();
-            Console.WriteLine("스파르타 던전에 오신 여러분 환영합니다.");
+            Console.WriteLine("");
+            Console.WriteLine(" \t\t\t < 바닷속 어딘가, 용궁에 한 마을에 도착한다. >");
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
 
             battleResult = new BattleResult(player);
             shop = new Shop(player);
+            inventory = new Inventory(player);
             SetData();
         }
         //직업 선택
         static void SetClass() 
         {
             Console.Clear();
-            Console.WriteLine("직업을 선택해주세요");
-
-            Console.WriteLine("1. 개복치 : HP가 낮고 방어력도 약하지만, 강력한 공격력을 자랑합니다.");
-            Console.WriteLine("2. 망둥어 : 공격력과 방어력 모두 균형 잡힌 캐릭터로, 상황에 맞춰 유연하게 대처할 수 있습니다.");
-            Console.WriteLine("3. 블롭피쉬 : 방어력과 체력이 뛰어나 적의 공격을 오랫동안 버티는 탱커형 캐릭터입니다. ");
-            Console.WriteLine("4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.");
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\t\t\t [ 당신은 무슨 물고기가 되고 싶으신가요? ] \n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("1. 개복치 : HP가 낮고 방어력도 약하지만, 강력한 공격력을 자랑합니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("2. 망둥어 : 공격력과 방어력 모두 균형 잡힌 캐릭터로, 상황에 맞춰 유연하게 대처할 수 있습니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine("3. 블롭피쉬 : 방어력과 체력이 뛰어나 적의 공격을 오랫동안 버티는 탱커형 캐릭터입니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.\n");
+            Console.ResetColor();
 
             int num = SelectBehavior(1, 4);
             switch (num)
             {
                 case 1:
-                    player = new Player("", 1, "개복치", 20, 5, 50, 50, 1000);
+                    player.ChangeJob("개복치", 20, 5, 50, 50, 1000);
                     break;
                 case 2:
-                    player = new Player("", 1, "망둥어", 15, 12, 80, 80, 1200);
+                    player.ChangeJob("망둥어", 15, 12, 80, 80, 1200);
                     break;
                 case 3:
-                    player = new Player("", 1, "블롭피쉬", 5, 20, 150, 150, 800);
+                    player.ChangeJob("블롭피쉬", 5, 20, 150, 150, 800);
                     break;
                 case 4:
-                    player = new Player("", 1, "우파루파", 10, 10, 120, 100, 1500);
+                    player.ChangeJob("우파루파", 10, 10, 120, 120, 1500);
                     potionCount += 3;
                     break;
             }
@@ -73,7 +85,7 @@ namespace TextRPG
                     CharacterInfoUI();
                     break;
                 case 2:
-                    InventoryUI();
+                    inventory.DisplayInventoryUI();
                     break;
                 case 3:
                     shop.DisplayShopUI();
@@ -147,110 +159,14 @@ namespace TextRPG
                 items.Add(new Item("스파르타의 창", 0, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다. ", 2500));
             }
         }
-        //인벤토리
-        static void InventoryUI()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("인벤토리");
-            Console.ResetColor();
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]\n");
+        //인벤토리 >> 삭제 >> Inventory클래스로 이동
 
-            player.ShowInventory(false);  // 아이템 목록 표시 ( 인덱스 x)
+        //상점 >> 삭제 >> Shop 클래스로 이동
 
-            Console.WriteLine("1. 장착 관리\n0. 나가기\n");
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
+        //인벤토리 - 장착 관리 >> 삭제 >> Inventory클래스로 이동
 
-            int num = SelectBehavior(0, 1);
-
-            switch (num)
-            {
-                case 0:
-                    GameStartUI();
-                    break;
-                case 1:
-                    EquipManagementUI();
-                    break;
-            }
-        }
-
-        //상점
-        static void ShopUI()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("상점");
-            Console.ResetColor();
-            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-            Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{player.gold} G");
-            Console.WriteLine("\n[아이템 목록]");
-            
-
-
-            Console.WriteLine("1. 아이템 구매\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(0, 1);
-
-            switch (num)
-            {
-                case 0:
-                    GameStartUI();
-                    break;
-                case 1:
-                    PurchaseItem();
-                    break;
-            }
-
-        }
-
-        //인벤토리 - 장착 관리
-        static void EquipManagementUI()
-        {
-            Console.Clear();
-            List<Item> items = new List<Item>();    
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("인벤토리 - 장착 관리");
-            Console.ResetColor();
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]");
-
-            player.ShowInventory(true); // 아이템 목록 표시 ( 인덱스 o 누르면 장착);
-            
-            Console.WriteLine("0. 나가기\n원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(0, player.InventoryCount); //여기 나중에 (0,list명.count)로 변경
-
-            switch (num)
-            {
-                case 0:
-                    GameStartUI();
-                    break;
-                default:
-                    int itemIndex = num - 1;
-                    Item item = items[itemIndex];
-                    player.EquipItem(item);
-                    break;
-            }
-        }
-
-        //아이템구매
-        static void PurchaseItem()
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("상점 - 아이템 구매");
-            Console.ResetColor();
-            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-            Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{player.gold}\n");
-            Console.WriteLine("[아이템 목록]");
-            //상점아이템목록
-            Console.WriteLine("0. 나가기\n\n원하시는 행동을 입력해주세요.");
-
-            int num = SelectBehavior(0, 0);
-            if (num == 0)
-                GameStartUI();
-        }
+        //아이템구매 >> 삭제 >> Shop 클래스로 이동
+        
         // 포션 
         static void UsePotion()//이거
         {
