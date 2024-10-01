@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Numerics;
-using System.Text;
-
-namespace TextRPG
+﻿namespace TextRPG
 {
     internal class GameManager
     {
@@ -26,13 +21,13 @@ namespace TextRPG
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
 
-            battleResult = new BattleResult(player);
+            battleResult = new BattleResult(player, dungeon);
             shop = new Shop(player);
             inventory = new Inventory(player);
             SetData();
         }
         //직업 선택
-        static void SetClass() 
+        static void SetClass()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -136,7 +131,7 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상태 보기");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");  
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             player.PlayerInfo(); //캐릭터 정보 표시
 
@@ -165,6 +160,82 @@ namespace TextRPG
 
         //인벤토리 - 장착 관리 >> 삭제 >> Inventory클래스로 이동
 
+        //상점
+        static void ShopUI()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("상점");
+            Console.ResetColor();
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{player.gold} G");
+            Console.WriteLine("\n[아이템 목록]");
+
+
+
+            Console.WriteLine("1. 아이템 구매\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
+            int num = SelectBehavior(0, 1);
+
+            switch (num)
+            {
+                case 0:
+                    GameStartUI();
+                    break;
+                case 1:
+                    PurchaseItem();
+                    break;
+            }
+
+        }
+
+        //인벤토리 - 장착 관리
+        static void EquipManagementUI()
+        {
+            Console.Clear();
+            List<Item> items = new List<Item>();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("인벤토리 - 장착 관리");
+            Console.ResetColor();
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.WriteLine("[아이템 목록]");
+
+            player.ShowInventory(true); // 아이템 목록 표시 ( 인덱스 o 누르면 장착);
+
+            Console.WriteLine("0. 나가기\n원하시는 행동을 입력해주세요.");
+            int num = SelectBehavior(0, player.InventoryCount); //여기 나중에 (0,list명.count)로 변경
+
+            switch (num)
+            {
+                case 0:
+                    GameStartUI();
+                    break;
+                default:
+                    int itemIndex = num - 1;
+                    Item item = items[itemIndex];
+                    player.EquipItem(item);
+                    break;
+            }
+        }
+
+        //아이템구매
+        static void PurchaseItem()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("상점 - 아이템 구매");
+            Console.ResetColor();
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{player.gold}\n");
+            Console.WriteLine("[아이템 목록]");
+            //상점아이템목록
+            Console.WriteLine("0. 나가기\n\n원하시는 행동을 입력해주세요.");
+
+            int num = SelectBehavior(0, 0);
+            if (num == 0)
+                GameStartUI();
+        }
         //아이템구매 >> 삭제 >> Shop 클래스로 이동
         
         // 포션 
@@ -218,7 +289,7 @@ namespace TextRPG
         static void DungeonUI()
         {
 
-            
+
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
@@ -227,7 +298,7 @@ namespace TextRPG
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/100\n");
+            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
 
             int num = SelectBehavior(0, 1);
@@ -238,6 +309,8 @@ namespace TextRPG
                     break;
                 case 1:
                     AtkUI();
+                    EnemyTurn();
+                    ending();
                     break;
             }
         }
@@ -252,38 +325,38 @@ namespace TextRPG
 
             dungeon.ShowMonsters(); //랜덤 몬스터 바뀌는 값 수정
 
-            //몬스터 정보 입력하고
-            Console.WriteLine("[내정보]");
-            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/100\n");
-            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
+            dungeon.PlayerStat(false);
+            dungeon.StartBattle();
+            //int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
+            //switch (attackNum)
+            //{
+            //    case 1:
+            //        dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 2:
+            //        dungeon.AttackMonsters(attackNum);
 
-            int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
-            switch (attackNum)
-            {
-                case 1:
-                    dungeon.AttackMonsters(attackNum);
-                    break;
-                case 2:
-                    dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 3:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-                case 3:
-                    dungeon.AttackMonsters(attackNum);
+            //        break;
+            //    case 4:
+            //        dungeon.AttackMonsters(attackNum);
 
-                    break;
-                case 4:
-                    dungeon.AttackMonsters(attackNum);
-
-                    break;
-            }
+            //        break;
+            //}
         }
 
-
+        static void EnemyTurn()
+        {
+            dungeon.EnemyPhase();
+        }
 
         //게임 종료 결과 화면
         static void ending()
         {
+            Console.Clear();
             battleResult.GameEndLogic();
             int num = SelectBehavior(0, 0);
 

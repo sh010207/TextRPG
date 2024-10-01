@@ -46,6 +46,7 @@ namespace TextRPG
             this.job = job;
             this.ad = ad;
             this.df = df;
+            maxhp = 100;
             this.maxhp = maxhp;
             this.hp = hp;
             this.gold = gold;

@@ -5,11 +5,14 @@ namespace TextRPG
     public class BattleResult
     {
          Player player;
-
-        public BattleResult(Player player)
+         Monster monster;
+        Dungeon dungeon;
+        public BattleResult(Player player, Dungeon dungeon)
         {
             this.player = player;
+            this.dungeon = dungeon;
         }
+
 
         //게임종료의 조건 / 승패 판별
         public void GameEndLogic()
@@ -36,7 +39,7 @@ namespace TextRPG
             Console.ResetColor();
 
             //아마도 랜덤 소환 몬스터 리스트 크기만큼 잡았다고 할 예정
-            Console.WriteLine($"던전에서 몬스터 {4}마리를 잡았습니다.\n"); //추후 수정
+            Console.WriteLine($"던전에서 몬스터 {dungeon.randomMonsterCount}마리를 잡았습니다.\n"); //추후 수정
 
             Console.WriteLine($"Lv.{player.level} {player.job}");
             Console.WriteLine($"HP 100 -> {player.hp}\n\n0.다음\n");
@@ -56,7 +59,7 @@ namespace TextRPG
             Console.ResetColor();
 
             Console.WriteLine($"Lv.{player.level} {player.job}");
-            Console.WriteLine($"HP 100 -> {player.hp}\n\n0.다음\n");
+            Console.WriteLine($"HP {player.maxhp} -> {player.hp}\n\n0.다음\n");
 
             player.ResetHp();
         }
