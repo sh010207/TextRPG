@@ -106,6 +106,7 @@ namespace TextRPG
                 Console.ForegroundColor = ConsoleColor.DarkYellow; //색 바꾸기
                 if (player.HasItem(curItem))
                 {
+                    //quest.Questprogress(true);
                     displayPrice = "구매완료";
                 }
                 else 
