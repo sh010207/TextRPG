@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Numerics;
 using System.Text;
-
 namespace TextRPG
 {
     internal class GameManager
@@ -14,12 +13,10 @@ namespace TextRPG
         static BattleResult battleResult;
         static Dungeon dungeon;
         static Shop shop; ////Cha 상점 클래스
-        static int potionCount = 3; // 기본 포션개수
         public static List<Item> items;
         static Inventory inventory;
         static Quest quest = new Quest();
         //이름 생성 화면
-
         static void CreateName()
         {
             Console.Clear();
@@ -27,14 +24,13 @@ namespace TextRPG
             Console.WriteLine(" \t\t\t < 바닷속 어딘가, 용궁에 한 마을에 도착한다. >");
             Console.WriteLine("이름을 지어주세요");
             player.name = Console.ReadLine();
-
-            battleResult = new BattleResult(player,dungeon);
+            battleResult = new BattleResult(player, dungeon);
             shop = new Shop(player);
             inventory = new Inventory(player);
             SetData();
         }
         //직업 선택
-        static void SetClass() 
+        static void SetClass()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
@@ -52,7 +48,6 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.\n");
             Console.ResetColor();
-
             int num = SelectBehavior(1, 4);
             switch (num)
             {
@@ -67,11 +62,10 @@ namespace TextRPG
                     break;
                 case 4:
                     player.ChangeJob("우파루파", 10, 10, 120, 120, 1500);
-                    potionCount += 3;
+                    dungeon.potionCount += 3;
                     break;
             }
         }
-
         //게임 시작 화면
         public static void GameStartUI()  ////cha 접근제한때문에  public. 로 변경
         {
@@ -80,7 +74,6 @@ namespace TextRPG
             Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(1, 5);
-
             switch (num)
             {
                 case 1:
@@ -98,14 +91,9 @@ namespace TextRPG
                 case 5:
                     quest.QuestUI();
                     break;
-                    
-
-
-
             }
         }
-
-        //1-3, 0 선택하기 
+        //1-3, 0 선택하기
         public static int SelectBehavior(int min, int max)  ////cha 접근제한때문에  public. 로 변경
         {
             while (true)
@@ -133,9 +121,7 @@ namespace TextRPG
                     Console.ResetColor(); //색 초기화
                 }
             }
-
         }
-
         //상태보기
         static void CharacterInfoUI()
         {
@@ -143,13 +129,10 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("상태 보기");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");  
-
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
             player.PlayerInfo(); //캐릭터 정보 표시
-
             Console.WriteLine("\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
             int num = SelectBehavior(0, 0);
-
             if (num == 0)
                 GameStartUI();
         }
@@ -167,66 +150,13 @@ namespace TextRPG
             }
         }
         //인벤토리 >> 삭제 >> Inventory클래스로 이동
-
         //상점 >> 삭제 >> Shop 클래스로 이동
-
         //인벤토리 - 장착 관리 >> 삭제 >> Inventory클래스로 이동
-
         //아이템구매 >> 삭제 >> Shop 클래스로 이동
-        
-        // 포션 
-        static void UsePotion(string job)
-        {
-            int potionheal = 50;
-            Console.Clear();
-            if (potionCount > 0)
-            {
-                if (player.hp >= player.maxhp)
-                {
-                    Console.WriteLine("이미 최대 체력입니다");
-                    Console.WriteLine($"남은 포션 갯수 : {potionCount}");
-                }
-                else
-                {
-                    if (player.job == "우파루파") potionheal = 100; 
-                    player.hp += potionheal;
-                    potionCount -= 1;
-                    Console.WriteLine($"남은 포션 갯수 : {potionCount}");
-
-                    if (player.hp >= player.maxhp)
-                    {
-                        player.hp = player.maxhp;
-                    }
-
-                    Console.WriteLine($"회복을 완료했습니다. 현재체력 : {player.hp}/{player.maxhp}");
-                }
-
-            }
-            else
-            {
-                Console.WriteLine("포션이 없습니다");
-            }
-            Console.WriteLine("0 . 나가기");
-            Console.WriteLine("1 . 포션 하나 더먹기");
-            int num = SelectBehavior(0, 1);
-            switch (num)
-            {
-                case 0:
-                    GameStartUI();
-                    break;
-                case 1:
-                    UsePotion(job);
-                    break;
-            }
-
-
-        }
-
+        // 포션
         //전투 시작
         static void DungeonUI()
         {
-
-            
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
@@ -234,10 +164,10 @@ namespace TextRPG
             dungeon.RandMonsters(false);
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
+            Console.WriteLine(player.name);
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/100\n");
+            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
             Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
-
             int num = SelectBehavior(0, 1);
             switch (num)
             {
@@ -250,7 +180,6 @@ namespace TextRPG
                     break;
             }
         }
-
         //공격
         static void AtkUI()
         {
@@ -258,15 +187,14 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("Battle!!\n");
             Console.ResetColor();
-
             dungeon.ShowMonsters(); //랜덤 몬스터 바뀌는 값 수정
-
             //몬스터 정보 입력하고
             Console.WriteLine("[내정보]");
+            Console.WriteLine($"{player.name}");
             Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/100\n");
-            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
-
+            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
+            Console.WriteLine("1. 공격");
+            Console.WriteLine($"{dungeon.spawnedMonsters.Count + 1} 체력 포션 \n\n원하시는 행동을 입력해주세요.");
             dungeon.StartBattle();
             //int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
             //switch (attackNum)
@@ -276,38 +204,30 @@ namespace TextRPG
             //        break;
             //    case 2:
             //        dungeon.AttackMonsters(attackNum);
-
             //        break;
             //    case 3:
             //        dungeon.AttackMonsters(attackNum);
-
             //        break;
             //    case 4:
             //        dungeon.AttackMonsters(attackNum);
-
             //        break;
             //}
         }
-
-
-
         //게임 종료 결과 화면
         static void ending()
         {
             battleResult.GameEndLogic();
             int num = SelectBehavior(0, 0);
-
             if (num == 0)
                 GameStartUI();
         }
         static void Main(string[] args)
         {
-            player = new Player("", 1, "전사", 10, 5, 100, 100,0,10000); //초기세팅
+            player = new Player("", 1, "일반물고기", 10, 5, 100, 100, 0, 10000); //초기세팅
             dungeon = new Dungeon(player);
             CreateName();
             SetClass();
-            GameStartUI();
-
+            GameStartUI(); 
         }
     }
 }
