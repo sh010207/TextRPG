@@ -146,7 +146,7 @@ namespace TextRPG
 
                     {
                         Console.ForegroundColor = ConsoleColor.Cyan; //색 바꾸기         
-                        Console.WriteLine("\t\t\t\t      ==== 허허, 이 아이템, 두개는 없소 =====\n");
+                        Console.WriteLine("\t\t\t\t      ==== 허허, 이 아이템, 두개는 없소 === \n\n");
                         Console.ResetColor(); //색 초기화
                         Console.Write("\t\t\t\t    enter를 입력해서 다른 아이템을 구매하세요.");
                         Console.ReadLine();
@@ -158,7 +158,7 @@ namespace TextRPG
 
                         {
                             Console.ForegroundColor = ConsoleColor.Magenta; //색 바꾸기
-                            Console.WriteLine("\t\t\t\t      === 진짜 살겁니까? 뒤로가긴 없소. === \n");
+                            Console.WriteLine("\t\t\t\t      === 진짜 살겁니까? 뒤로가긴 없소. === \n\n");
                             Console.ResetColor(); //색 초기화
                             Console.Write("\t\t\t\t          enter를 입력하면 구매됩니다.");
                             Console.ReadLine();
@@ -168,7 +168,7 @@ namespace TextRPG
                         else
                         {
                             Console.ForegroundColor = ConsoleColor.DarkRed; //색 바꾸기    
-                            Console.WriteLine("\t\t\t\t  === 아직 이 물건을 살 골드를 챙겨오지 못했군.. === \n");
+                            Console.WriteLine("\t\t\t\t  === 아직 이 물건을 살 골드를 챙겨오지 못했군.. === \n\n");
                             Console.ResetColor(); //색 초기화
                             Console.Write("\t\t\t\t    enter를 입력해서 가격에 맞춰 구매해주세요.");
                             Console.ReadLine();

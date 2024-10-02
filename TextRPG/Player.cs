@@ -14,10 +14,10 @@ namespace TextRPG
         public int gold { get; set; }
         public float exp { get; set; }
         public float MaxExp = 20;
-        public int extraAd { get; private set; }
-        public int extraDf { get; private set; }
-        public List<Item> equipItems = new List<Item>();
-        public List<Item> Inventory = new List<Item>();
+        public int extraAd { get; set; }
+        public int extraDf { get; set; }
+        public List<Item> equipItems { get; set; } = new List<Item>();
+        public List<Item> Inventory { get; set; } = new List<Item>();
         private static Item item;
         public int InventoryCount // 아이템 갯수 받아오기
         {
@@ -48,12 +48,12 @@ namespace TextRPG
         public void PlayerInfo()
         {
             Console.WriteLine($"\t\t\t\t\t\t   Lv. {level:D2}");
-            Console.WriteLine($"\t\t\t\t\t      {name} ( {job} )");
+            Console.WriteLine($"\t\t\t\t\t        {name} ( {job} )");
             Console.WriteLine(extraAd == 0 ? $"\t\t\t\t\t\t  공격력 {ad}" : $"\t\t\t\t\t\t  공격력 {extraAd + ad} ( + {extraAd} )");
             Console.WriteLine(extraDf == 0 ? $"\t\t\t\t\t\t  방어력 {df}" : $"\t\t\t\t\t\t  방어력 {extraDf + df} ( + {extraDf} )");
             Console.WriteLine($"\t\t\t\t\t\t체 력 {hp}/{maxhp}");
             Console.WriteLine($"\t\t\t\t\t\t  Gold {gold}");
-            Console.WriteLine($"\t\t\t\t\t\t  경험치 {exp}");
+            Console.WriteLine($"\t\t\t\t\t\t경험치 {exp}");
         }
         public void ChangeJob(string job, int ad, int df, int maxhp, int hp, int gold) //직업선택을 위한
         {
@@ -116,9 +116,29 @@ namespace TextRPG
             exp = 0;
             exp += remainExp;
             MaxExp *= 1.1f;
-            Console.WriteLine($"레벨업! 현재 레벨 : {level}");
-            Console.WriteLine($"스탯 증갸량 : 공격력 : {Ad} 방어력 : {Df} 체력 : {Maxhp}");
-            Console.WriteLine($"현재 스탯 : 공격력 : {ad} 방어력 : {df} 체력 : {maxhp}");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("\n\t\t\t\t\t        !레벨업! ");
+            Console.ResetColor();
+            Console.Write(" 현재 레벨 : ");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"{level}");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write("\t\t\t\t     스탯 증갸량");
+            Console.ResetColor();
+            Console.Write(" : 공격력 : ");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write($"{Ad}");
+            Console.ResetColor();
+            Console.Write(" : 방어력 : ");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.Write($"{Df}");
+            Console.ResetColor();
+            Console.Write(" : 체력 : ");
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine($"{Maxhp}");
+            Console.ResetColor();
+            Console.Write($"\t\t\t\t      현재 스탯 : 공격력 : {ad} 방어력 : {df} 체력 : {maxhp}\n");
             Console.ReadKey();
         }
         public void LevelUp()
@@ -155,7 +175,14 @@ namespace TextRPG
         }
         public bool IsEquipped(Item item)
         {
-            return equipItems.Contains(item);
+            for (int i = 0; i < equipItems.Count; i++)
+            {
+                if (equipItems[i].itemName == item.itemName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         //아이템 구매 시 골드 차감
         public void DecreaseGold(Item item) //cha - 금액 수정
@@ -165,7 +192,14 @@ namespace TextRPG
         }
         public bool HasItem(Item item) // cha - 인벤토리 갯수 불러오기
         {
-            return Inventory.Contains(item);
+            for (int i = 0; i < Inventory.Count; i++) 
+            { 
+                if (Inventory[i].itemName == item.itemName)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         //사망 시 체력 초기화
         public void ResetHp()
