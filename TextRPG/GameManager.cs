@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 namespace TextRPG
 {
+    [Serializable]
     internal class GameManager
     {
         static Player player;
@@ -12,41 +13,50 @@ namespace TextRPG
         private static Item[] itemDb;
         static BattleResult battleResult;
         static Dungeon dungeon;
-        static Shop shop; ////Cha 상점 클래스
+        static Shop shop;
         public static List<Item> items;
         static Inventory inventory;
-        public static Quest quest = new Quest();
+        static Quest quest = new Quest();
         //이름 생성 화면
         static void CreateName()
         {
             Console.Clear();
-            Console.WriteLine("");
-            Console.WriteLine(" \t\t\t < 바닷속 어딘가, 용궁에 한 마을에 도착한다. >");
-            Console.WriteLine("이름을 지어주세요");
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("\n\t\t><(((('>    그렇군요.. 처음 오신만큼 이 마을의 가호가 깃들길 바라겠습니다.   <'))))><\n\n\n\n\n");
+            Console.ResetColor();
+            Console.Write("\t\t\t\t\t용사님의 이름은 무엇인가요?   \n\n");
+            Console.Write("\t\t\t\t\t\t    ");
             player.name = Console.ReadLine();
+
             battleResult = new BattleResult(player, dungeon);
             shop = new Shop(player);
             inventory = new Inventory(player);
+            saveFunction = new GameSaveFunction(player);
             SetData();
+            SetClass();
+            GameStartUI();
         }
         //직업 선택
         static void SetClass()
         {
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.DarkCyan;
-            Console.WriteLine("\t\t\t [ 당신은 무슨 물고기가 되고 싶으신가요? ] \n\n");
+            Console.WriteLine("\n\t\t\t  ><(((°>   당신은 무슨 물고기가 되고 싶으신가요?   <°)))><\n\n");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("1. 개복치 : HP가 낮고 방어력도 약하지만, 강력한 공격력을 자랑합니다.\n");
+            Console.WriteLine("\t\t  1. 개복치 : HP가 낮고 방어력도 약하지만, 강력한 공격력을 자랑합니다.\n");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("2. 망둥어 : 공격력과 방어력 모두 균형 잡힌 캐릭터로, 상황에 맞춰 유연하게 대처할 수 있습니다.\n");
+            Console.WriteLine("\t\t  2. 망둥어 : 공격력과 방어력 모두 균형 잡힌 캐릭터로, 상황에 맞춰 유연하게 대처할 수 있습니다.\n");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("3. 블롭피쉬 : 방어력과 체력이 뛰어나 적의 공격을 오랫동안 버티는 탱커형 캐릭터입니다.\n");
+            Console.WriteLine("\t\t  3. 블롭피쉬 : 방어력과 체력이 뛰어나 적의 공격을 오랫동안 버티는 탱커형 캐릭터입니다.\n");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine("4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.\n");
+            Console.WriteLine("\t\t  4. 우파루파 : 회복 능력이 뛰어난 서포터형 캐릭터입니다.\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+            Console.WriteLine("\n\t\t\t\t\t     용사님의 선택은?? \n");
             Console.ResetColor();
             int num = SelectBehavior(1, 4);
             switch (num)
@@ -61,8 +71,13 @@ namespace TextRPG
                     player.ChangeJob("블롭피쉬", 5, 20, 150, 150, 800);
                     break;
                 case 4:
-                    player.ChangeJob("우파루파", 10, 10, 120, 120, 1500);
+                    player.ChangeJob("우파루파", 10, 10, 120, 120, 15000);
                     dungeon.potionCount += 3;
+                    break;
+                default:
+                    Console.ForegroundColor = ConsoleColor.Red; //색 바꾸기
+                    Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n");
+                    Console.ResetColor(); //색 초기화
                     break;
             }
         }
@@ -70,10 +85,43 @@ namespace TextRPG
         public static void GameStartUI()  ////cha 접근제한때문에  public. 로 변경
         {
             Console.Clear();
-            Console.WriteLine($"{player.name}님은 이제 전투를 시작할 수 있습니다.\n"); ////cha UI깔끔하게 하기위해 엔터
-            Console.WriteLine("1. 상태 보기\n2. 인벤토리\n3. 상점\n4. 전투 시작\n");
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            int num = SelectBehavior(1, 5);
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"\n\t\t     ><(((('>   {player.name} ( {player.job} ) 님, 용궁마을에 오신 것을 환영합니다.   <'))))><\n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\t\t\t\t\t  ■■■■■■■■■■■■\t\t ><(('>\n\t\t\t\t\t  ■\t\t        ■");
+            Console.Write(" \t\t\t\t\t  ■    ");
+            Console.ResetColor();
+            Console.Write("1. 상태 보기    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\n\t\t\t         <')))><  ■    ");
+            Console.ResetColor();
+            Console.Write("2. 가     방    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\t\t\t><((((('>\n\t<°)))><\t\t\t  ■    ");
+            Console.ResetColor();
+            Console.Write("3. 상     점    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\n\t\t\t><(('>\t\t  ■    ");
+            Console.ResetColor();
+            Console.Write("4. 던전 입장    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\t<')))><\n\t\t\t\t\t  ■    ");
+            Console.ResetColor();
+            Console.Write("5.  퀘스트      ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\n\t\t                   \t  ■    ");
+            Console.ResetColor();
+            Console.Write("6. 게임 저장    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\n\t\t            ><((('>\t  ■    ");
+            Console.ResetColor();
+            Console.Write("7. 게임 종료    ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("■\t     ><(((('> \n\t\t\t\t\t  ■\t\t        ■\n \t\t\t\t\t  ■■■■■■■■■■■■\n");
+            Console.ResetColor();
+            Console.WriteLine("\n\n\t\t\t\t         원하시는 행동을 입력해주세요.  \n\n");
+            int num = SelectBehavior(1, 7);
             switch (num)
             {
                 case 1:
@@ -89,7 +137,12 @@ namespace TextRPG
                     DungeonUI();
                     break;
                 case 5:
-                    quest.QuestMenu();
+                    quest.QuestUI();
+                    break;
+                case 7:
+                    Console.ForegroundColor= ConsoleColor.Cyan;
+                    Console.WriteLine("\t\t\t     ><((º> 용궁에서의 기억은 좋으셨나요? 또 만나요 <º))><");
+                    Console.ResetColor();
                     break;
             }
         }
@@ -98,6 +151,7 @@ namespace TextRPG
         {
             while (true)
             {
+                Console.Write("\t\t\t\t\t\t      ");
                 string input = Console.ReadLine();
                 int num;
                 //TryParse로 문자열 -> 정수로 변환 / 성공시 true, 실패시 false
@@ -110,14 +164,14 @@ namespace TextRPG
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red; //색 바꾸기
-                        Console.WriteLine("잘못된 입력입니다.");
+                        Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n");
                         Console.ResetColor(); //색 초기화
                     }
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red; //색 바꾸기
-                    Console.WriteLine("잘못된 입력입니다.");
+                    Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n");
                     Console.ResetColor(); //색 초기화
                 }
             }
@@ -126,12 +180,17 @@ namespace TextRPG
         static void CharacterInfoUI()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("상태 보기");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t\t   SSSSS  TTTTT  AAAAA  TTTTT  \r\n \t\t\t\t\t  S         T    A   A    T    \r\n\t\t\t\t\t   SSS      T    AAAAA    T    \r\n\t\t\t\t\t       S    T    A   A    T    \r\n\t\t\t\t\t  SSSSS     T    A   A    T    \r\n");
             Console.ResetColor();
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\n\t\t\t\t\t\t[ 상태 보기 ]\n");
+            Console.ResetColor();
+            Console.WriteLine("\t\t\t\t\t 용사님의 정보가 표시됩니다.\n");
+
             player.PlayerInfo(); //캐릭터 정보 표시
-            Console.WriteLine("\n0. 나가기\n\n원하시는 행동을 입력해주세요.");
+
+            Console.Write("\n\t\t\t\t\t\t  0. 나가기\n\n\t\t\t\t\t 원하시는 행동을 입력해주세요.\n\n");
             int num = SelectBehavior(0, 0);
             if (num == 0)
                 GameStartUI();
@@ -141,20 +200,15 @@ namespace TextRPG
         {
             items = new List<Item>(); // 아이템 리스트 생성
             {
-                items.Add(new Item("수련자의 갑옷", 1, 5, "수련에 도움을 주는 갑옷입니다. ", 1000));
-                items.Add(new Item("무쇠갑옷", 1, 9, "무쇠로 만들어져 튼튼한 갑옷입니다. ", 2000));
-                items.Add(new Item("스파르타의 갑옷", 1, 15, "스파르타의 전사들이 사용했다는 전설의 갑옷입니다. ", 3500));
-                items.Add(new Item("낡은 검", 0, 2, "쉽게 볼 수 있는 낡은 검 입니다. ", 600));
-                items.Add(new Item("청동 도끼", 0, 5, "어디선가 사용됐던거 같은 도끼입니다. ", 1500));
-                items.Add(new Item("스파르타의 창", 0, 7, "스파르타의 전사들이 사용했다는 전설의 창입니다. ", 2500));
+                items.Add(new Item(" 고등어 비늘 ", 1, 05, "       반짝반짝하니까..천적을 조심하세요       ", 1000));
+                items.Add(new Item("물방울 보호막", 1, 09, "        물방울이어도 나름 튼튼합니다.          ", 2000));
+                items.Add(new Item(" 고래의 은혜 ", 1, 15, "고래의 은혜를 받아 만들어진 전설의 갑옷입니다. ", 3500));
+                items.Add(new Item("    복어탄   ", 0, 02, "    복어가 뾰족하기도 하지만 독도 있답니다.    ", 600));
+                items.Add(new Item("  오징어 활  ", 0, 05, "    오징어 발이 10개라 화살 수도 10개라구요!   ", 1500));
+                items.Add(new Item(" 상어의 의지 ", 0, 07, "      상어의 의지가 담긴 전설의 창입니다.      ", 2500));
             }
         }
-        //인벤토리 >> 삭제 >> Inventory클래스로 이동
-        //상점 >> 삭제 >> Shop 클래스로 이동
-        //인벤토리 - 장착 관리 >> 삭제 >> Inventory클래스로 이동
-        //아이템구매 >> 삭제 >> Shop 클래스로 이동
-        // 포션
-        //전투 시작
+       //던전UI
         static void DungeonUI()
         {
             Console.Clear();
@@ -225,9 +279,12 @@ namespace TextRPG
         {
             player = new Player("", 1, "일반물고기", 10, 5, 100, 100, 0, 10000); //초기세팅
             dungeon = new Dungeon(player);
-            CreateName();
-            SetClass();
-            GameStartUI(); 
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t                  <°))><    _----|   ><>   _ _ _ _ _\r\n\t\t\t            >((('>            ----|_----|   ]-I-I-I-[\r\n\t\t\t          _ _ _ _ _ _ _----|      | ----|   \\ `  ' /\r\n\t\t\t          ]-I-I-I-I-[  ----|      |     |    |. ` | <')))>< \r\n\t\t\t           \\ `   '_/       |     / \\    |    | /^\\|\r\n\t\t\t            []  `__|  ><>  ^    / ^ \\   ^    | |*||\r\n\t\t\t            |__   ,|      / \\  / ^ ^`\\ / \\   | ===|\r\n\t\t\t ><(('> ___| ___ ,|__   / ^  /=_=_=_=\\ ^ \\  |, `_|\r\n\t\t\t         I_I__I_I__I_I  (====(_________)_^___|____|____\r\n\t\t\t         \\-\\--|-|--/-/  |     I  [ ]__I I_I__|____I_I_|\r\n\t\t\t          |[] `    '|_  |_   _|`__  ._[  _-\\--|-|--/-/\r\n\t\t\t         / \\  [] ` .| |-| |-| |_| |_| |_| | []   [] |\r\n\t\t\t        <===>      .|-=-=-=-=-=-=-=-=-=-=-|        / \\   ><('>\r\n\t\t\t        ] []|` ` [] | .   _________   .   |-      <===>  \r\n\t\t\t        <===>  `  ' ||||  |       |  |||  |  []   <===>\r\n\t\t\t         \\_/     -- ||||  |       |  |||  | .  '   \\_/\r\n\t\t\t        ./|' . . . .|||||/|_______|\\|||| /|. . . . .|\\_\r\n\t\t\t    --------------------------------------------------------");
+            Console.WriteLine("\n\n\t\t\t         끝없는 바다 아래, 그 곳에서 새로운 모험이 시작된다. \n\n\t\t\t\t\t     아무 키나 눌러 시작하세요!");
+            Console.ReadKey();
+            Console.ResetColor();
+            GameLoad();
         }
     }
 }

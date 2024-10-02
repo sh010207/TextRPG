@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 namespace TextRPG
 {
+    [Serializable]
     public class Player
     {
         public string name { get; set; }
@@ -48,13 +49,13 @@ namespace TextRPG
         }
         public void PlayerInfo()
         {
-            Console.WriteLine($"Lv. {level:D2}");
-            Console.WriteLine($"{name} ( {job} )"); ////Cha 하드코딩되어있어서 이름으로 변경
-            Console.WriteLine(extraAd == 0 ? $"공격력 {ad}" : $"공격력 {extraAd + ad} ( + {extraAd} )");
-            Console.WriteLine(extraDf == 0 ? $"방어력 {df}" : $"방어력 {extraDf + df} ( + {extraDf} )");
-            Console.WriteLine($"체 력 {hp}/{maxhp}");
-            Console.WriteLine($"Gold {gold}");
-            Console.WriteLine($"경험치: {exp}");
+            Console.WriteLine($"\t\t\t\t\t\t   Lv. {level:D2}");
+            Console.WriteLine($"\t\t\t\t\t      {name} ( {job} )");
+            Console.WriteLine(extraAd == 0 ? $"\t\t\t\t\t\t  공격력 {ad}" : $"\t\t\t\t\t\t  공격력 {extraAd + ad} ( + {extraAd} )");
+            Console.WriteLine(extraDf == 0 ? $"\t\t\t\t\t\t  방어력 {df}" : $"\t\t\t\t\t\t  방어력 {extraDf + df} ( + {extraDf} )");
+            Console.WriteLine($"\t\t\t\t\t\t체 력 {hp}/{maxhp}");
+            Console.WriteLine($"\t\t\t\t\t\t  Gold {gold}");
+            Console.WriteLine($"\t\t\t\t\t\t  경험치 {exp}");
         }
         public void ChangeJob(string job, int ad, int df, int maxhp, int hp, int gold) //직업선택을 위한
         {
