@@ -21,6 +21,7 @@ namespace TextRPG
         public List<Item> Inventory = new List<Item>();
 
         private static Item item;
+        public Quest quest = new Quest();
 
         public int InventoryCount // 아이템 갯수 받아오기
         {
@@ -111,6 +112,7 @@ namespace TextRPG
         {
             gold -= item.itemPrice; // 금액 차감
             Inventory.Add(item); // 인벤토리리스트에 배열 추가
+            GameManager.quest.QuestProgress();
         }
 
         public bool HasItem(Item item) // cha - 인벤토리 갯수 불러오기
@@ -118,26 +120,12 @@ namespace TextRPG
             return Inventory.Contains(item);
         }
 
+
         //사망 시 체력 초기화
         public void ResetHp()
         {
             hp = 100;
         }
 
-
-
-
-
-
-
-
-
-
-
-        public void PlayerQuestListUI()
-        {
-
-        }
-
-    }
+     }
 }

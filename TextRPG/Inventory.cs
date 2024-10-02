@@ -73,6 +73,7 @@ namespace TextRPG
                     int itemIndex = result - 1;
                     Item targetItem = player.returnInventory[itemIndex];
                     player.EquipItem(targetItem);
+                    GameManager.quest.QuestProgress();
                     DisplayEquipUI();
                     break;
             }

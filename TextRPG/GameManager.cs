@@ -17,7 +17,7 @@ namespace TextRPG
         static int potionCount = 3; // 기본 포션개수
         public static List<Item> items;
         static Inventory inventory;
-        static Quest quest = new Quest();
+        public static Quest quest = new Quest();
         //이름 생성 화면
 
         static void CreateName()
@@ -96,7 +96,7 @@ namespace TextRPG
                     DungeonUI();
                     break;
                 case 5:
-                    quest.QuestUI();
+                    quest.QuestMenu();
                     break;
                     
 
