@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
+    [Serializable]
     public class Item
     {
         public string itemName { get; }
@@ -31,7 +32,7 @@ namespace TextRPG
         }
        public string ItemInfoText()
         {
-            return ($"{itemName} | {DisplayTypeText} +{itemValue} | {itemDesc} ");
+            return ($"{itemName} | {DisplayTypeText} +{itemValue:D2} | {itemDesc} ");
         }
     }
 }
