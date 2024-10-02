@@ -42,25 +42,29 @@ namespace TextRPG
                 "아이템을 샀으면 장착을 해야겠죠?", "아이템 하나 장착하기", 1, // Quest 2
                  false,false,0));
             QuestDataList.Add(new QuestData(
-                  "아이템을 장착해보자!",
-                 "아이템을 샀으면 장착을 해야겠죠?", "아이템 하나 장착하기", 1, // Quest 2
+                  "몬스터를 잡아보자!",
+                 "RPG의 꽃! 전투를 해봅시다! 몬스터를 잡아봐요!", "고블린 처치하기", 5, // Quest 2
              false, false, 0));
 
             //////
             RewardItemList.Add(new QuestRewardItem("쓸만한 방패", 0, 5, 1, "쓸만한 방패다.", 100)); // Quest 1
-            RewardItemList.Add(new QuestRewardItem("회복포션", 0, 30, 1, "포션이다.", 500)); // Quest 2
+            RewardItemList.Add(new QuestRewardItem("회복포션", 0, 30, 5, "포션이다.", 500)); // Quest 2
+            RewardItemList.Add(new QuestRewardItem("고블린 모자", 0, 7, 1, "고블린 모자다..내가 고블린보단 낫겠지,,?", 1000)); // Quest 3
+
 
         }
 
-        public void CreateQuestList(int selectQuest)
+        public void CreateQuestList()
         {
             for (int i = 0; i < QuestDataList.Count; i++)
             {
+
                 QuestData data1 = QuestDataList[i];
                 string ShowQuestNumber = "!";
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine($"- [{ShowQuestNumber}] {data1.QuestName}");
                 Console.ResetColor();
+ 
             }
         }
 
@@ -121,7 +125,7 @@ namespace TextRPG
             }
             else
             {
-                CreateQuestList(selectNum);
+                CreateQuestList();
             }
 
             Console.ResetColor();
@@ -131,7 +135,7 @@ namespace TextRPG
             Console.WriteLine();
             Console.WriteLine("\n\n원하시는 퀘스트를 선택해주세요.");
 
-            selectNum = GameManager.SelectBehavior(0, 3);
+            selectNum = GameManager.SelectBehavior(0, QuestDataList.Count);
             switch (selectNum)
             {
                 case 0:
@@ -237,10 +241,17 @@ namespace TextRPG
             for (int i = 0; i < AcceptQuestList.Count; i++)
             {
                 QuestData AcceptQuest = AcceptQuestList[i];
-                string ShowQuestNumber = "?";
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine($"- [{ShowQuestNumber}] {AcceptQuest.QuestName}");
-                Console.ResetColor();
+                if(AcceptQuest.IsSuccess == false)
+                {
+                    string ShowQuestNumber = "?";
+                    Console.ForegroundColor = ConsoleColor.DarkBlue;
+                    Console.WriteLine($"- [{ShowQuestNumber}] {AcceptQuest.QuestName}");
+                    Console.ResetColor();
+                }
+                else if(AcceptQuest.IsSuccess == true)
+                {
+                    AcceptQuestList.RemoveAt(i);
+                }
             }
 
             Console.ResetColor();
@@ -278,7 +289,7 @@ namespace TextRPG
 
 
             Console.WriteLine($"{current_Quest.QuestName}\n\n{current_Quest.QuestDesc}\n\n -{current_Quest.QuestGoal} " +
-                $"({GoalCount}/{current_Quest.QuestGoalCount})");
+                $"({current_Quest.QuestCurrentGoalCount}/{current_Quest.QuestGoalCount})");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.ResetColor();
             Console.WriteLine($" -보상-\n {current_RewardItem.RewardItem} x{current_RewardItem.RewardItemNum}\n {current_RewardItem.RewardGold}G\n");
@@ -359,7 +370,7 @@ namespace TextRPG
             QuestRewardItem current_RewardItem_1= RewardItemList[selectNum - 1];
 
             Console.WriteLine($"{current_Quest_1.QuestName}\n\n{current_Quest_1.QuestDesc}\n\n -{current_Quest_1.QuestGoal} " +
-            $"({GoalCount}/{current_Quest_1.QuestGoalCount})");
+            $"({current_Quest_1.QuestCurrentGoalCount}/{current_Quest_1.QuestGoalCount})");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.ResetColor();
             Console.WriteLine($" -보상-\n {current_RewardItem_1.RewardItem} x{current_RewardItem_1.RewardItemNum}\n {current_RewardItem_1.RewardGold}G\n");
@@ -389,21 +400,23 @@ namespace TextRPG
             QuestData AcceptQuest = QuestDataList[selectNum - 1];
             AcceptQuestList.Add(AcceptQuest);
             AcceptQuest.IsQuest = true;
-            QuestDataList.RemoveAt(selectNum - 1);
+            //QuestDataList.RemoveAt(selectNum - 1);
         }
 
 
 
         public void QuestProgress(QuestType questType)
         {
-            
-
             QuestData Qdata = QuestDataList[(int)questType];
-            if (Qdata.QuestGoalCount == GoalCount)
+            if(Qdata.IsQuest == true)
             {
-                CompletedQuestList.Add(Qdata);
-                AcceptQuestList.RemoveAt((int)questType);
+                Qdata.QuestCurrentGoalCount++;
+                if (Qdata.QuestGoalCount == Qdata.QuestCurrentGoalCount)
+                {
+                    CompletedQuestList.Add(Qdata);
+                }
             }
+
         }
 
         public  void QuestCompleted()

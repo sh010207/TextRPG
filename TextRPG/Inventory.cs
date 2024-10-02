@@ -13,6 +13,7 @@ namespace TextRPG
     internal class Inventory
     {
         private Player player;
+        Quest Quest;
 
         public Inventory(Player player)
         {
@@ -73,7 +74,7 @@ namespace TextRPG
                     int itemIndex = result - 1;
                     Item targetItem = player.returnInventory[itemIndex];
                     player.EquipItem(targetItem);
-                    GameManager.quest.QuestProgress();
+                    GameManager.quest.QuestProgress(Quest.QuestType.EquipItem);
                     DisplayEquipUI();
                     break;
             }
