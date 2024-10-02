@@ -9,11 +9,11 @@ namespace TextRPG
     [Serializable]
     public class Item
     {
-        public string itemName { get; }
-        public int itemType { get; }
-        public int itemValue { get; }
-        public string itemDesc { get; }
-        public int itemPrice { get; }
+        public string itemName { get; set; }
+        public int itemType { get; set; }
+        public int itemValue { get; set; }
+        public string itemDesc { get; set; }
+        public int itemPrice { get; set;}
         public string DisplayTypeText
         {
             get
@@ -32,7 +32,7 @@ namespace TextRPG
         }
        public string ItemInfoText()
         {
-            return ($"{itemName} | {DisplayTypeText} +{itemValue:D2} | {itemDesc} ");
+            return ($"{itemName} | {DisplayTypeText}+{itemValue:D2} | {itemDesc} ");
         }
     }
 }

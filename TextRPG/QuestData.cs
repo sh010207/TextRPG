@@ -10,17 +10,21 @@ namespace TextRPG
     public class QuestData
     {
 
+
+
         public string QuestGoal { get; set; }
         public string QuestName { get; set; }
         public string QuestDesc { get; set; }
         public int QuestGoalCount { get; set; }
         public int QuestCurrentGoalCount { get; set; }
+        public string QuestType { get; set; }
 
         public bool IsQuest;
         public bool IsSuccess;
 
+
         public QuestData(string questName, string questDesc, string questGoal, int questGoalCount, 
-            bool IsQuest, bool isSuccess, int questCurrentGoalCount)
+              int questCurrentGoalCount,bool isQuest, bool isSuccess, string questType)
         {
 
             QuestName = questName;
@@ -28,16 +32,19 @@ namespace TextRPG
             QuestGoal = questGoal;
             QuestGoalCount = questGoalCount;
             QuestCurrentGoalCount = questCurrentGoalCount;
+            QuestType = questType;
 
 
             IsQuest = false;
-            IsSuccess = isSuccess;
+            IsSuccess = false;
         }
     }
 
 
     public class QuestRewardItem
     {
+        Inventory Inventory;
+        Player player;
 
         public string RewardItem { get; set; }
         public int RewardItemType { get; set; }
@@ -45,9 +52,12 @@ namespace TextRPG
         public int RewardItemNum { get; set; }
         public string RewardItemDesc { get; set; }
         public int RewardGold { get; set; }
+        public int RewardItemPrice { get; set; }
+        public string ItemType { get; }
 
 
-        public QuestRewardItem(string rewardItem, int rewardItemType, int rewardItemValue, int rewardItemNum, string rewardItemDesc, int rewardGold)
+        public QuestRewardItem(string rewardItem, int rewardItemType, int rewardItemValue, int rewardItemNum, string rewardItemDesc, 
+            int rewardGold, int rewardItemPrice, string itemType)
         {
             RewardItem = rewardItem;
             RewardItemType = rewardItemType;
@@ -55,6 +65,8 @@ namespace TextRPG
             RewardItemNum = rewardItemNum;
             RewardItemDesc = rewardItemDesc;
             RewardGold = rewardGold;
+            RewardItemPrice = rewardItemPrice;
+            ItemType = itemType;
         }
         public string DisplayTypeText
         {
@@ -62,6 +74,11 @@ namespace TextRPG
             {
                 return RewardItemType == 0 ? "공격력" : "방어력";
             }
+        }
+
+        public void RewardAdd()
+        {
+
         }
     }
 }

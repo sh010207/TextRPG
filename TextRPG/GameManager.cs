@@ -8,15 +8,60 @@ namespace TextRPG
     [Serializable]
     internal class GameManager
     {
-        static Player player;
+        public static Player player;
         static Monster monster;
         private static Item[] itemDb;
         static BattleResult battleResult;
         static Dungeon dungeon;
         static Shop shop;
         public static List<Item> items;
+        //public static List<QuestRewardItem> rewardItems;
         static Inventory inventory;
-        static Quest quest = new Quest();
+        public static Quest quest = new Quest();
+        static GameSaveFunction saveFunction;
+        static string saveFilePath = "game_save.json"; /////Json파일 생성
+
+        static void GameLoad() // 저장한 게임 가져오기 기능
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\t\t\t ><(((('>   바닷속 어딘가, 용궁에 한 마을에 도착한다.   <'))))><\n\n\n\n\n");
+            Console.ResetColor();
+            Console.WriteLine("\t\t\t\t\t1. 여기 와본적이 있는거 같다.\n\n\n");
+            Console.Write("\t\t\t\t\t     2. 처음 와본거 같다.\n\n\n ");
+
+            int num = SelectBehavior(1, 2);
+            switch (num)
+            {
+                case 1:
+                    Player loadedGameData = GameSaveFunction.LoadGame(saveFilePath);
+
+                    if (loadedGameData != null)
+                    {
+                        player = loadedGameData;
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine($"\t\t\t\t      이름 : {loadedGameData.name}, 레벨 : {loadedGameData.level}, 직업 : {loadedGameData.job} ");
+                        Console.ResetColor();
+                        Console.WriteLine("\n\t\t\t\t\t       아무키나 눌러주세유");
+                        Console.ReadKey(); // 한글자 입력*
+
+                        battleResult = new BattleResult(player,dungeon);
+                        shop = new Shop(player);
+                        inventory = new Inventory(player);
+                        saveFunction = new GameSaveFunction(player);
+                        SetData();
+                        SetData();
+                        GameStartUI();
+                    }
+
+                    break;
+                case 2:
+                    CreateName();
+                    break;
+
+            }
+        }
+
         //이름 생성 화면
         static void CreateName()
         {
@@ -137,7 +182,12 @@ namespace TextRPG
                     DungeonUI();
                     break;
                 case 5:
-                    quest.QuestUI();
+                    quest.QuestMenu();
+                    break;
+                case 6:
+                    GameSaveFunction.SaveGame(player, saveFilePath);
+                    GameStartUI();
+                    quest.QuestMenu();
                     break;
                 case 7:
                     Console.ForegroundColor= ConsoleColor.Cyan;
@@ -208,7 +258,9 @@ namespace TextRPG
                 items.Add(new Item(" 상어의 의지 ", 0, 07, "      상어의 의지가 담긴 전설의 창입니다.      ", 2500));
             }
         }
-       //던전UI
+
+
+        //던전UI
         static void DungeonUI()
         {
             Console.Clear();

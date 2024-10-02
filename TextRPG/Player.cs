@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Net.Http.Headers;
+using System.Numerics;
 namespace TextRPG
 {
     [Serializable]
@@ -18,8 +19,11 @@ namespace TextRPG
         public int extraDf { get; private set; }
         public List<Item> equipItems = new List<Item>();
         public List<Item> Inventory = new List<Item>();
+        public List<QuestRewardItem> rewardItems = new List<QuestRewardItem>();
         private static Item item;
-        public Quest quest = new Quest();
+
+
+
 
         public int InventoryCount // 아이템 갯수 받아오기
         {
@@ -164,13 +168,16 @@ namespace TextRPG
         {
             gold -= item.itemPrice; // 금액 차감
             Inventory.Add(item); // 인벤토리리스트에 배열 추가
-            GameManager.quest.QuestProgress(Quest.QuestType.BuyItem);
+            GameManager.quest.QuestProgress();
         }
         public bool HasItem(Item item) // cha - 인벤토리 갯수 불러오기
         {
             return Inventory.Contains(item);
         }
+        public void RewardAdd(QuestRewardItem rewardItem)
+        {
 
+        }
 
         //사망 시 체력 초기화
         public void ResetHp()
@@ -178,5 +185,6 @@ namespace TextRPG
             hp = maxhp;
         }
 
-     }
+
+    }
 }
