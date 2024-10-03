@@ -17,13 +17,23 @@ namespace TextRPG
         GameManager gameManager;
         static Inventory inventory;
         public Player player;
-        //public static QuestRewardItem[] rewardItems;
         QuestData quest;
         List<QuestData> QuestDataList =new List<QuestData>();
         List<QuestData> AcceptQuestList = new List<QuestData>();
         List<QuestData> CompletedQuestList = new List<QuestData>();
-        List<QuestRewardItem> RewardItemList = new List<QuestRewardItem>();
 
+
+        List<QuestRewardItem> RewardItemList = new List<QuestRewardItem>();
+        List<QuestRewardItem> AcceptRewardItem = new List<QuestRewardItem>();
+        List<QuestRewardItem> ComletedRewardItem = new List<QuestRewardItem>();
+
+
+        public enum QuestType
+        {
+            Buy,
+            Equip,
+            Monster
+        }
 
         int QuestCount;
         private int QuestNum;
@@ -45,8 +55,8 @@ namespace TextRPG
                  "RPG의 꽃! 전투를 해봅시다! 몬스터를 잡아봐요!", "고블린 처치하기",
                  5, 0, false, false,"Monster"));
             //////
-            RewardItemList.Add(new QuestRewardItem(" 게 등딱지 방패 ", 1, 5, 1, "        등딱지..? 간장게장 먹고싶어지는 방패다..!       ", 100,0,"Buy")); // Quest 1
-            RewardItemList.Add(new QuestRewardItem(" 조개껍질 단검  ", 0, 5, 1, "   보다시피 조개껍질을 갈아만든 무기..생각보다 뾰족하다!", 500,0,"Equip")); // Quest 2
+            RewardItemList.Add(new QuestRewardItem(" 게 등딱지 방패 ", 1, 5, 1, "        등딱지..? 간장게장 먹고싶어지는 방패다..!       ", 500,0,"Buy")); // Quest 1
+            RewardItemList.Add(new QuestRewardItem(" 조개껍질 단검  ", 0, 5, 1, "   보다시피 조개껍질을 갈아만든 무기..생각보다 뾰족하다!", 700,0,"Equip")); // Quest 2
             RewardItemList.Add(new QuestRewardItem(" 고블린 모자    ", 1, 7, 1, "          고블린 모자다..내가 고블린보단 낫겠지,,?      ", 1000,0,"Monster")); // Quest 3
         }
         public static Item RewardItemToItem(QuestRewardItem rewardItem)
@@ -289,7 +299,7 @@ namespace TextRPG
             Console.WriteLine("Quest!!\n");
             Console.ResetColor();
             QuestData current_Quest = AcceptQuestList[selectNum - 1];
-            QuestRewardItem current_RewardItem = RewardItemList[selectNum - 1];
+            QuestRewardItem current_RewardItem = AcceptRewardItem[selectNum - 1];
 
 
             Console.WriteLine($"{current_Quest.QuestName}\n\n{current_Quest.QuestDesc}\n\n -{current_Quest.QuestGoal} " +
@@ -372,7 +382,7 @@ namespace TextRPG
             Console.ResetColor();
 
             QuestData current_Quest_1 = CompletedQuestList[selectNum - 1];
-            QuestRewardItem current_RewardItem_1= RewardItemList[selectNum - 1];
+            QuestRewardItem current_RewardItem_1= ComletedRewardItem[selectNum - 1];
 
             Console.WriteLine($"{current_Quest_1.QuestName}\n\n{current_Quest_1.QuestDesc}\n\n -{current_Quest_1.QuestGoal} " +
             $"({current_Quest_1.QuestCurrentGoalCount}/{current_Quest_1.QuestGoalCount})");
@@ -405,43 +415,51 @@ namespace TextRPG
         public void AcceptQuest()
         {
             QuestData AcceptQuest = QuestDataList[selectNum - 1];
+            QuestRewardItem questRewardItem = RewardItemList[selectNum - 1];
             AcceptQuestList.Add(AcceptQuest);
-            AcceptQuest.IsQuest = true;
+            AcceptRewardItem.Add(questRewardItem);
             QuestDataList.RemoveAt(selectNum - 1);
+            RewardItemList.RemoveAt(selectNum - 1);
+
         }
 
-
-
-        public void QuestProgress()
+        public void QuestProgress(QuestType questType)
         {
             for (int i = 0; i < AcceptQuestList.Count; i++)
             {
+                QuestRewardItem questRewardItem = AcceptRewardItem[i];
                 QuestData questData = AcceptQuestList[i];
-                switch (questData.QuestType)
+                switch (questType)
                 {
-                    case "Buy":
+                    case QuestType.Buy:
                         questData.QuestCurrentGoalCount++;
                         if (questData.QuestGoalCount == questData.QuestCurrentGoalCount)
                         {
+                            AcceptRewardItem.RemoveAt(i);
+                            ComletedRewardItem.Add(questRewardItem);
                             AcceptQuestList.RemoveAt(i);
                             CompletedQuestList.Add(questData);
                         }
                         break; 
 
-                    case "Equip":
+                    case QuestType.Equip:
                         questData.QuestCurrentGoalCount++;
                         if (questData.QuestGoalCount == questData.QuestCurrentGoalCount)
                         {
+                            AcceptRewardItem.RemoveAt(i);
+                            ComletedRewardItem.Add(questRewardItem);
                             AcceptQuestList.RemoveAt(i);
                             CompletedQuestList.Add(questData);
                         }
 
                         break;
 
-                    case "Monster":
+                    case QuestType.Monster:
                         questData.QuestCurrentGoalCount++;
                         if (questData.QuestGoalCount == questData.QuestCurrentGoalCount)
                         {
+                            AcceptRewardItem.RemoveAt(i);
+                            ComletedRewardItem.Add(questRewardItem);
                             AcceptQuestList.RemoveAt(i);
                             CompletedQuestList.Add(questData);
                         }
@@ -449,12 +467,36 @@ namespace TextRPG
                         break;
                 }
             }
+        }
+
+        public void RewardGoldPayMent()
+        {
+            List <QuestRewardItem> list = new List <QuestRewardItem>(ComletedRewardItem);
+            for(int i = 0; i < CompletedQuestList.Count; i++)
+            {
+                QuestRewardItem rewardGold = list[i];
+                switch (rewardGold.ItemType)
+                {
+                    case "Buy":
+                        GameManager.player.gold += rewardGold.RewardGold;
+                        break;
+                    case "Equip":
+                        GameManager.player.gold += rewardGold.RewardGold;   
+                        break;
+                    case "Monster":
+                        GameManager.player.gold += rewardGold.RewardGold;
+                        break;
+                }
+
+            }
+            //QuestRewardItem rewardGold = RewardItemList[selectNum - 1];
+            
 
         }
 
         public void RewardPayMent(Item Item)
         {
-            List<Item> items = RewardItemList.ConvertAll(new Converter<QuestRewardItem, Item>(RewardItemToItem));
+            List<Item> items = ComletedRewardItem.ConvertAll(new Converter<QuestRewardItem, Item>(RewardItemToItem));
 
             for (int i = 0; i < CompletedQuestList.Count; i++)
             {
@@ -463,20 +505,28 @@ namespace TextRPG
                 {
                     case "Buy":
                         Item item_1 = items.Find(x => x.itemName == " 게 등딱지 방패 ");
+                        RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_1);
                         CompletedQuestList.RemoveAt(i);
+                        ComletedRewardItem.RemoveAt(i);
 
                         break;
                     case "Equip":
                         Item item_2 = items.Find(x => x.itemName == " 조개껍질 단검  ");
+                        RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_2);
                         CompletedQuestList.RemoveAt(i);
+                        ComletedRewardItem.RemoveAt(i);
+
 
                         break;
                     case "Monster":
                         Item item_3 = items.Find(x => x.itemName == " 고블린 모자    ");
+                        RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_3);
                         CompletedQuestList.RemoveAt(i);
+                        ComletedRewardItem.RemoveAt(i);
+
 
                         break;
                 }
