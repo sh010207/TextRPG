@@ -65,9 +65,15 @@ namespace TextRPG
             Console.ResetColor();
             Console.WriteLine();
             Console.WriteLine("\t\t\t\t\t\t1. 아이템 구매");
+            Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\t\t\t\t\t\t0. 나가기\n\n");
+            Console.ResetColor();
 
-            Console.WriteLine("\t\t\t\t\t원하시는 행동을 입력해주세요.\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
 
             // 집에갈래? 사러갈래?
 
@@ -126,9 +132,15 @@ namespace TextRPG
             }
             Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine("\t\t\t\t\t\t   0. 나가기\n\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\t\t\t\t\t\t   0. 나가기\n");
+            Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine("\t\t\t\t\t원하시는 행동을 입력해주세요.\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
 
             int result = GameManager.SelectBehavior(0, GameManager.items.Count);
 
@@ -145,9 +157,17 @@ namespace TextRPG
                     if (player.HasItem(targetItem))
 
                     {
-                        Console.ForegroundColor = ConsoleColor.Cyan; //색 바꾸기         
-                        Console.WriteLine("\t\t\t\t      ==== 허허, 이 아이템, 두개는 없소 === \n\n");
-                        Console.ResetColor(); //색 초기화
+                        Console.ForegroundColor = ConsoleColor.DarkGray;             
+                        Console.Write("\t\t\t\t  ><(('>   ");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write("허허, 이 아이템, 두개는 없소");
+                        Console.ResetColor();
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.Write("   <'))><\n\n");
+                        Console.ResetColor(); 
+                        
+                        
                         Console.Write("\t\t\t\t    enter를 입력해서 다른 아이템을 구매하세요.");
                         Console.ReadLine();
                     }
@@ -157,8 +177,14 @@ namespace TextRPG
                         if (player.gold >= targetItem.itemPrice) // 돈이 많을경우 (구매가능)
 
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkGray; //색 바꾸기
+                            Console.Write("\t\t\t\t ><(('>   ");
+                            Console.ResetColor(); //색 초기화
                             Console.ForegroundColor = ConsoleColor.Magenta; //색 바꾸기
-                            Console.WriteLine("\t\t\t\t      === 진짜 살겁니까? 뒤로가긴 없소. === \n\n");
+                            Console.Write("진짜 살겁니까? 뒤로가긴 없소");
+                            Console.ResetColor(); //색 초기화
+                            Console.ForegroundColor = ConsoleColor.DarkGray; //색 바꾸기
+                            Console.Write("   <'))>< \n\n");
                             Console.ResetColor(); //색 초기화
                             Console.Write("\t\t\t\t          enter를 입력하면 구매됩니다.");
                             Console.ReadLine();
@@ -167,8 +193,14 @@ namespace TextRPG
                         }
                         else
                         {
+                            Console.ForegroundColor = ConsoleColor.DarkGray; //색 바꾸기    
+                            Console.WriteLine("\t\t\t   ><(('>   ");
+                            Console.ResetColor(); //색 초기화
                             Console.ForegroundColor = ConsoleColor.DarkRed; //색 바꾸기    
-                            Console.WriteLine("\t\t\t\t  === 아직 이 물건을 살 골드를 챙겨오지 못했군.. === \n\n");
+                            Console.WriteLine("아직 이 물건을 살 골드를 챙겨오지 못했군..");
+                            Console.ResetColor(); //색 초기화
+                            Console.ForegroundColor = ConsoleColor.DarkGray; //색 바꾸기    
+                            Console.WriteLine("   <'))><\n\n");
                             Console.ResetColor(); //색 초기화
                             Console.Write("\t\t\t\t    enter를 입력해서 가격에 맞춰 구매해주세요.");
                             Console.ReadLine();

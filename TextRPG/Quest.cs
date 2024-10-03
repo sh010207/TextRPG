@@ -44,20 +44,21 @@ namespace TextRPG
         public Quest()
         {
             QuestDataList.Add(new QuestData(
-                "샵에서 아이템을 사보자!", "RPG에서는 아이템이 중요하죠! 아이템을 사볼까요?", "Shop에서 아이템 사기",
+                "! 아이템을 사보자 !", "RPG에서는 아이템이 중요하죠! 아이템을 사볼까요?", "[ 상점에서 아이템 사기 ]",
                      1, 0, false, false,"Buy"));
             QuestDataList.Add(new QuestData(
-                "아이템을 장착해보자!",
-                "아이템을 샀으면 장착을 해야겠죠?", "아이템 하나 장착하기",
+                "! 아이템을 장착해보자 !",
+                "아이템을 사셨다구요? 장착을 통해 스텟을 올려보아요!", "[ 아이템 하나 장착하기 ]",
                    1, 0, false, false,"Equip"));
             QuestDataList.Add(new QuestData(
-                  "몬스터를 잡아보자!",
-                 "RPG의 꽃! 전투를 해봅시다! 몬스터를 잡아봐요!", "고블린 처치하기",
+                  "! 몬스터를 잡아보자 !",
+                 "RPG의 꽃! 전투를 해봅시다! 몬스터를 잡아봐요!", "[ 귀상어 처치하기 ]",
                  5, 0, false, false,"Monster"));
             //////
-            RewardItemList.Add(new QuestRewardItem(" 게 등딱지 방패 ", 1, 5, 1, "        등딱지..? 간장게장 먹고싶어지는 방패다..!       ", 500,0,"Buy")); // Quest 1
-            RewardItemList.Add(new QuestRewardItem(" 조개껍질 단검  ", 0, 5, 1, "   보다시피 조개껍질을 갈아만든 무기..생각보다 뾰족하다!", 700,0,"Equip")); // Quest 2
-            RewardItemList.Add(new QuestRewardItem(" 고블린 모자    ", 1, 7, 1, "          고블린 모자다..내가 고블린보단 낫겠지,,?      ", 1000,0,"Monster")); // Quest 3
+            RewardItemList.Add(new QuestRewardItem(" 게딱지 방패 ", 1, 5, 1, "    등딱지..? 간장게장 먹고싶어지는 방패다..!  ", 500,0,"Buy")); // Quest 1
+            RewardItemList.Add(new QuestRewardItem("조개껍질 단검", 0, 5, 1, "  조개껍질을 갈아만든 무기..생각보다 뾰족하다! ", 700,0,"Equip")); // Quest 2
+            RewardItemList.Add(new QuestRewardItem(" 미역 올가미 ", 1, 7, 1, "        미역 올가미로..모조리 잡아주겠어...    ", 1000,0,"Monster")); // Quest 3
+
         }
         public static Item RewardItemToItem(QuestRewardItem rewardItem)
         {
@@ -75,7 +76,7 @@ namespace TextRPG
                 QuestData Q_data = QuestDataList[i];
                 string ShowQuestNumber = "!";
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"- [{ShowQuestNumber}] {Q_data.QuestName}");
+                Console.WriteLine($"\n\n\t\t\t\t\t   - [{ShowQuestNumber}] {Q_data.QuestName}");
                 Console.ResetColor();
 
             }
@@ -84,23 +85,30 @@ namespace TextRPG
         public void QuestMenu()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("  \t\t\t\t=================Quest!!================\n\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
             Console.WriteLine();
+            Console.WriteLine("  \t\t\t\t\t     1. 퀘스트 목록         \n\n");
+            Console.Write("  \t\t\t\t\t     2. ");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("  \t\t\t\t\t     1.퀘스트 목록         \n\n");
+            Console.Write("진행중인");
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("  \t\t\t\t\t     2.진행중인 퀘스트 목록\n\n");
-            Console.ResetColor();
+            Console.WriteLine(" 퀘스트 목록\n\n");
+            Console.Write("  \t\t\t\t\t     3. ");
             Console.ForegroundColor = ConsoleColor.DarkGreen;
-            Console.WriteLine("  \t\t\t\t\t     3.완료된 퀘스트 목록  \n\n");
+            Console.Write("완료된");
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("  \t\t\t\t\t     0.나가기                ");
+            Console.WriteLine(" 퀘스트 목록\n\n");
             Console.ResetColor();
-            Console.WriteLine("\n\t\t\t\t\t     원하시는 행동을 입력하세요.            ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("  \t\t\t\t\t          0. 나가기                \n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             //Console.Write(">>");
             Console.ResetColor();
@@ -126,14 +134,20 @@ namespace TextRPG
         public void QuestUI()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Quest!!\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
 
             if(QuestDataList.Count <= 0)
             {
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("[퀘스트가 없습니다.]");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("\n\n\t\t\t\t       ><((('>");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("퀘스트가 없습니다.");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("   <')))><");
                 Console.ResetColor();
             }
             else
@@ -142,11 +156,18 @@ namespace TextRPG
             }
 
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\n\t0. 나가기\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t     0. 나가기\n");
             Console.ResetColor();
-            Console.WriteLine();
-            Console.WriteLine("\n\n원하시는 퀘스트를 선택해주세요.");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\n\t\t\t     ><(((°>   ");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.Write("원하시는 퀘스트를 선택해 시작해주세요.");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
 
             selectNum = GameManager.SelectBehavior(0, QuestDataList.Count);
             switch (selectNum)
@@ -172,33 +193,42 @@ namespace TextRPG
         {
             
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Quest!!\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
             QuestData currentQuest = QuestDataList[selectNum - 1];
             QuestRewardItem currentRewardItem = RewardItemList[selectNum - 1];
 
-
-            Console.WriteLine($"{currentQuest.QuestName}\n\n{currentQuest.QuestDesc}\n\n -{currentQuest.QuestGoal}");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             //Console.Write($"({GoalCount}/{currentQuest.QuestGoalCount})\n");
             Console.ResetColor();
-            Console.WriteLine($" -보상-\n {currentRewardItem.RewardItem} x{currentRewardItem.RewardItemNum}\n {currentRewardItem.RewardGold}G\n");
+            Console.Write($"\n\n\t\t\t\t\t     {currentQuest.QuestName}\n\n\t\t\t\t  {currentQuest.QuestDesc}");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\n\n \t\t\t\t\t    {currentQuest.QuestGoal}\n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"\t\t\t\t\t    ><((('>  보상  <')))><");
+            Console.ResetColor();
+            Console.WriteLine($"\n\t\t\t\t\t   {currentRewardItem.RewardItem} x{currentRewardItem.RewardItemNum}, {currentRewardItem.RewardGold}G\n");
+            Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("1. 수락");
+            Console.WriteLine("\t\t\t\t\t\t   1. 수락");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("2. 거절\n");
+            Console.WriteLine("\t\t\t\t\t\t   2. 거절");
             Console.ResetColor();
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\t0. 나가기\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t  0. 나가기\n");
             Console.ResetColor();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(">>");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("   <°)))><\n");
             Console.ResetColor();
+
+
 
             int result = GameManager.SelectBehavior(0, QuestDataList.Count);
             switch (result)
@@ -213,15 +243,14 @@ namespace TextRPG
                 case 2:
                     //Console.WriteLine("거절하셨습니다.");
                     Console.ForegroundColor = ConsoleColor.DarkMagenta;
-                    Console.WriteLine("   [정말로 거절하시겠습니까..?]");
+                    Console.WriteLine("\n\n\n\t\t\t\t   ><((('>   정말로 거절하시겠습니까..?   <')))>< ");
                     Console.ResetColor();
                     Console.WriteLine();
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.Write("   [1.예]             ");
+                    Console.Write("\t\t     ><(((°>    1. 예    <°)))><             ");
                     Console.ResetColor();
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
-                    Console.Write("   [2.아니오]          \n");
-                    Console.Write(">>");
+                    Console.Write("    ><((('>    2. 아니오    <')))>< \n");
                     Console.ResetColor();
 
 
@@ -243,14 +272,14 @@ namespace TextRPG
         public void QuestInProgressUI()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Quest!!\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
 
-            if(AcceptQuestList.Count <= 0)
+            if (AcceptQuestList.Count <= 0)
             {
-                Console.ForegroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("\n\n       [진행중인 퀘스트가 없습니다.]       \n\n");
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine("\n\n\t\t\t\t><(((°>   진행중인 퀘스트가 없습니다.   <°)))><    \n\n");
                 Console.ResetColor();
             }
             for (int i = 0; i < AcceptQuestList.Count; i++)
@@ -259,20 +288,22 @@ namespace TextRPG
                 if(AcceptQuest.IsSuccess == false)
                 {
                     string ShowQuestNumber = "?";
-                    Console.ForegroundColor = ConsoleColor.DarkBlue;
-                    Console.WriteLine($"- [{ShowQuestNumber}] {AcceptQuest.QuestName}");
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine($"\n\t\t\t\t\t- [{ShowQuestNumber}] {AcceptQuest.QuestName}\n");
                     Console.ResetColor();
                 }
             }
 
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\n\t0. 나가기\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t  0. 나가기\n");
             Console.ResetColor();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(">>");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("   <°)))><\n");
             Console.ResetColor();
+
 
             selectNum = GameManager.SelectBehavior(0, AcceptQuestList.Count);
             switch (selectNum)
@@ -295,27 +326,37 @@ namespace TextRPG
         public void ProgressQuestInfoText(int selectNum)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Quest!!\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
             QuestData current_Quest = AcceptQuestList[selectNum - 1];
             QuestRewardItem current_RewardItem = AcceptRewardItem[selectNum - 1];
 
 
-            Console.WriteLine($"{current_Quest.QuestName}\n\n{current_Quest.QuestDesc}\n\n -{current_Quest.QuestGoal} " +
-                $"({current_Quest.QuestCurrentGoalCount}/{current_Quest.QuestGoalCount})");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
+            //Console.Write($"({GoalCount}/{currentQuest.QuestGoalCount})\n");
             Console.ResetColor();
-            Console.WriteLine($" -보상-\n {current_RewardItem.RewardItem} x{current_RewardItem.RewardItemNum}\n {current_RewardItem.RewardGold}G\n");
+            Console.Write($"\n\n\t\t\t\t\t     {current_Quest.QuestName}\n\n\t\t\t\t  {current_Quest.QuestDesc}");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\n\n \t\t\t\t\t    {current_Quest.QuestGoal}\n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"\t\t\t\t\t    ><((('>  보상  <')))><");
+            Console.ResetColor();
+            Console.WriteLine($"\n\t\t\t\t\t   {current_RewardItem.RewardItem} x{current_RewardItem.RewardItemNum} ,  {current_RewardItem.RewardGold}G\n");
+            Console.ResetColor();
 
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\t0. 나가기\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t  0. 나가기\n");
             Console.ResetColor();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(">>");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("   <°)))><\n");
             Console.ResetColor();
+
+
             int Choice_1 = GameManager.SelectBehavior(0, 0);
             switch (Choice_1)
             {
@@ -328,14 +369,20 @@ namespace TextRPG
         public void QuestCompletedUI()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Quest!!\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
 
             if (CompletedQuestList.Count <= 0)
             {
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("\n\n\t\t\t\t ><(((°>   ");
+                Console.ResetColor();
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("\n\n       [완료된 퀘스트가 없습니다.]       \n\n");
+                Console.Write("완료된 퀘스트가 없습니다.");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("   <°)))><    \n\n");
                 Console.ResetColor();
             }
             for (int i = 0; i < CompletedQuestList.Count; i++)
@@ -344,18 +391,19 @@ namespace TextRPG
                 string ShowQuestNumber = "?";
                 completedQuest.IsSuccess = true;
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine($"- [{ShowQuestNumber}] {completedQuest.QuestName}");
+                Console.WriteLine($"\n\t\t\t\t\t- [{ShowQuestNumber}] {completedQuest.QuestName}");
                 Console.ResetColor();
             }
 
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t  0. 나가기\n");
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\n\n\t0. 나가기\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("   <°)))><\n");
             Console.ResetColor();
-            Console.WriteLine("원하시는 행동을 입력해주세요.");
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write(">>");
-            Console.ResetColor();
+
 
 
             selectNum = GameManager.SelectBehavior(0, CompletedQuestList.Count);
@@ -377,26 +425,36 @@ namespace TextRPG
         public void CompletedQuestInfoText(int selectNum)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Quest!!\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\t\t\t\t         QQQQQ  U   U  EEEEE  SSSSS  TTTTT\r\n\t\t\t\t        Q     Q U   U  E      S        T  \r\n\t\t\t\t        Q     Q U   U  EEEE    SSS     T  \r\n\t\t\t\t        Q  Q  Q U   U  E          S    T  \r\n\t\t\t\t         QQQQQ   UUU   EEEEE  SSSSS    T  \r\n\t\t\t\t            Q\r\n");
             Console.ResetColor();
 
             QuestData current_Quest_1 = CompletedQuestList[selectNum - 1];
             QuestRewardItem current_RewardItem_1= ComletedRewardItem[selectNum - 1];
 
-            Console.WriteLine($"{current_Quest_1.QuestName}\n\n{current_Quest_1.QuestDesc}\n\n -{current_Quest_1.QuestGoal} " +
-            $"({current_Quest_1.QuestCurrentGoalCount}/{current_Quest_1.QuestGoalCount})");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
+            //Console.Write($"({GoalCount}/{currentQuest.QuestGoalCount})\n");
             Console.ResetColor();
-            Console.WriteLine($" -보상-\n {current_RewardItem_1.RewardItem} x{current_RewardItem_1.RewardItemNum}\n {current_RewardItem_1.RewardGold}G\n");
+            Console.Write($"\n\n\t\t\t\t\t     {current_Quest_1.QuestName}\n\n\t\t\t\t  {current_Quest_1.QuestDesc}");
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"\n\n \t\t\t\t\t    {current_Quest_1.QuestGoal}\n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine($"\t\t\t\t\t    ><((('>  보상  <')))><");
+            Console.ResetColor();
+            Console.WriteLine($"\n\t\t\t\t\t   {current_RewardItem_1.RewardItem} x{current_RewardItem_1.RewardItemNum}, {current_RewardItem_1.RewardGold}G\n");
+            Console.ResetColor();
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("1.보상받기");
+            Console.Write("\n\n\t\t\t\t\t\t 1. 보상받기");
             Console.ResetColor();
-            Console.Write("0.나가기\n\n");
-            Console.WriteLine("원하시는 행동을 입력하세요.");
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.Write(">> ");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t  0. 나가기\n");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("   <°)))><\n");
             Console.ResetColor();
 
             selectNum = GameManager.SelectBehavior(0, 1);
@@ -504,7 +562,7 @@ namespace TextRPG
                 switch(questData.QuestType)
                 {
                     case "Buy":
-                        Item item_1 = items.Find(x => x.itemName == " 게 등딱지 방패 ");
+                        Item item_1 = items.Find(x => x.itemName == "게 등딱지 방패");
                         RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_1);
                         CompletedQuestList.RemoveAt(i);
@@ -512,7 +570,7 @@ namespace TextRPG
 
                         break;
                     case "Equip":
-                        Item item_2 = items.Find(x => x.itemName == " 조개껍질 단검  ");
+                        Item item_2 = items.Find(x => x.itemName == " 조개껍질 단검");
                         RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_2);
                         CompletedQuestList.RemoveAt(i);
@@ -521,7 +579,7 @@ namespace TextRPG
 
                         break;
                     case "Monster":
-                        Item item_3 = items.Find(x => x.itemName == " 고블린 모자    ");
+                        Item item_3 = items.Find(x => x.itemName == " 미역  올가미 ");
                         RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_3);
                         CompletedQuestList.RemoveAt(i);

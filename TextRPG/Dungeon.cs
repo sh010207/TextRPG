@@ -290,7 +290,11 @@
                 Console.ForegroundColor = (ConsoleColor)ConsoleColor.Cyan;
                 Console.WriteLine("\t\t\t\t\t\t    1. 공격\n");
                 Console.ResetColor();
-                Console.WriteLine("\n\n\n\t\t\t\t           원하시는 행동을 입력해주세요.");
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.Write("\n\t\t\t\t><(((°>   ");
+                Console.Write("원하시는 행동을 입력하세요");
+                Console.Write("   <°)))><\n");
+                Console.ResetColor();
             }
             //Console.WriteLine($"{press1}");
             
