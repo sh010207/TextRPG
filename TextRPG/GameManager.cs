@@ -18,6 +18,7 @@ namespace TextRPG
         static Inventory inventory;
         static Quest quest = new Quest();
         static GameSaveFunction saveFunction;
+        static EndingCredit endingCredit;
         static string saveFilePath = "game_save.json"; /////Json파일 생성
 
         static void GameLoad() // 저장한 게임 가져오기 기능
@@ -166,8 +167,15 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.Write("■\t     ><(((('> \n\t\t\t\t\t  ■\t\t        ■\n \t\t\t\t\t  ■■■■■■■■■■■■\n");
             Console.ResetColor();
+            if (endingCredit.CheckEndLogic())
+            {
+                Console.Write("8. 용궁 입장    ");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write("■\n\t\t            ><((('>\t  ■    ");
+                Console.ResetColor();
+            }
             Console.WriteLine("\n\n\t\t\t\t         원하시는 행동을 입력해주세요.  \n\n");
-            int num = SelectBehavior(1, 7);
+            int num = endingCredit.CheckEndLogic() == true ? SelectBehavior(1, 8) : SelectBehavior(1, 7);
             switch (num)
             {
                 case 1:
@@ -195,6 +203,9 @@ namespace TextRPG
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.WriteLine("\n\n\n\t\t\t     ><((º> 용궁에서의 기억은 좋으셨나요? 또 만나요 <º))><\n\n");
                     Console.ResetColor();
+                    break;
+                case 8:
+                    endingCredit.EndingDisplay();
                     break;
             }
         }
@@ -345,6 +356,7 @@ namespace TextRPG
         {
             player = new Player("", 1, "일반물고기", 10, 5, 100, 100, 0, 10000); //초기세팅
             dungeon = new Dungeon(player);
+            endingCredit = new EndingCredit(player);
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\n\n\t\t\t                  <°))><    _----|   ><>   _ _ _ _ _\r\n\t\t\t            >((('>            ----|_----|   ]-I-I-I-[\r\n\t\t\t          _ _ _ _ _ _ _----|      | ----|   \\ `  ' /\r\n\t\t\t          ]-I-I-I-I-[  ----|      |     |    |. ` | <')))>< \r\n\t\t\t           \\ `   '_/       |     / \\    |    | /^\\|\r\n\t\t\t            []  `__|  ><>  ^    / ^ \\   ^    | |*||\r\n\t\t\t            |__   ,|      / \\  / ^ ^`\\ / \\   | ===|\r\n\t\t\t ><(('> ___| ___ ,|__   / ^  /=_=_=_=\\ ^ \\  |, `_|\r\n\t\t\t         I_I__I_I__I_I  (====(_________)_^___|____|____\r\n\t\t\t         \\-\\--|-|--/-/  |     I  [ ]__I I_I__|____I_I_|\r\n\t\t\t          |[] `    '|_  |_   _|`__  ._[  _-\\--|-|--/-/\r\n\t\t\t         / \\  [] ` .| |-| |-| |_| |_| |_| | []   [] |\r\n\t\t\t        <===>      .|-=-=-=-=-=-=-=-=-=-=-|        / \\   ><('>\r\n\t\t\t        ] []|` ` [] | .   _________   .   |-      <===>  \r\n\t\t\t        <===>  `  ' ||||  |       |  |||  |  []   <===>\r\n\t\t\t         \\_/     -- ||||  |       |  |||  | .  '   \\_/\r\n\t\t\t        ./|' . . . .|||||/|_______|\\|||| /|. . . . .|\\_\r\n\t\t\t    --------------------------------------------------------");
             Console.WriteLine("\n\n\t\t\t         끝없는 바다 아래, 그 곳에서 새로운 모험이 시작된다. \n\n\t\t\t\t\t     아무 키나 눌러 시작하세요!");
