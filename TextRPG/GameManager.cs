@@ -28,8 +28,8 @@ namespace TextRPG
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine("\n\t\t\t ><(((('>   바닷속 어딘가, 용궁에 한 마을에 도착한다.   <'))))><\n\n\n\n\n");
             Console.ResetColor();
-            Console.WriteLine("\t\t\t\t\t1. 여기 와본적이 있는거 같다.\n\n\n");
-            Console.Write("\t\t\t\t\t     2. 처음 와본거 같다.\n\n\n ");
+            Console.WriteLine("\t\t\t\t\t  1. 여기 와본적이 있는거 같다.\n\n\n");
+            Console.Write("\t\t\t\t\t       2. 처음 와본거 같다.\n\n\n ");
 
             int num = SelectBehavior(1, 2);
             switch (num)
@@ -40,10 +40,12 @@ namespace TextRPG
                     if (loadedGameData != null)
                     {
                         player = loadedGameData;
-                        Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine($"\t\t\t\t      이름 : {loadedGameData.name}, 레벨 : {loadedGameData.level}, 직업 : {loadedGameData.job} ");
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.WriteLine($"\n\n\n\t\t\t\t      이름 : {loadedGameData.name}, 레벨 : {loadedGameData.level}, 직업 : {loadedGameData.job} ");
                         Console.ResetColor();
-                        Console.WriteLine("\n\t\t\t\t\t       아무키나 눌러주세유");
+                        Console.ForegroundColor = ConsoleColor.DarkGray;
+                        Console.WriteLine("\n\n\n\t\t\t\t\t       아무키나 눌러주세요");
+                        Console.ResetColor();
                         Console.ReadKey(); // 한글자 입력*
 
                         battleResult = new BattleResult(player,dungeon);
@@ -67,7 +69,7 @@ namespace TextRPG
         static void CreateName()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("\n\t\t><(((('>    그렇군요.. 처음 오신만큼 이 마을의 가호가 깃들길 바라겠습니다.   <'))))><\n\n\n\n\n");
             Console.ResetColor();
             Console.Write("\t\t\t\t\t용사님의 이름은 무엇인가요?   \n\n");
@@ -173,7 +175,12 @@ namespace TextRPG
                 Console.Write("■\n\t\t            ><((('>\t  ■    ");
                 Console.ResetColor();
             }
-            Console.WriteLine("\n\n\t\t\t\t         원하시는 행동을 입력해주세요.  \n\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
+
             int num = endingCredit.CheckEndLogic() == true ? SelectBehavior(1, 8) : SelectBehavior(1, 7);
             switch (num)
             {
@@ -198,8 +205,12 @@ namespace TextRPG
                     quest.QuestMenu();
                     break;
                 case 7:
-                    Console.ForegroundColor= ConsoleColor.Cyan;
-                    Console.WriteLine("\t\t\t     ><((º> 용궁에서의 기억은 좋으셨나요? 또 만나요 <º))><");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine("\n\n\t\t\t                  <°))><    _----|   ><>   _ _ _ _ _\r\n\t\t\t            >((('>            ----|_----|   ]-I-I-I-[\r\n\t\t\t          _ _ _ _ _ _ _----|      | ----|   \\ `  ' /\r\n\t\t\t          ]-I-I-I-I-[  ----|      |     |    |. ` | <')))>< \r\n\t\t\t           \\ `   '_/       |     / \\    |    | /^\\|\r\n\t\t\t            []  `__|  ><>  ^    / ^ \\   ^    | |*||\r\n\t\t\t            |__   ,|      / \\  / ^ ^`\\ / \\   | ===|\r\n\t\t\t ><(('> ___| ___ ,|__   / ^  /=_=_=_=\\ ^ \\  |, `_|\r\n\t\t\t         I_I__I_I__I_I  (====(_________)_^___|____|____\r\n\t\t\t         \\-\\--|-|--/-/  |     I  [ ]__I I_I__|____I_I_|\r\n\t\t\t          |[] `    '|_  |_   _|`__  ._[  _-\\--|-|--/-/\r\n\t\t\t         / \\  [] ` .| |-| |-| |_| |_| |_| | []   [] |\r\n\t\t\t        <===>      .|-=-=-=-=-=-=-=-=-=-=-|        / \\   ><('>\r\n\t\t\t        ] []|` ` [] | .   _________   .   |-      <===>  \r\n\t\t\t        <===>  `  ' ||||  |       |  |||  |  []   <===>\r\n\t\t\t         \\_/     -- ||||  |       |  |||  | .  '   \\_/\r\n\t\t\t        ./|' . . . .|||||/|_______|\\|||| /|. . . . .|\\_\r\n\t\t\t    --------------------------------------------------------");
+                    Console.ResetColor();
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.WriteLine("\n\n\n\t\t\t     ><((º> 용궁에서의 기억은 좋으셨나요? 또 만나요 <º))><\n\n");
                     Console.ResetColor();
                     break;
                 case 8:
@@ -225,14 +236,14 @@ namespace TextRPG
                     else
                     {
                         Console.ForegroundColor = ConsoleColor.Red; //색 바꾸기
-                        Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n");
+                        Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n\t\t\t\t\t\t      ");
                         Console.ResetColor(); //색 초기화
                     }
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Red; //색 바꾸기
-                    Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n");
+                    Console.WriteLine("\t\t\t\t\t\t잘못된 입력입니다.\n\t\t\t\t\t\t      ");
                     Console.ResetColor(); //색 초기화
                 }
             }
@@ -251,7 +262,15 @@ namespace TextRPG
 
             player.PlayerInfo(); //캐릭터 정보 표시
 
-            Console.Write("\n\t\t\t\t\t\t  0. 나가기\n\n\t\t\t\t\t 원하시는 행동을 입력해주세요.\n\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n\n\t\t\t\t\t\t 0 : 나가기");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
+
             int num = SelectBehavior(0, 0);
             if (num == 0)
                 GameStartUI();
@@ -263,10 +282,10 @@ namespace TextRPG
             {
                 items.Add(new Item(" 고등어 비늘 ", 1, 05, "       반짝반짝하니까..천적을 조심하세요       ", 1000));
                 items.Add(new Item("물방울 보호막", 1, 09, "        물방울이어도 나름 튼튼합니다.          ", 2000));
-                items.Add(new Item(" 고래의 은혜 ", 1, 15, "고래의 은혜를 받아 만들어진 전설의 갑옷입니다. ", 3500));
+                items.Add(new Item(" 고래의 은혜 ", 1, 28, "고래의 은혜를 받아 만들어진 전설의 갑옷입니다. ", 4600));
                 items.Add(new Item("    복어탄   ", 0, 02, "    복어가 뾰족하기도 하지만 독도 있답니다.    ", 600));
                 items.Add(new Item("  오징어 활  ", 0, 05, "    오징어 발이 10개라 화살 수도 10개라구요!   ", 1500));
-                items.Add(new Item(" 상어의 의지 ", 0, 07, "      상어의 의지가 담긴 전설의 창입니다.      ", 2500));
+                items.Add(new Item(" 상어의 의지 ", 0, 28, "      상어의 의지가 담긴 전설의 창입니다.      ", 5400));
             }
         }
 
@@ -275,16 +294,29 @@ namespace TextRPG
         static void DungeonUI()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Battle!!\n");
             Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("\n\n       \t\t             O===[==============================================>\r\n       \t\t            ||                     \t\t\t\t|| \r\n       \t\t            ||                     \t\t\t\t||\r\n       \t\t            ||     BBBB   AAAAA  TTTTT  TTTTT  L      EEEEE     ||\r\n       \t\t            ||     B   B  A   A    T      T    L      E         ||\r\n       \t\t            ||     BBBB   AAAAA    T      T    L      EEEE      ||\r\n       \t\t            ||     B   B  A   A    T      T    L      E         ||\r\n       \t\t            ||     BBBB   A   A    T      T    LLLLL  EEEEE     ||\r\n       \t\t            ||                     \t\t\t\t|| \r\n       \t\t            ||                     \t\t\t\t|| \r\n       \t\t             O===[==============================================>\n\n");
+            Console.Write("\n\n\t\t\t\t       아무 키나 눌러 전투를 시작하세요!   ");
+            Console.ReadKey();
+            Console.ResetColor();
+            Console.Clear();
             dungeon.RandMonsters(false);
             //몬스터 정보 입력하고
-            Console.WriteLine("[내정보]");
-            Console.WriteLine(player.name);
-            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
-            Console.WriteLine("1. 공격\n\n원하시는 행동을 입력해주세요.");
+            Console.ForegroundColor= ConsoleColor.Green;
+            Console.WriteLine("\t\t\t\t\t\t  [ 내정보 ]\n");
+            Console.WriteLine($"\t\t\t\t\t\t     {player.name}");
+            Console.WriteLine($"\t\t\t\t\t        Lv.{player.level:D2} / {player.job}");
+            Console.WriteLine($"\t\t\t\t\t\t  HP {player.hp}/{player.maxhp}\n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = (ConsoleColor)ConsoleColor.Cyan;
+            Console.Write("\t\t\t\t\t\t    1. 공격");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
             int num = SelectBehavior(0, 1);
             switch (num)
             {
@@ -301,17 +333,22 @@ namespace TextRPG
         static void AtkUI()
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("Battle!!\n");
             Console.ResetColor();
             dungeon.ShowMonsters(); //랜덤 몬스터 바뀌는 값 수정
-            //몬스터 정보 입력하고
-            Console.WriteLine("[내정보]");
-            Console.WriteLine($"{player.name}");
-            Console.WriteLine($"Lv.{player.level:D2}\nJob {player.job}");
-            Console.WriteLine($"HP {player.hp}/{player.maxhp}\n");
-            Console.WriteLine("1. 공격");
-            Console.WriteLine($"{dungeon.spawnedMonsters.Count + 1} 체력 포션 \n\n원하시는 행동을 입력해주세요.");
+                                    //몬스터 정보 입력하고
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\t\t\t\t\t\t  [ 내정보 ]\n");
+            Console.WriteLine($"\t\t\t\t\t\t     {player.name}");
+            Console.WriteLine($"\t\t\t\t\t        Lv.{player.level:D2} / {player.job}");
+            Console.WriteLine($"\t\t\t\t\t\t  HP {player.hp}/{player.maxhp}\n\n");
+            Console.ResetColor();
+            Console.ForegroundColor = (ConsoleColor)ConsoleColor.Red;
+            Console.Write($"\t\t\t\t  {dungeon.spawnedMonsters.Count + 1}개 체력 포션");
+            Console.ResetColor();
+            Console.Write("을 가지고 있습니다. 먹고 싶으시죠?\n\t\t\t\t     지금은 먹는 방법을 알려드리지 않을겁니다.\n\n");
+            Console.ForegroundColor = (ConsoleColor)ConsoleColor.Cyan;
+            Console.WriteLine("\t\t\t\t      공격 하시고 싶은 대상을 번호로 눌러주세요.");
+            Console.ResetColor();
             dungeon.StartBattle();
             //int attackNum = SelectBehavior(1, dungeon.randomMonsterCount);
             //switch (attackNum)
@@ -343,8 +380,11 @@ namespace TextRPG
             player = new Player("", 1, "일반물고기", 10, 5, 100, 100, 0, 10000); //초기세팅
             dungeon = new Dungeon(player);
             endingCredit = new EndingCredit(player);
+            Console.SetWindowSize(120, 60);
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("\n\n\t\t\t                  <°))><    _----|   ><>   _ _ _ _ _\r\n\t\t\t            >((('>            ----|_----|   ]-I-I-I-[\r\n\t\t\t          _ _ _ _ _ _ _----|      | ----|   \\ `  ' /\r\n\t\t\t          ]-I-I-I-I-[  ----|      |     |    |. ` | <')))>< \r\n\t\t\t           \\ `   '_/       |     / \\    |    | /^\\|\r\n\t\t\t            []  `__|  ><>  ^    / ^ \\   ^    | |*||\r\n\t\t\t            |__   ,|      / \\  / ^ ^`\\ / \\   | ===|\r\n\t\t\t ><(('> ___| ___ ,|__   / ^  /=_=_=_=\\ ^ \\  |, `_|\r\n\t\t\t         I_I__I_I__I_I  (====(_________)_^___|____|____\r\n\t\t\t         \\-\\--|-|--/-/  |     I  [ ]__I I_I__|____I_I_|\r\n\t\t\t          |[] `    '|_  |_   _|`__  ._[  _-\\--|-|--/-/\r\n\t\t\t         / \\  [] ` .| |-| |-| |_| |_| |_| | []   [] |\r\n\t\t\t        <===>      .|-=-=-=-=-=-=-=-=-=-=-|        / \\   ><('>\r\n\t\t\t        ] []|` ` [] | .   _________   .   |-      <===>  \r\n\t\t\t        <===>  `  ' ||||  |       |  |||  |  []   <===>\r\n\t\t\t         \\_/     -- ||||  |       |  |||  | .  '   \\_/\r\n\t\t\t        ./|' . . . .|||||/|_______|\\|||| /|. . . . .|\\_\r\n\t\t\t    --------------------------------------------------------");
+            Console.OutputEncoding = Encoding.UTF8;
+            Console.WriteLine("\t⠈⠣⣍⠹⡹⡬⡣⣕⠈⠄⠑⢄⠈⠙⢮⡩⢹⢳⣍⠣⡅⠅⢅⠑⢥⠡⠙⢧⡫⡫⣻⢽⡹⣝⢬⡊⠣⡫⣛⢿⢿⣟⡿⡿⣿⢿⡿⣿⢿⡿⡿⣿⢿⡿⡿⡿⡿⣟⣿⢿⢿⢿⢿⣻⡿⣟⡿⣟⡿⣿⣻⢿⢿⣻⢿⣻⢿⣻⣟⣿⣻⣟⣿⣻⣟⣿⣻⣟⡿⣻⣟⡿⣻⣟⣿⣻⣟⡿⣻⢿\n\t⠐⡄⠈⠳⣌⢪⢳⣌⠳⣌⠨⠠⢑⢐⠀⡙⢦⡑⢝⢗⣭⠳⡤⡑⠄⠍⢎⠢⡙⡺⣜⢝⢽⢮⡳⣝⡜⣌⠪⡪⡫⣞⢿⡯⣿⢽⣯⡹⢯⢟⠿⢽⢯⣟⣟⣟⣯⢿⣞⣟⠘⣟⣯⢷⢿⡽⣯⢿⣽⡳⡛⠝⠫⠻⡙⣼⢯⣗⣟⣾⣺⣞⣞⣗⣷⣳⣗⡷⣻⣳⣗⡿⣽⣺⣞⡾⣺⡽⡯⣿\n\t⠀⠌⢢⢀⠈⠳⣕⠹⣕⣎⠳⣅⢂⠢⡑⢄⢂⠙⢮⡪⡺⣳⣕⢝⢬⡊⢆⢑⢢⢢⠩⡳⣵⡹⡽⣺⣝⡮⡳⣜⢜⢜⢵⡻⣽⣻⢾⣽⣐⢤⡡⠱⡫⣟⠾⣽⠾⣻⣢⡓⠌⣇⣺⡽⢯⢿⠝⢽⠎⡓⠤⡵⡡⠥⣗⣯⣟⣞⣗⣷⣳⣻⣺⣳⣳⣗⡷⣻⡽⣞⡾⣽⡳⣗⡷⣻⡽⣞⡯⣿\n\t⡱⡌⠠⠑⢔⢀⠈⠷⣌⢺⡳⣌⠳⣔⢌⠢⡑⢌⢄⠙⢮⡪⡺⣳⢵⡹⡦⡱⡐⡕⢕⢌⠪⡺⣣⢯⡺⡽⣯⢮⡳⡵⣱⢹⢪⣞⢟⣷⣳⢵⠩⡐⡐⡐⠼⣽⣇⡘⢪⠻⢸⢫⢓⢅⣽⢯⠇⢅⠑⢌⢂⢪⢚⣿⣺⣞⣞⣗⣟⣾⣺⣳⣻⣺⡵⣗⣟⣗⣯⢷⣻⡵⣟⣗⡿⣽⣺⡽⣽⣺\n\t⣬⠹⣪⡨⢈⠒⣔⢀⠙⢖⡍⢯⣳⡌⢗⣕⢌⠢⡑⡕⢄⢙⢮⡪⡫⣟⣮⡫⡮⣪⢢⢱⠱⡜⡌⡓⡯⣞⢽⢽⢯⣯⡺⣵⣣⢳⢝⣗⣟⡗⡕⣕⠖⢎⢢⢢⢑⠻⢅⠅⠅⡅⡕⢏⢅⢕⢜⠲⠳⠁⢗⡯⣿⣺⣳⣻⣺⣳⣻⣺⣞⣗⣯⢾⡽⣽⣺⣳⢽⣽⣺⢽⣳⣻⣺⣳⣗⣯⣗⣟\n\t⢽⣳⡢⡻⣔⠐⢄⠳⡨⠠⠙⢧⡪⣺⣳⢜⢧⡣⡢⡊⡪⡢⡢⡙⣧⣣⢳⣻⢮⡪⣗⣕⢕⢕⢕⢕⢕⢝⢽⢵⣻⣺⢽⣞⡮⣗⣧⡳⣳⣲⢘⢜⢵⡑⡒⠔⢄⠱⠠⡱⡑⡐⡘⢄⢑⢔⢂⠫⢁⢈⢲⣲⣗⣟⣞⣗⣟⣞⣷⣳⣗⣟⡾⣽⢽⣳⡽⣞⣟⣞⡾⣽⡳⣯⣞⣗⣷⡳⣗⣯\n\t⢷⡹⣻⢮⡪⡳⣄⠑⠌⠧⡑⢌⠹⣲⢕⢯⣗⡝⡮⣪⢢⢪⠪⡢⡢⠹⢮⡪⢯⣻⢶⣕⢷⣕⢕⢕⢝⢮⢪⢹⢺⢮⣻⣺⡽⣗⣷⣻⣺⡺⢐⠸⢱⡣⡧⣓⢖⣜⢜⢮⡃⠪⡈⠢⡑⡐⠄⢕⢀⢢⢳⢳⣻⣺⣳⣻⣞⡷⣳⣗⣷⣻⣺⢽⣽⣺⢽⣳⢯⢾⢽⣺⢽⣳⣳⣻⢮⣟⣗⣷\n\t⠨⠻⣮⡻⣽⢎⡎⡧⡅⢅⢙⢦⡑⢌⠻⣪⡎⣟⡮⣝⢮⣪⢪⢪⢪⢪⢪⠹⢧⡳⣻⣺⣳⣝⢗⣽⢸⡪⣲⡑⠱⠹⢹⠺⢽⣻⣞⣷⡳⠁⡂⠄⠂⢗⢝⢎⢗⢎⢎⢓⢌⠢⡈⡂⠢⠨⠨⠐⢠⣳⡣⡫⣟⡾⣽⣞⡾⢝⡏⠾⢞⢞⢢⣟⣾⣺⣻⣺⡽⣽⢽⡽⡽⣞⣗⡯⣟⣮⣗⣿\n\t⢌⠪⡪⡳⣝⢯⡷⣕⢽⣲⡐⡐⢝⢦⡑⢌⢻⣜⢞⡽⣮⡺⣵⡱⡱⡱⡱⡱⡱⡹⢮⣺⢺⣺⢷⣝⢷⣝⢮⡺⣕⢇⠆⠵⢋⠓⣷⢗⠡⠑⠨⣌⠈⠌⢆⠕⢔⢐⢑⢐⢐⢐⠐⠌⠌⠌⠌⢠⡳⡵⣳⢱⢹⢽⣳⡓⠿⡆⢆⠳⣆⣗⣟⣾⣺⣞⣗⣟⡾⣽⢽⢞⡯⣟⡾⣽⢽⣺⣞⣾\n\t⡹⣮⢪⢪⠹⣳⡽⡯⣗⣎⢷⢎⡢⡑⢝⢆⡂⡪⡻⣮⢳⣻⢎⡯⣾⡸⡸⡸⡸⡜⡌⠯⡷⣝⣗⡯⣷⣝⣗⡯⡮⡱⡩⡌⡌⡚⡈⡂⠌⢌⢼⢪⢢⠈⠄⢅⢑⢐⢐⢐⢐⠠⠡⠡⠡⡁⡧⣳⢯⣫⢯⣗⣕⢝⡚⡪⡂⣎⠕⡝⣷⣻⣺⣞⡾⣺⡵⣯⢯⣟⡶⣴⡺⢽⣺⡽⡽⣞⣾⣺\n\t⡸⡸⣳⣕⢕⢕⢯⢯⣻⣞⡮⡫⡷⣜⢔⢕⢕⣆⠪⡪⣳⢽⣹⣳⣕⡟⣮⡎⡮⣪⢳⠱⡹⣺⢮⢯⣷⣻⣞⣾⠑⠇⡊⠪⠨⢐⠐⡐⣨⢾⠹⡡⡑⢕⢅⢐⠐⡐⡐⡐⡐⠨⡈⠪⠸⡌⠎⠍⡃⡃⠣⢑⢈⢂⠪⢘⢘⠘⢜⢘⣞⣗⣷⣳⢻⡽⣽⣳⣻⢮⠫⢳⢿⢽⣺⣽⣫⢷⣳⣻\n\t⣾⡸⣘⠮⡷⣕⢕⢝⢷⡳⣫⡿⣜⢽⢮⡪⡢⡪⡳⡸⡨⡹⣺⣺⣪⣟⣮⡻⣺⣜⢮⣪⣂⠂⡅⠡⡳⣻⡺⣽⣳⣵⣐⣄⣑⢴⢜⢪⢏⢗⣑⢅⢅⣑⢹⠰⡢⣂⢂⢂⠢⡡⡢⣱⣝⡦⣅⢅⡐⡀⡅⣐⣀⣢⢔⣴⣰⢵⣳⠹⢑⠙⢜⢪⢾⢽⣳⡽⡾⡽⣯⢯⢿⢽⣳⢗⣯⢯⣗⡯\n\t⢯⣟⣮⢣⡫⣳⣳⢕⢵⠹⣸⢿⢽⣳⣝⢽⢮⡪⡪⡹⣪⡪⡪⡺⣺⡺⡮⣟⡮⣞⢷⣕⢧⡳⡩⡐⠠⡡⡡⡽⣳⡝⠳⣗⢯⢏⢮⠣⡫⣊⢊⡃⡇⢇⢏⢪⠪⡪⣳⢽⣝⢮⢝⢮⢎⡯⡯⣗⡯⣻⡺⡳⡽⣺⣝⢌⢚⢑⠁⠕⢶⣑⣒⣽⡽⡯⣗⡿⣽⣫⡯⡿⣽⣻⣺⢯⣗⡿⣺⡽\n\t⣟⡷⣯⢷⣝⣜⢞⣯⠗⠕⡌⡿⣽⣳⣻⢮⡫⣗⣧⢣⢣⢫⢮⡪⡪⡫⡯⣗⣟⣷⣫⢯⡷⣝⡮⡖⠡⠱⡐⢍⢌⠫⡳⡲⡑⡝⡕⢅⢕⠰⡑⢌⢌⠢⣑⢐⢑⢌⢮⡳⣳⢹⢕⢑⢯⢯⢯⣳⢝⡵⣕⢵⠯⠳⠫⡃⡖⡄⣅⣃⣳⢾⡽⡾⡽⡯⡯⣟⣞⣪⢯⣟⢾⣺⢾⢽⣺⢽⣳⣻\n\t⡾⡯⣿⢽⣞⡮⡳⠩⠨⠠⠡⠡⢙⠺⢽⢯⣟⣞⠮⣗⡧⡣⡣⡻⣪⢎⢞⢮⡪⡪⢸⢽⣽⢽⣺⠐⠨⡪⠨⡢⠢⡑⡐⢌⠊⠌⠌⡂⡂⡑⠌⡂⠢⡑⡐⢌⢂⠢⡑⡙⡘⡑⠅⠪⢢⢫⢯⢺⢳⢹⢐⢂⢃⠣⠱⡨⡨⠠⢘⡵⣯⢯⡯⡻⣜⢌⢬⡪⣢⡯⣟⡾⢝⢮⣬⣟⣞⡯⣗⠯\n\t⣻⢷⣍⢍⢂⢂⠂⠅⠡⢡⠡⢁⠂⠌⢄⢡⢉⣢⡿⣕⡯⡷⣝⢜⢎⢟⢮⡣⡏⢎⢎⠪⡺⣻⠕⠠⡑⠌⢌⢌⡂⡂⠌⡐⠌⢌⢂⢂⠂⢌⠂⢌⢐⢐⠨⢐⠠⢁⢂⢂⠂⡂⠅⠅⢕⠅⡑⠠⢑⠐⡐⡐⡐⢅⢑⠐⠌⠌⣜⢎⠝⢝⢓⢏⢎⠪⡪⡯⣗⣟⣗⣯⢷⢯⢬⣺⣳⢯⡳⡹\n\t⣟⣟⣾⣻⣽⢳⡻⡽⣝⢾⢝⣗⣟⢽⢽⢽⢯⣷⣻⡽⡾⣝⡽⣮⣣⢫⢎⢟⡮⡣⡡⡡⡕⡃⠢⢑⠨⠨⠠⢑⢘⢮⢧⢧⡣⡣⣓⢆⢇⢦⢱⢰⡰⣠⣑⢔⡌⡔⡔⡔⡔⣄⣕⡵⣽⣢⡢⣌⢔⣔⡖⡔⢌⢂⠢⠡⢁⢸⣪⢧⢱⣰⡰⡰⣔⡵⣵⣻⢽⣺⢵⢯⢯⣟⣽⣳⢯⢗⢇⡗\n\t⡿⣽⣞⢷⣻⢘⢜⣖⢎⠎⡳⣳⢵⣫⢮⣻⢽⢞⣗⣯⡏⡗⡯⣞⢾⢵⡹⣕⢽⢵⢌⣆⡢⡢⡁⡂⡌⡌⡌⡔⣔⢽⣝⣗⠕⢜⢵⣣⣣⡱⡱⡱⡱⡳⣝⢷⢽⢝⢵⡫⣟⡞⣞⢼⣺⣺⢽⢽⢽⠺⠨⢈⢂⠢⠡⢁⢔⣽⡺⣧⡣⡳⡕⣕⡵⣯⣗⡯⣟⣞⡯⣟⣽⢞⣗⣯⢣⢣⢣⠫\n\t⣻⣗⡧⠹⠸⠨⡊⡚⠜⠄⡝⡚⡝⢜⠜⠜⠕⢝⣷⣳⢿⢬⠌⣌⢂⠹⣱⡳⣝⢮⡳⣣⢯⠪⡯⣺⢺⡪⡎⣞⢾⡝⣞⢮⠡⡀⢌⢺⡪⠮⡣⡳⡙⠜⢜⢽⡹⢜⢜⢺⣳⢝⢮⢳⣸⣘⢝⢜⢌⢌⢌⢐⢐⢌⢬⢮⣫⢞⣞⢮⣻⡺⡪⣗⢯⣗⣗⡯⣗⣯⢯⡳⢝⢑⢕⣌⢮⢞⢕⢝\n\t⢿⣞⣟⣮⢖⡵⡦⡦⡥⡥⡬⡦⡮⡖⣗⡽⡹⡽⣞⡾⡽⡯⣟⡢⡡⡱⡰⡺⡺⠝⡚⠌⠌⠌⠌⠌⢌⠪⠪⡊⢗⢝⢎⠢⡐⡐⡀⡂⢣⢑⢐⠌⠌⢌⠢⡘⢜⢜⢌⢺⣺⠸⡸⡱⣕⢧⢫⢏⡗⡽⣕⢯⢪⢯⢯⣳⢽⣕⢯⡳⡣⡫⡳⡱⡹⡸⡱⡻⢝⠾⢧⢣⣣⢱⢱⡱⣏⢧⢳⢱\n\t⡿⡞⡝⡞⡧⡱⣟⣞⣮⠪⡺⡽⣞⣞⢷⢭⠇⣟⣗⡿⣝⡯⣷⣳⡐⡌⡨⡐⠨⢐⠠⠡⡑⢅⢅⢑⢐⠨⢐⠐⠄⠕⡐⡐⡼⡢⣆⢐⠠⢑⠄⢅⠑⢄⠑⢌⢂⠪⢨⢪⠪⡊⡊⠪⡈⠪⡈⡊⠪⡑⡑⡙⡐⢝⢝⢎⢇⠇⢇⠣⢑⢀⢆⢮⡪⡪⡈⠪⡈⠪⡈⡂⣂⣢⢵⡫⡎⣎⢇⠧\n\t⡿⠮⠪⡪⡢⡃⡿⣸⣞⡏⣺⣟⣽⢮⣟⢜⠑⡕⣟⡾⣽⢽⣳⡽⣽⣺⣞⡮⣎⢖⣜⢦⣪⢢⠡⡑⠠⢑⠠⠡⠡⡡⣢⡯⡣⡑⡱⡣⡌⠄⠡⠡⡑⢄⢑⠐⠄⢅⢇⠢⡑⡐⠨⢐⢈⢂⢂⠢⢑⢐⢐⢐⠨⠐⠄⢕⠄⡑⠠⠡⡐⡼⣝⣗⣯⡺⣌⢦⢬⣲⣺⢼⣺⣺⢽⡝⡜⣎⡮⡮\n\t⠳⠧⡧⡮⡞⡅⣟⢼⣞⡇⡺⣞⣗⡗⠝⠄⠅⡇⢏⠯⣷⣻⢵⣻⡵⣗⣷⣻⣳⠣⢫⢯⡪⡳⡱⣪⣪⡢⣥⣗⢭⡫⡓⡷⡱⢥⢱⡸⣜⢧⢅⡑⡈⡂⡂⠌⡈⡢⣣⣂⣂⢢⡡⣆⢆⣂⠢⡨⡐⡐⡀⡂⢌⢌⢌⣮⡐⡄⣅⢦⡺⣝⣞⢾⣜⢽⣺⡳⣽⣺⡕⡇⡗⣗⡝⡜⣎⢞⢎⢎\n\t⣌⢢⡪⡣⣪⡆⣓⢽⡺⡅⠽⠹⠨⠨⠨⠨⢨⢈⠢⠑⢄⢑⠫⠳⡫⢣⣺⡞⣞⡜⢜⡲⣕⢎⢌⠮⣬⢭⢪⢺⢵⡱⢕⢝⢜⢜⠔⢎⢎⢆⢜⢮⢶⢮⢮⢮⢖⢯⣳⡳⣺⡳⣯⣻⢝⡮⣝⢞⣞⢞⣞⢞⡼⡺⣝⢮⢯⢯⣳⢝⣞⡵⣫⢗⣕⡯⣗⢝⢮⢪⡪⡊⡮⣣⢳⡹⡎⡎⡎⡎\n\t⢏⢫⢱⢹⠪⠢⡳⣵⣢⡡⡡⡡⡡⠡⠡⠁⡆⡂⠌⣌⣐⣔⡬⡲⣪⢳⢣⡫⡎⡞⢌⢯⢎⡇⠇⡿⡽⣕⡇⡣⣗⢌⡢⡭⡡⣍⢝⢕⡑⠕⢕⠹⣹⡳⡽⡹⡪⣗⢷⢝⣗⢽⡺⣪⢯⣚⠆⠕⡗⢗⢖⢧⠹⢸⡪⡯⡯⣳⡱⣫⣞⣞⡽⣕⢆⢟⡮⡣⡣⡣⡣⡂⡏⡮⡣⡣⡣⡣⡣⡣\n\t⣣⣣⡳⡕⣜⢵⡹⣺⣺⡕⡝⡽⡺⡫⣟⢮⢻⣺⢽⢺⢺⡪⡳⡹⡸⡸⡱⡱⡕⡝⠠⡳⡱⡱⠡⡹⡪⡪⡆⡪⣞⢵⢂⢳⡺⣜⢽⣝⡽⣇⢇⢣⢳⣝⢞⢜⢤⢳⢽⡽⣪⡳⣝⢞⣯⢷⣹⡘⣮⣻⣺⡢⠱⠰⣕⡯⡯⡎⣞⣗⣗⢗⡯⡮⡪⣺⢽⢸⢸⢘⢐⠐⡵⡱⡱⡱⡱⡱⡑⢕\n\t⢘⢰⡰⡜⡮⡳⡝⡞⡎⡇⠎⡎⡎⣎⢪⡊⡪⡺⣕⢧⡣⣏⢎⢪⠪⡪⡪⡪⢪⠪⠨⡪⡊⡪⡂⢧⡣⡯⡢⢘⡮⡳⡐⢕⢯⢪⢳⣕⢯⢯⡗⡈⡷⡽⡽⣕⠢⣻⢽⣺⢵⡹⡜⡽⣺⣽⣺⠀⣗⣗⣗⡯⡏⡘⡾⡽⣝⢎⢗⡷⡝⣵⡫⣞⢜⢮⡻⡘⠌⡂⠢⠡⢹⠱⡱⢱⢱⢱⢭⣪\n\t⣼⠸⡸⣱⢝⢵⢱⡣⡃⣃⠣⡑⠕⡕⠕⢔⢸⢸⢪⠏⣞⢪⠣⠣⡃⡊⠢⠨⡘⠌⠌⢮⢪⣊⠊⢞⠼⣸⠨⢸⡪⣳⢐⢸⢹⢸⢸⢎⣯⣳⡳⠈⣞⡽⣺⢕⠱⣹⢽⡺⣕⢽⢸⢝⣗⣗⡗⠅⣺⡺⡮⣗⢕⠨⣺⢯⣳⢱⣹⢽⣲⣑⢙⢊⠫⠪⠨⠠⢁⠂⠅⠅⠢⢑⢌⢂⠢⠡⡑⢌\n\t⣎⠎⠞⡮⡑⢕⢕⢝⣔⢤⣅⣅⣑⡈⡘⡐⠰⡑⡑⣅⣆⣦⡳⡕⡕⡌⡎⣊⢊⠪⡪⣖⢴⢤⢅⢅⣅⢑⠡⡱⡭⠢⡂⡱⡑⠕⠕⢗⢕⢧⡳⠨⣪⢟⡮⡇⢌⢾⢽⣝⢮⡺⡸⣕⣗⣗⣏⠂⡮⡯⣯⡳⡕⠌⡾⡽⡮⡲⣪⢟⡞⣞⢮⢖⢮⣪⢬⣌⢔⡨⡨⡨⠨⡐⣰⡠⣡⡵⡎⡇\n\t⡣⢥⡹⡪⡪⡹⡨⡣⡑⢕⢕⡝⡎⣏⢗⢇⢷⢽⢽⢕⢗⢗⢝⢎⢮⢺⠸⠪⠪⠁⠉⠈⠈⠊⠂⠗⢕⢃⠡⡑⠪⠂⡂⢎⡢⡡⡕⡕⠝⢜⠘⢌⢎⠣⠹⡨⡘⣜⢧⡓⡧⡳⡹⠜⢜⢜⡊⡂⡏⠯⢺⢸⠡⢑⢽⢹⢹⢸⢸⢳⢹⣜⢵⡫⣗⡇⡗⡵⡫⡫⡺⣝⢽⢺⣺⢽⡹⡽⡅⠕\n\t⡝⣕⠳⠨⡢⡪⡲⡪⠪⡂⡂⡇⡊⡺⡐⡐⡕⢍⢓⢘⡪⡃⡃⡇⠁⢀⢢⠀⠀⢀⠄⠀⠀⡀⠀⢐⢐⢌⢎⢪⠪⡂⡊⡂⡢⠠⠠⡀⠡⡐⠨⢘⢬⠜⠔⠆⠂⢗⢅⣕⢵⡕⣗⣗⢦⢆⢆⢄⢅⣉⢊⠂⠓⠐⢕⢅⡥⣕⢕⡯⣳⢝⢧⢫⢺⠂⡪⡪⣢⡳⡑⣇⠣⢹⢮⢧⣫⣟⠌⣌\n\t⢸⢜⢜⠜⠎⠌⠌⢌⢂⢂⠂⡇⠢⢱⡑⡔⣆⢆⢔⢌⢌⢊⠂⠏⡓⡒⢸⢔⢔⢄⢇⢄⣀⠸⡀⢂⢇⡇⡇⠇⢕⢐⢐⠌⠌⢜⠐⢌⠢⡪⡢⠢⡢⣗⢽⡪⠪⡪⣗⢽⠕⢏⠚⠘⠘⠌⢂⢂⢏⢊⠣⠫⠣⢑⢵⣫⢞⢎⠎⠋⠊⠁⡇⢑⢕⡑⡘⠜⠕⢝⠎⢆⢱⠱⡯⡻⢺⡺⣝⢾\n\t⢇⠣⠡⠡⠡⡡⡣⡣⡢⡂⠅⡇⠅⠕⣇⡇⢪⢫⠢⡪⡷⡱⡑⡽⣔⡆⣲⣐⢄⠅⡕⡑⡘⠘⡌⡮⡣⡑⠔⢄⠄⢄⢀⠁⠑⠠⠑⠐⡕⣕⢌⠢⡹⢪⠓⠉⠂⢋⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠈⠈⠄⠃⠁⢡⠀⠀⢕⡠⢤⡳⣄⢔⣌⢨⢉⠊⠢⠑⠕⠔⠌⡮⡺⡹⣜⡮⡇\n\t⢄⠥⡱⡱⡡⡡⠐⡀⠂⡂⠅⡇⢅⠣⠳⠡⡱⠡⡑⢸⡊⡪⡊⢮⡳⣗⢔⢯⡿⣅⢝⣾⢈⢮⢪⠪⠢⠪⠨⠢⡑⠔⠄⢅⢑⢐⢠⡳⡝⡮⡪⠢⡢⢱⢠⢀⢀⢐⠅⠀⠀⡀⢬⠀⠀⠐⠌⠄⠀⠀⠠⡀⠀⢠⢅⡠⣸⢰⡱⡝⡮⡳⣝⡮⣇⢏⢏⢏⡏⢗⢧⢳⢴⢔⡵⣯⢻⢽⢝⢌\n\t⢆⢇⡇⡧⣣⡣⡡⠠⢁⠨⠀⡋⢊⠈⠌⡂⣎⢒⢘⢸⢌⢎⢆⢣⢟⣗⢐⢽⡯⡗⡘⡢⡳⡱⡑⠅⡅⠅⢕⠑⠌⢌⢊⢂⢂⢦⢳⢱⢝⢮⣪⡐⠌⢌⡊⡊⠊⠆⢗⠱⡑⡔⢸⢄⢄⢄⠐⢕⠀⡀⣌⢧⢪⡺⣜⢜⡎⡧⣳⢝⡾⣝⢮⣟⢷⡐⢵⢽⡺⣕⢷⡑⠕⡕⡝⡜⡌⡮⡣⡢\n\t⡕⠍⡊⠍⡊⠌⢐⠈⠄⢂⠁⠂⠄⠐⡐⡐⡼⡐⡐⢜⢎⢊⢂⢪⡫⡺⢐⢽⡍⢇⢜⢜⢎⢌⠪⠨⠨⠈⠆⠅⢕⠐⠔⣐⢼⢱⡱⣣⢳⢹⣺⢽⣇⢣⣳⢮⣎⢎⢆⣆⢢⠨⣈⢂⠡⢑⠑⢸⣕⢵⢣⣫⡣⡯⡮⣳⢝⣽⣳⢹⣽⡣⡳⣽⢽⡂⢝⣽⢽⡸⡵⣫⠃⡇⡇⣗⢕⢝⡎⡎\n\t⢈⢂⠢⡑⠄⢅⠂⠌⠌⠄⠌⢄⢁⢂⠐⢀⠉⠄⠌⡊⡎⠂⠢⢸⢪⠪⢰⠱⡡⡳⣱⠱⡑⢄⠣⡑⢅⢑⢅⢃⢅⠡⣱⢪⢎⢧⢫⢎⡗⣕⡯⣟⡮⢐⢽⣻⣞⠆⡳⣻⣽⡣⢪⣳⢧⣧⢑⢜⢮⢮⡗⣕⡯⣗⢽⣳⢹⣺⢞⢜⡾⣕⢝⡾⣳⠅⢕⡯⣗⢝⣽⣺⠀⢧⡫⣞⢮⡳⡵⣹\n\t⢰⠠⡑⣜⢌⢆⠌⠌⠌⠪⡩⡈⣂⠂⠌⠄⡂⠨⠀⡂⠄⠡⠑⡈⡂⡪⡢⣣⢳⢹⠠⠣⠨⠢⡑⢌⠢⠡⡂⡢⢢⡳⣱⢱⢝⢜⢼⢕⡽⡸⣽⢽⡇⡂⣯⢷⢯⡃⡪⣿⣺⡝⢐⢽⣻⣞⡆⢜⣽⢯⡳⡱⣟⡕⣟⡮⣪⢯⡗⣕⢿⡕⡧⡯⣯⠃⢝⣽⡳⡝⣞⢾⠀⡳⣽⡪⣗⣝⢮⡺\n\t⡿⢬⠨⡨⡈⠢⠡⠡⠡⠡⢡⢡⡢⡌⡌⡐⠠⠡⢁⠂⠅⠨⢀⠂⠘⠜⢎⠗⠝⠄⠕⠅⢕⢑⢌⠢⡑⡑⡐⡼⡜⡜⡎⣎⢧⢣⢳⡣⡯⡪⣯⢯⡗⡀⣯⢯⣟⠆⡪⡷⡯⡳⠐⣽⣳⣗⡇⢸⣺⢯⡳⡹⣳⡝⡾⡕⣵⣻⡪⡪⣗⢽⡪⣏⢞⢌⢪⢺⠹⠪⠫⢏⢂⢪⢗⡝⡼⣪⡳⣕\n\t⢜⢜⢜⢔⢌⢌⢌⢌⢎⢊⢊⠣⠡⡑⡐⠌⠌⢌⠢⡈⡈⢈⢀⣄⢦⣳⢣⠀⠀⠀⠈⠈⠐⠐⠠⢑⠸⡰⡳⡕⣕⢕⢇⢎⢮⢪⢺⢜⢮⡣⡯⡳⡑⡀⡗⡇⠗⠅⡪⡏⢯⢓⠈⣞⡗⣗⢇⢸⡺⡯⡣⡹⣕⢯⡫⡎⡮⡺⣪⢣⡳⡱⡹⡸⡸⡨⠸⡐⢈⠀⠁⢐⠐⢜⠘⠜⢝⠚⢜⠪\n\t⣯⢳⡳⣕⢕⢕⢔⢕⠔⢔⢔⠅⢕⢐⢌⢌⢪⢢⢑⢑⢑⢯⢗⡗⡝⣮⡳⡅⠄⠈⠄⠂⢁⠠⠀⠀⡕⡭⢪⢺⢸⢱⡣⡳⡝⣎⢗⢽⢕⠕⠏⠊⡂⢂⢗⠌⢈⢂⢪⡪⡐⡐⡀⡇⡃⡃⡃⢸⢪⢫⢂⢪⡪⡳⡝⡜⣎⢎⢎⢇⢇⢇⠣⡑⢄⠂⡁⠀⠄⢀⠁⠢⢈⠪⢊⠃⡁⠁⠄⠀\n\t⡯⣗⢽⣪⡳⡕⡕⡕⡕⡕⡔⡕⡕⢔⢕⡕⣕⢧⢢⡢⡸⣜⡵⡗⡛⠑⠁⡂⠡⡐⡌⠠⣠⡫⡪⡪⡣⣫⡣⡳⣝⢼⡪⡮⡫⡪⠣⠃⠅⠡⢀⠡⠐⢀⠐⠀⡐⠐⠜⢒⠀⡂⠂⣗⢐⠀⡂⡘⡆⠢⡑⢔⢅⢃⡫⡺⡸⡸⡘⠌⠂⠄⠑⠜⠼⠕⠄⠂⢐⢀⠢⣣⢢⢀⠂⠠⠐⠨⠠⠡\n\t⣯⡮⡧⡗⡏⡇⡇⡇⡇⡇⣇⡯⣎⢗⠝⠍⡊⠄⠅⡙⡙⠩⠨⢀⠂⢅⡅⡂⣅⢮⣎⢝⢔⣝⢼⣱⡫⣞⡾⣝⢮⢗⠽⢘⠨⠈⠄⡁⢂⠡⢐⠐⡈⠄⠄⠡⠀⢂⠁⢰⠡⠀⡁⠅⠀⠄⠢⠸⡜⠜⠜⠜⢊⠊⡐⠠⠠⠐⢀⠂⠡⠠⠡⢂⠂⢂⠨⠈⠄⢌⠜⠼⢌⢆⠨⠠⠡⠡⠡⡑\n\t⡇⡇⡇⡇⡇⡷⣱⢵⣹⢺⠪⠪⡈⠢⠡⡑⠌⢌⢂⢂⠢⢡⢣⢢⡱⢔⢧⡹⣔⢧⡳⣕⡯⡮⣷⣳⢝⣗⠯⡫⠣⠡⠁⠄⡂⡅⡦⡢⡢⠨⢐⢐⢐⠨⠠⠡⠨⠠⠨⡸⣅⠂⡐⡈⠄⠡⢈⢐⠀⡂⢂⢈⢐⡆⢐⠐⡀⠅⢄⢌⢔⢌⢔⢐⠨⢐⠨⠠⢁⠢⢹⢻⢧⠦⡌⠌⢌⢎⢎⢎\n\t⢞⣜⣗⢗⡽⡝⢎⠣⡡⠡⡡⡑⢌⢌⢂⠪⡨⡢⡦⡡⡱⢵⢝⡜⣎⢯⡺⣪⢾⣕⡯⣷⣻⡪⡗⢏⠣⠡⢁⠂⠅⠌⠄⠅⠌⠪⠪⡊⡊⢌⢐⢐⢐⠨⠨⠨⠨⡨⡢⡯⣻⡢⣆⢂⠅⠅⡂⡂⡂⡂⡂⡐⢜⣇⢂⢐⢌⠪⡢⡣⡣⡱⡑⡕⡕⡕⡌⢌⠢⡩⣺⣺⡮⣮⣔⡱⡱⣱⢣⢣\n\t⡟⡞⡪⡣⡱⡨⡢⡱⡨⡪⡨⡪⡢⡱⡱⡱⣨⢞⡮⡧⣫⣣⢷⣹⢮⣗⢯⡿⣽⣪⡞⡗⠕⢅⢑⠐⢌⢬⢮⠫⡎⡪⠨⠨⠨⡈⡂⠢⡈⡂⠢⡘⢦⢱⢱⢱⢱⢹⢪⡫⡺⣝⢞⢵⢝⢜⢔⢴⢁⢂⢂⡂⡝⣗⢰⡱⡱⡱⡱⡸⡌⡎⡎⡎⡎⣎⢎⢊⠲⣬⢬⣪⣪⢵⢕⢕⢕⡕⡧⡗\n\t⢣⠱⡱⡨⡪⡪⡪⡪⡪⡪⡪⣪⡺⣎⢯⡺⣪⢧⢗⡯⣞⡾⣵⣻⣽⡺⡽⡝⡕⢕⢑⠌⢌⢂⠢⡑⠄⠅⠕⢕⢐⠅⢅⠅⢕⢐⢌⢂⠢⠨⠢⠨⠨⠺⡸⡸⡸⡸⡸⡸⡱⡱⡹⡸⡱⡱⠣⡃⡂⠢⡸⡃⣞⣗⢸⣅⠑⢕⢵⡱⣝⣞⢼⢪⢚⢌⠢⡢⡱⡱⡻⡳⡯⡿⣽⡳⣧⡳⡱⣱\n\t⢨⢪⢪⢪⢪⢪⢪⡪⡮⣗⣝⢶⢝⡮⣗⡯⣷⣻⢽⡽⣽⢽⣪⢗⢇⢏⢎⢪⠪⡢⡑⢥⡑⢔⢕⣌⠪⡊⡪⡢⡑⢕⢑⢅⢕⠔⢔⢅⢕⢅⢕⢕⢝⢬⠨⠨⡳⡧⡧⡧⣧⢧⣳⡳⠡⠡⡑⡐⢌⠌⣞⣇⢺⢮⢺⡎⢌⢢⡢⡱⡹⡸⣸⢸⢼⣸⡸⣸⠸⡜⡜⡪⡪⣫⡪⡮⣞⣭⢫⣻\n\t⡸⡸⡸⣸⡺⣎⣗⢽⣪⣗⣗⡯⣯⢟⣮⣟⡷⡽⣵⢻⢝⢕⢕⢕⢕⢕⢕⢕⢕⢕⢭⡳⣝⢜⡼⣸⢱⢱⢘⢜⢜⢌⢎⢦⢱⡹⣜⣜⢮⢮⡳⡝⣎⢧⢣⢣⢟⡽⣽⢾⢽⣺⣺⣽⡳⣑⢬⢪⢆⡇⣗⡧⣫⣟⢼⣣⡳⡹⣱⢱⡱⡹⣪⢞⢞⣜⢽⡺⣽⣞⡾⡮⣟⢼⢸⢭⡳⣩⢽⣜\n\t⡜⣞⡽⢮⣺⢧⢷⢯⣗⣗⣷⣻⢽⣝⡾⡺⣝⢽⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⢸⡪⣞⢶⣫⢮⡺⡸⡸⡸⡸⡸⡸⡪⣗⢧⣣⢳⡕⣗⢽⢝⢮⣳⢳⢕⢷⣭⡫⡳⡻⣫⢗⣟⣮⣞⢇⡯⡮⣳⣝⢮⡯⣞⣾⢹⢺⢕⡯⣞⣵⢯⡫⣺⢪⢗⡵⣝⢞⡮⣺⣽⣻⣜⡮⣳⡳⣽⣺⣳⣻\n");
+            //Console.WriteLine("\n\n\t\t\t                  <°))><    _----|   ><>   _ _ _ _ _\r\n\t\t\t            >((('>            ----|_----|   ]-I-I-I-[\r\n\t\t\t          _ _ _ _ _ _ _----|      | ----|   \\ `  ' /\r\n\t\t\t          ]-I-I-I-I-[  ----|      |     |    |. ` | <')))>< \r\n\t\t\t           \\ `   '_/       |     / \\    |    | /^\\|\r\n\t\t\t            []  `__|  ><>  ^    / ^ \\   ^    | |*||\r\n\t\t\t            |__   ,|      / \\  / ^ ^`\\ / \\   | ===|\r\n\t\t\t ><(('> ___| ___ ,|__   / ^  /=_=_=_=\\ ^ \\  |, `_|\r\n\t\t\t         I_I__I_I__I_I  (====(_________)_^___|____|____\r\n\t\t\t         \\-\\--|-|--/-/  |     I  [ ]__I I_I__|____I_I_|\r\n\t\t\t          |[] `    '|_  |_   _|`__  ._[  _-\\--|-|--/-/\r\n\t\t\t         / \\  [] ` .| |-| |-| |_| |_| |_| | []   [] |\r\n\t\t\t        <===>      .|-=-=-=-=-=-=-=-=-=-=-|        / \\   ><('>\r\n\t\t\t        ] []|` ` [] | .   _________   .   |-      <===>  \r\n\t\t\t        <===>  `  ' ||||  |       |  |||  |  []   <===>\r\n\t\t\t         \\_/     -- ||||  |       |  |||  | .  '   \\_/\r\n\t\t\t        ./|' . . . .|||||/|_______|\\|||| /|. . . . .|\\_\r\n\t\t\t    --------------------------------------------------------");
             Console.WriteLine("\n\n\t\t\t         끝없는 바다 아래, 그 곳에서 새로운 모험이 시작된다. \n\n\t\t\t\t\t     아무 키나 눌러 시작하세요!");
             Console.ReadKey();
             Console.ResetColor();
