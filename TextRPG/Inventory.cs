@@ -39,9 +39,15 @@ namespace TextRPG
 
             Console.WriteLine();
             Console.WriteLine("\t\t\t\t\t\t1 : 장착 관리");
-            Console.WriteLine("\t\t\t\t\t\t0 : 나가기");
+            Console.ForegroundColor= ConsoleColor.Cyan;
+            Console.WriteLine("\t\t\t\t\t\t 0 : 나가기");
+            Console.ResetColor();
             Console.WriteLine();
-            Console.WriteLine("\t\t\t\t\t원하시는 행동을 입력해주세요.\n");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
 
             int result = GameManager.SelectBehavior(0, 1);
 
@@ -74,7 +80,14 @@ namespace TextRPG
             Console.ResetColor();
             ShowInventory(true); // 아이템 목록 표시 ( 인덱스 o 누르면 장착);
 
-            Console.WriteLine("\n\t\t\t\t\t\t0 : 나가기\n\n\t\t\t\t\t원하시는 행동을 입력해주세요.\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\t\t\t\t\t\t 0 : 나가기");
+            Console.ResetColor();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("\n\t\t\t\t><(((°>   ");
+            Console.Write("원하시는 행동을 입력하세요");
+            Console.Write("   <°)))><\n");
+            Console.ResetColor();
             int result = GameManager.SelectBehavior(0, player.InventoryCount);
 
             switch (result)

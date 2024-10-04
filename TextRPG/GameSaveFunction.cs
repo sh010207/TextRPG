@@ -24,10 +24,13 @@ namespace TextRPG
             string jsonString = JsonSerializer.Serialize(data);
             // JSON 문자열을 파일로 저장
             File.WriteAllText(filePath, jsonString);
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(" \n\t\t\t\t             SSSSS   AAAAA  V     V  EEEEE  \r\n \n\t\t\t\t            S       A   A   V   V   E      \r\n \n\t\t\t\t             SSS    AAAAA    V V    EEEE   \r\n  \n\t\t\t\t                 S  A   A     V     E      \r\n  \n\t\t\t\t            SSSSS   A   A     V     EEEEE  \r\n");
+            Console.WriteLine(" \n\n\n\t\t\t\t          SSSSS   AAAAA  V     V  EEEEE  \r\n \n\t\t\t\t         S       A   A   V   V   E      \r\n \n\t\t\t\t          SSS    AAAAA    V V    EEEE   \r\n  \n\t\t\t\t              S  A   A     V     E      \r\n  \n\t\t\t\t         SSSSS   A   A     V     EEEEE  \r\n");
             Console.ResetColor();
-            Console.WriteLine("아무키나 눌러주세유");
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("\n\n\n\t\t\t\t\t       아무키나 눌러주세요");
+            Console.ResetColor();
             Console.ReadKey(); // 한글자 입력*
             // 꺼지지않고 돌아가는 방법이 뭘까? 이어가려면.... //클래스 직렬화가 안된다 < 시리얼라이즈블
         }
@@ -40,8 +43,9 @@ namespace TextRPG
                 string jsonString = File.ReadAllText(filePath);
                 // JSON 문자열을 GameData 객체로 변환 (역직렬화)
                 Player data = JsonSerializer.Deserialize<Player>(jsonString);
+                Console.Clear();
                 Console.ForegroundColor= ConsoleColor.Magenta;
-                Console.WriteLine(" \n\t\t\t\t           L      OOOOO  AAAAA  DDDD   \r\n  \n\t\t\t\t           L     O     O A   A  D   D  \r\n  \n\t\t\t\t           L     O     O AAAAA  D   D  \r\n  \n\t\t\t\t           L     O     O A   A  D   D  \r\n  \n\t\t\t\t           LLLLL  OOOOO  A   A  DDDD   \r\n");
+                Console.WriteLine(" \n\n\n\t\t\t\t           L      OOOOO  AAAAA  DDDD   \r\n  \n\t\t\t\t           L     O     O A   A  D   D  \r\n  \n\t\t\t\t           L     O     O AAAAA  D   D  \r\n  \n\t\t\t\t           L     O     O A   A  D   D  \r\n  \n\t\t\t\t           LLLLL  OOOOO  A   A  DDDD   \r\n");
                 Console.ResetColor();
                 return data;
             }
