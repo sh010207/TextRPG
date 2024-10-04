@@ -338,7 +338,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.Write($"\n\n\t\t\t\t\t     {current_Quest.QuestName}\n\n\t\t\t\t  {current_Quest.QuestDesc}");
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine($"\n\n \t\t\t\t\t    {current_Quest.QuestGoal}\n\n");
+            Console.WriteLine($"\n\n \t\t\t\t\t    {current_Quest.QuestGoal}  ({current_Quest.QuestCurrentGoalCount}/{current_Quest.QuestGoalCount})\n\n");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine($"\t\t\t\t\t    ><((('>  보상  <')))><");
@@ -478,7 +478,6 @@ namespace TextRPG
             AcceptRewardItem.Add(questRewardItem);
             QuestDataList.RemoveAt(selectNum - 1);
             RewardItemList.RemoveAt(selectNum - 1);
-
         }
 
         public void QuestProgress(QuestType questType)
