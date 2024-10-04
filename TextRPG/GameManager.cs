@@ -40,6 +40,7 @@ namespace TextRPG
                     if (loadedGameData != null)
                     {
                         player = loadedGameData;
+                        player.SetStat();
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine($"\n\n\n\t\t\t\t      이름 : {loadedGameData.name}, 레벨 : {loadedGameData.level}, 직업 : {loadedGameData.job} ");
                         Console.ResetColor();
@@ -170,10 +171,19 @@ namespace TextRPG
             Console.ResetColor();
             if (endingCredit.CheckEndLogic())
             {
-                Console.Write("8. 용궁 입장    ");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Write("■\n\t\t            ><((('>\t  ■    ");
+                Console.ForegroundColor = ConsoleColor.DarkBlue;
+                Console.WriteLine("\n\n\t\t\t                  <°))><    _----|   ><>   _ _ _ _ _\r\n\t\t\t            >((('>            ----|_----|   ]-I-I-I-[\r\n\t\t\t          _ _ _ _ _ _ _----|      | ----|   \\ `  ' /\r\n\t\t\t          ]-I-I-I-I-[  ----|      |     |    |. ` | <')))>< \r\n\t\t\t           \\ `   '_/       |     / \\    |    | /^\\|\r\n\t\t\t            []  `__|  ><>  ^    / ^ \\   ^    | |*||\r\n\t\t\t            |__   ,|      / \\  / ^ ^`\\ / \\   | ===|\r\n\t\t\t ><(('> ___| ___ ,|__   / ^  /=_=_=_=\\ ^ \\  |, `_|\r\n\t\t\t         I_I__I_I__I_I  (====(_________)_^___|____|____\r\n\t\t\t         \\-\\--|-|--/-/  |     I  [ ]__I I_I__|____I_I_|\r\n\t\t\t          |[] `    '|_  |_   _|`__  ._[  _-\\--|-|--/-/\r\n\t\t\t         / \\  [] ` .| |-| |-| |_| |_| |_| | []   [] |\r\n\t\t\t        <===>      .|-=-=-=-=-=-=-=-=-=-=-|        / \\   ><('>\r\n\t\t\t        ] []|` ` [] | .   _________   .   |-      <===>  \r\n\t\t\t        <===>  `  ' ||||  |       |  |||  |  []   <===>\r\n\t\t\t         \\_/     -- ||||  |       |  |||  | .  '   \\_/\r\n\t\t\t        ./|' . . . .|||||/|_______|\\|||| /|. . . . .|\\_\r\n\t\t\t    --------------------------------------------------------");
                 Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("\n\n \t\t\t\t        ><(((('>   ");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("8. 용궁 입장");
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write("   <')))><");
+                Console.ResetColor();
+
             }
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
