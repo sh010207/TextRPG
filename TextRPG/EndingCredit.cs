@@ -9,7 +9,8 @@ namespace TextRPG
         Player player;
         bool isWhale = false;
         bool isShark = false;
-        bool isPearl = true;
+        bool isPearl = false;
+        public bool yonggug = false;
 
         public EndingCredit(Player player)
         {
@@ -31,6 +32,7 @@ namespace TextRPG
 
             if(isWhale && isShark && isPearl)
             {
+                yonggug = true;
                 return true;
             }
             return false;
