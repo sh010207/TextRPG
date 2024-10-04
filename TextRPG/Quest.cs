@@ -106,7 +106,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
-            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("원하시는 행동을 입력하세요");
             Console.Write("   <°)))><\n");
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -224,7 +224,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
-            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("원하시는 행동을 입력하세요");
             Console.Write("   <°)))><\n");
             Console.ResetColor();
 
@@ -300,7 +300,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
-            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("원하시는 행동을 입력하세요");
             Console.Write("   <°)))><\n");
             Console.ResetColor();
 
@@ -352,7 +352,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
-            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("원하시는 행동을 입력하세요");
             Console.Write("   <°)))><\n");
             Console.ResetColor();
 
@@ -400,7 +400,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
-            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("원하시는 행동을 입력하세요");
             Console.Write("   <°)))><\n");
             Console.ResetColor();
 
@@ -453,7 +453,7 @@ namespace TextRPG
             Console.ResetColor();
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write("\n\t\t\t\t><(((°>   ");
-            Console.Write("원하시는 행동을 입력하세요\n");
+            Console.Write("원하시는 행동을 입력하세요");
             Console.Write("   <°)))><\n");
             Console.ResetColor();
 

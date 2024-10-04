@@ -17,8 +17,8 @@ namespace TextRPG
         public float MaxExp = 20;
         public int extraAd { get; private set; }
         public int extraDf { get; private set; }
-        public List<Item> equipItems = new List<Item>();
-        public List<Item> Inventory = new List<Item>();
+        public List<Item> equipItems {  get; set; }
+        public List<Item> Inventory { get; set; }
         public List<QuestRewardItem> rewardItems = new List<QuestRewardItem>();
         private static Item item;
 
@@ -50,6 +50,8 @@ namespace TextRPG
             this.hp = hp;
             this.exp = exp;
             this.gold = gold;
+            equipItems = new List<Item>();
+            Inventory = new List<Item>();
         }
         public void PlayerInfo()
         {
@@ -217,6 +219,25 @@ namespace TextRPG
         public void ResetHp()
         {
             hp = maxhp;
+        }
+
+        public void SetStat()
+        {
+            foreach (var item in Inventory)
+            {
+                if (!IsEquipped(item)) continue;
+
+                switch (item.itemType)
+                {
+                    case 0:
+                        extraAd += item.itemValue;
+                        break;
+                    case 1:
+                        extraDf += item.itemValue;
+                        break;
+
+                }
+            }
         }
 
 
