@@ -10,8 +10,8 @@ namespace TextRPG
     internal class Shop
     {
         private Player player;
-        public static Item[] itemDb;
-        public static GameManager gameManager;
+        //public static Item[] itemDb;
+        //public static GameManager gameManager;
         
 
         public Shop (Player player)
