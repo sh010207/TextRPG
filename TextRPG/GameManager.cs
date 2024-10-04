@@ -8,15 +8,16 @@ namespace TextRPG
     [Serializable]
     internal class GameManager
     {
-        static Player player;
+        public static Player player;
         static Monster monster;
         private static Item[] itemDb;
         static BattleResult battleResult;
         static Dungeon dungeon;
         static Shop shop;
         public static List<Item> items;
+        //public static List<QuestRewardItem> rewardItems;
         static Inventory inventory;
-        static Quest quest = new Quest();
+        public static Quest quest = new Quest();
         static GameSaveFunction saveFunction;
         static EndingCredit endingCredit;
         static string saveFilePath = "game_save.json"; /////Json파일 생성
@@ -188,10 +189,13 @@ namespace TextRPG
                 case 4:
                     DungeonUI();
                     break;
+                case 5:
+                    quest.QuestMenu();
+                    break;
                 case 6:
                     GameSaveFunction.SaveGame(player, saveFilePath);
                     GameStartUI();
-                    quest.QuestUI();
+                    quest.QuestMenu();
                     break;
                 case 7:
                     Console.ForegroundColor= ConsoleColor.Cyan;
@@ -265,7 +269,9 @@ namespace TextRPG
                 items.Add(new Item(" 상어의 의지 ", 0, 07, "      상어의 의지가 담긴 전설의 창입니다.      ", 2500));
             }
         }
-       //던전UI
+
+
+        //던전UI
         static void DungeonUI()
         {
             Console.Clear();
