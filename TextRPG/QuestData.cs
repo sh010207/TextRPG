@@ -29,7 +29,7 @@ namespace TextRPG
 
             QuestName = questName;
             QuestDesc = questDesc;
-            QuestGoal = questGoal;
+            QuestGoal    = questGoal;
             QuestGoalCount = questGoalCount;
             QuestCurrentGoalCount = questCurrentGoalCount;
             QuestType = questType;
@@ -74,11 +74,6 @@ namespace TextRPG
             {
                 return RewardItemType == 0 ? "공격력" : "방어력";
             }
-        }
-
-        public void RewardAdd()
-        {
-
         }
     }
 }

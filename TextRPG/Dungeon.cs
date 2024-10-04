@@ -1,7 +1,10 @@
-﻿namespace TextRPG
+﻿using System.Xml;
+
+namespace TextRPG
 {
     public class Dungeon
     {
+        Quest quest;
         Monster monster;
         Player player;
         Random random = new Random();
@@ -51,6 +54,11 @@
                 else { AttackMonsters(num); }
                 if (spawnedMonsters.All(monster => monster.Hp == 0))
                 {
+                    var idx = spawnedMonsters.FindIndex(x => x.Name == "고블린");
+                    if (idx != -1)
+                    {
+                        GameManager.quest.QuestProgress(Quest.QuestType.Monster);
+                    }
                     break;
                 }
                 EnemyPhase();
