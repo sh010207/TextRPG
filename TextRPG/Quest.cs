@@ -55,7 +55,7 @@ namespace TextRPG
                  "RPG의 꽃! 전투를 해봅시다! 몬스터를 잡아봐요!", "[ 귀상어 처치하기 ]",
                  5, 0, false, false,"Monster"));
             //////
-            RewardItemList.Add(new QuestRewardItem(" 게딱지 방패 ", 1, 5, 1, "    등딱지..? 간장게장 먹고싶어지는 방패다..!  ", 500,0,"Buy")); // Quest 1
+            RewardItemList.Add(new QuestRewardItem("진주", 1, 5, 1, "    귀해보이는 진주..", 500,0,"Buy")); // Quest 1
             RewardItemList.Add(new QuestRewardItem("조개껍질 단검", 0, 5, 1, "  조개껍질을 갈아만든 무기..생각보다 뾰족하다! ", 700,0,"Equip")); // Quest 2
             RewardItemList.Add(new QuestRewardItem(" 미역 올가미 ", 1, 7, 1, "        미역 올가미로..모조리 잡아주겠어...    ", 1000,0,"Monster")); // Quest 3
 
@@ -561,7 +561,7 @@ namespace TextRPG
                 switch(questData.QuestType)
                 {
                     case "Buy":
-                        Item item_1 = items.Find(x => x.itemName == "게 등딱지 방패");
+                        Item item_1 = items.Find(x => x.itemName == "진주");
                         RewardGoldPayMent();
                         GameManager.player.Inventory.Add(item_1);
                         CompletedQuestList.RemoveAt(i);
@@ -571,16 +571,16 @@ namespace TextRPG
                     case "Equip":
                         Item item_2 = items.Find(x => x.itemName == " 조개껍질 단검");
                         RewardGoldPayMent();
-                        GameManager.player.Inventory.Add(item_2);
+                       // GameManager.player.Inventory.Add(item_2);
                         CompletedQuestList.RemoveAt(i);
                         ComletedRewardItem.RemoveAt(i);
 
 
                         break;
                     case "Monster":
-                        Item item_3 = items.Find(x => x.itemName == " 미역  올가미 ");
+                        Item item_3 = items.Find(x => x.itemName == " 미역 올가미 ");
                         RewardGoldPayMent();
-                        GameManager.player.Inventory.Add(item_3);
+                     //   GameManager.player.Inventory.Add(item_3);
                         CompletedQuestList.RemoveAt(i);
                         ComletedRewardItem.RemoveAt(i);
 
