@@ -55,7 +55,7 @@ namespace TextRPG
                 else { AttackMonsters(num); }
                 if (spawnedMonsters.All(monster => monster.Hp == 0))
                 {
-                    var idx = spawnedMonsters.FindIndex(x => x.Name == "고블린");
+                    var idx = spawnedMonsters.FindIndex(x => x.Name == "귀상어");
                     if (idx != -1)
                     {
                         GameManager.quest.QuestProgress(Quest.QuestType.Monster);
