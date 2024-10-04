@@ -195,7 +195,7 @@ namespace TextRPG
         {
             gold -= item.itemPrice; // 금액 차감
             Inventory.Add(item); // 인벤토리리스트에 배열 추가
-            GameManager.quest.QuestProgress(Quest.QuestType.Buy);
+            GameManager.quest.QuestProgress();
         }
         public bool HasItem(Item item) // cha - 인벤토리 갯수 불러오기
         {

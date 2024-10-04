@@ -480,15 +480,15 @@ namespace TextRPG
             RewardItemList.RemoveAt(selectNum - 1);
         }
 
-        public void QuestProgress(QuestType questType)
+        public void QuestProgress()
         {
             for (int i = 0; i < AcceptQuestList.Count; i++)
             {
                 QuestRewardItem questRewardItem = AcceptRewardItem[i];
                 QuestData questData = AcceptQuestList[i];
-                switch (questType)
+                switch (questData.QuestType)
                 {
-                    case QuestType.Buy:
+                    case "Buy":
                         questData.QuestCurrentGoalCount++;
                         if (questData.QuestGoalCount == questData.QuestCurrentGoalCount)
                         {
@@ -499,7 +499,7 @@ namespace TextRPG
                         }
                         break; 
 
-                    case QuestType.Equip:
+                    case "Equip":
                         questData.QuestCurrentGoalCount++;
                         if (questData.QuestGoalCount == questData.QuestCurrentGoalCount)
                         {
@@ -511,7 +511,7 @@ namespace TextRPG
 
                         break;
 
-                    case QuestType.Monster:
+                    case "Monster":
                         questData.QuestCurrentGoalCount++;
                         if (questData.QuestGoalCount == questData.QuestCurrentGoalCount)
                         {

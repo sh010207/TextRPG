@@ -58,7 +58,7 @@ namespace TextRPG
                     var idx = spawnedMonsters.FindIndex(x => x.Name == "귀상어");
                     if (idx != -1)
                     {
-                        GameManager.quest.QuestProgress(Quest.QuestType.Monster);
+                        GameManager.quest.QuestProgress();
                     }
                     break;
                 }

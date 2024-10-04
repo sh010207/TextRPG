@@ -115,7 +115,7 @@ namespace TextRPG
                 string ShowEquipItems = player.IsEquipped(items) ? $"[E]" : ""; // class Player에서 Player가 장착되어있는지 확인 / 되어있다면 [E]출력 아니면 공백
                 Console.WriteLine($"\t\t\t {ShowItemIndex} {ShowEquipItems} {items.ItemInfoText()}"); // -번호 [E] | 아이템 설명
                 if(ItemIndex == true)
-                    GameManager.quest.QuestProgress(Quest.QuestType.Equip);
+                    GameManager.quest.QuestProgress();
             }
             if (player.InventoryCount == 0)
             {
